@@ -1,4 +1,8 @@
 <template>
+<div>
+  <b-container v-if="error">
+      <b-alert show variant="danger" class="d-flex justify-content-center">{{message}}</b-alert>
+    </b-container>
 <div> 
  
   <div class="container d-flex justify-content-center" style="margin-top: 20px">
@@ -86,6 +90,7 @@
 
   </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -94,7 +99,10 @@ export default {
   data() {
     return {
       izmeni:false,
-      klinika: {}
+      klinika: {},
+      error: false,
+      message: ""
+      
     }
   },
   methods: {
@@ -102,6 +110,7 @@ export default {
       this.izmeni = true
     },
     odustaniClick() {
+      this.error = false;
       this.izmeni = false
       axios
       .get("http://localhost:8080/klinika/postojecaKlinika")
@@ -113,11 +122,26 @@ export default {
       });
     },
     sacuvajPodatke() {
-       this.izmeni = false;
+      this.error = false;
+      if(this.klinika.naziv === ""  || this.klinika.adresa === "" || this.klinika.opis === "" || this.klinika.grad === "" || this.klinika.drzava === ""
+      || this.klinika.brojTelefona === "") {
+        this.message = "Molimo vas popunite sva polja";
+        this.error = true;
+        return;
+      }
+
+      var rex = /^\+381\/6[0-9]-?[0-9]+(-[0-9]+)?$/;
+      if (!rex.test(String(this.klinika.brojTelefona.trim()))) {
+        this.message = "Broj telefona treba da bude oblika +381/65-504205";
+        this.error = true;
+        return;
+      }
+
       axios
       .put("http://localhost:8080/klinika/izmeniPodatkeKlinike", this.klinika)
       .then(klinike =>{
         this.klinika = klinike.data;
+        this.izmeni = false;
       })
       .catch(error => {
           console.log(error)
