@@ -1,6 +1,11 @@
 <template>
 <div> 
   
+<div>
+    <b-container v-if="error">
+      <b-alert show variant="danger" class="d-flex justify-content-center">{{message}}</b-alert>
+    </b-container>
+
   <div class="container d-flex justify-content-center" style="margin-top: 20px">
 
     
@@ -32,13 +37,13 @@
               <input type="text" id="Form-ime" class="form-control" v-model="user.ime" :disabled="!izmeni" >
               
               <label for="Form-phone">Telefon</label>
-              <input type="number" id="Form-phone" class="form-control" v-model="user.brojTelefona" :disabled="!izmeni" >
+              <input type="text" id="Form-phone" class="form-control" v-model="user.brojTelefona" :disabled="!izmeni" >
               
               <label for="Form-email4">Adresa</label>
               <input type="text" id="Form-email4" class="form-control" v-model="user.adresa" :disabled="!izmeni" >
 
-              <label for="Form-email4">ID klinike</label>
-              <input type="text" id="Form-email4" class="form-control" v-model="user.idKlinike.id" disabled >
+              <label for="Form-email4">Naziv klinike</label>
+              <input type="text" id="Form-email4" class="form-control" v-model="user.idKlinike.naziv" disabled >
               
 
             </div>
@@ -87,6 +92,7 @@
 
   </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -95,14 +101,18 @@ export default {
   data() {
     return {
       izmeni:false,
-      user: {}
+      user: {},
+      error: false,
+      message: ""
     }
   },
   methods: {
     izmeniClick() {
       this.izmeni = true
     },
+
     odustaniClick() {
+      this.error = false;
       this.izmeni = false
       axios
       .get("http://localhost:8080/adminKlinike/postojeciAdminKlinike")
@@ -114,11 +124,26 @@ export default {
       });
     },
     sacuvajPodatke() {
-      this.izmeni = false;
+      this.error = false;
+      if(this.user.ime === "" || this.user.prezime === "" || this.user.adresa === "" || this.user.grad === "" || this.user.drzava === ""
+      || this.user.brojTelefona === "") {
+        this.message = "Molimo vas popunite sva polja";
+        this.error = true;
+        return;
+      }
+
+      var rex = /^\+381\/6[0-9]-?[0-9]+(-[0-9]+)?$/;
+      if (!rex.test(String(this.user.brojTelefona.trim()))) {
+        this.message = "Broj telefona treba da bude oblika +381/65-504205";
+        this.error = true;
+        return;
+      }
+
       axios
       .put("http://localhost:8080/adminKlinike/izmeniPodatkeAdminaKlinike", this.user)
       .then(adminKlinike =>{
         this.user = adminKlinike.data;
+        this.izmeni = false;
       })
       .catch(error => {
           console.log(error)
