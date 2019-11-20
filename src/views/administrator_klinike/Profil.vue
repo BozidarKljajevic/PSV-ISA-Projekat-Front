@@ -37,8 +37,8 @@
               <label for="Form-email4">Adresa</label>
               <input type="text" id="Form-email4" class="form-control" v-model="user.adresa" :disabled="!izmeni" >
 
-              <label for="Form-email4">ID klinike</label>
-              <input type="text" id="Form-email4" class="form-control" v-model="user.idKlinike.id" disabled >
+              <label for="Form-email4">Naziv klinike</label>
+              <input type="text" id="Form-email4" class="form-control" v-model="user.idKlinike.naziv" disabled >
               
 
             </div>
@@ -102,10 +102,11 @@ export default {
     izmeniClick() {
       this.izmeni = true
     },
+
     odustaniClick() {
       this.izmeni = false
       axios
-      .get("http://localhost:8082/adminKlinike/postojeciAdminKlinike")
+      .get("http://localhost:8080/adminKlinike/postojeciAdminKlinike")
       .then(adminKlinike =>{
         this.user = adminKlinike.data;
       })
@@ -116,7 +117,7 @@ export default {
     sacuvajPodatke() {
       this.izmeni = false;
       axios
-      .put("http://localhost:8082/adminKlinike/izmeniPodatkeadminaKlinike", this.user)
+      .put("http://localhost:8080/adminKlinike/izmeniPodatkeAdminaKlinike", this.user)
       .then(adminKlinike =>{
         this.user = adminKlinike.data;
       })
@@ -128,7 +129,7 @@ export default {
 
   mounted() {
     axios
-      .get("http://localhost:8082/adminKlinike/postojeciAdminKlinike")
+      .get("http://localhost:8080/adminKlinike/postojeciAdminKlinike")
       .then(adminKlinike =>{
         this.user = adminKlinike.data;
       })
