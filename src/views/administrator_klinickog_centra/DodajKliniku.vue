@@ -1,4 +1,9 @@
 <template>
+
+<div>
+  <b-container v-if="error">
+      <b-alert show variant="danger" class="d-flex justify-content-center"> {{errormessage}}</b-alert>
+    </b-container>
   <div class="container d-flex justify-content-center" style="margin-top: 20px">
     <!--Form with header-->
     <div class="card" style="width: 60%">
@@ -77,6 +82,7 @@
     </div>
     <!--/Form with header-->
   </div>
+</div>
 </template>
 
 <script>
@@ -93,15 +99,39 @@ export default {
         adresa: "",
         drzava: "",
         ocena: 0,
-      }
+      },
+      error: false,
+      errormessage: "",
     };
   },
   methods: {
     dodajKliniku() {
+      if (this.klinika.naziv === "" || this.klinika.opis === ""  || this.klinika.adresa==="" || this.klinika.grad===""
+       || this.klinika.drzava==="" || this.klinika.brojTelefona===""){
+         this.error=true;
+         this.errormessage="Molimo Vas popunite sva polja";
+         return;
+       }
+
+      var rex = /^\+381\/6[0-9]-?[0-9]+(-[0-9]+)?$/;
+      if (!rex.test(String(this.klinika.brojTelefona.trim()))) {
+        this.errormessage = "Broj telefona treba da bude oblika +381/65-504205";
+        this.error = true;
+        return;
+      }
 
       axios
         .post("http://localhost:8080/klinika/dodajKliniku", this.klinika)
-        .then(klinika => {})
+        .then(klinika => {
+          this.klinika.naziv="";
+          this.klinika.opis="";
+          this.klinika.brojTelefona="";
+          this.klinika.grad="";
+          this.klinika.adresa="";
+          this.klinika.drzava="";
+          this.klinika.ocena=0;
+          this.error=false;
+        })
         .catch(error => {
           console.log(error);
         });
