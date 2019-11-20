@@ -105,7 +105,7 @@ export default {
     odustaniClick() {
       this.izmeni = false
       axios
-      .get("http://localhost:8082/adminKlinike/postojeciAdminKlinike")
+      .get("http://localhost:8080/adminKlinike/postojeciAdminKlinike")
       .then(adminKlinike =>{
         this.user = adminKlinike.data;
       })
@@ -116,7 +116,7 @@ export default {
     sacuvajPodatke() {
       this.izmeni = false;
       axios
-      .put("http://localhost:8082/adminKlinike/izmeniPodatkeadminaKlinike", this.user)
+      .put("http://localhost:8080/adminKlinike/izmeniPodatkeAdminaKlinike", this.user)
       .then(adminKlinike =>{
         this.user = adminKlinike.data;
       })
@@ -128,7 +128,7 @@ export default {
 
   mounted() {
     axios
-      .get("http://localhost:8082/adminKlinike/postojeciAdminKlinike")
+      .get("http://localhost:8080/adminKlinike/postojeciAdminKlinike")
       .then(adminKlinike =>{
         this.user = adminKlinike.data;
       })

@@ -104,7 +104,7 @@ export default {
     odustaniClick() {
       this.izmeni = false
       axios
-      .get("http://localhost:8082/klinika/postojecaKlinika")
+      .get("http://localhost:8080/klinika/postojecaKlinika")
       .then(klinike =>{
         this.klinika = klinike.data;
       })
@@ -115,7 +115,7 @@ export default {
     sacuvajPodatke() {
        this.izmeni = false;
       axios
-      .put("http://localhost:8082/klinika/izmeniPodatkeKlinike", this.klinika)
+      .put("http://localhost:8080/klinika/izmeniPodatkeKlinike", this.klinika)
       .then(klinike =>{
         this.klinika = klinike.data;
       })
@@ -127,7 +127,7 @@ export default {
   
   mounted() {
     axios
-      .get("http://localhost:8082/klinika/postojecaKlinika")
+      .get("http://localhost:8080/klinika/postojecaKlinika")
       .then(klinike =>{
         this.klinika = klinike.data;
         console.log(klinike.data)
