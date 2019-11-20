@@ -101,7 +101,9 @@ export default {
   data() {
     return {
       izmeni:false,
-      user: {},
+      user: {
+        idKlinike: {}
+      },
       error: false,
       message: ""
     }
