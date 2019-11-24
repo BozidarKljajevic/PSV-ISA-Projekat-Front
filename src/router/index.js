@@ -9,6 +9,9 @@ import AdministratorKlinikeProfil from '../views/administrator_klinike/Profil.vu
 import DodajAdministratoraKlinike from '../views/administrator_klinickog_centra/DodajAdministratoraKlinike.vue'
 import DodajKliniku from '../views/administrator_klinickog_centra/DodajKliniku.vue'
 
+import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -41,6 +44,16 @@ const routes = [
     path: '/dodajKliniku',
     name: 'Dodaj Kliniku',
     component: DodajKliniku
+  },
+  {
+    path: '/login',
+    name: 'Prijava',
+    component: Login
+  },
+  {
+    path: '/register',
+    name: 'Registracija',
+    component: Register
   }
   
 ]

@@ -1,6 +1,6 @@
 <template>
   <b-navbar toggleable="lg" type="dark" variant="danger">
-    <b-navbar-brand href="#">Klinicki centar</b-navbar-brand>
+    <router-link to="/" tag="b-navbar-brand">Klinicki centar</router-link>
 
     <b-navbar-nav class="ml-auto">
       <b-nav-item-dropdown text="Pacijent" right>
