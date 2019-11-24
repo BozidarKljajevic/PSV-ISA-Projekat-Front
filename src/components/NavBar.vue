@@ -9,6 +9,7 @@
       </b-nav-item-dropdown>
       <b-nav-item-dropdown text="Administrator klinike" right>
         <router-link to="/administratorKlinikeProfil" tag="b-dropdown-item">Profil</router-link>
+        <router-link to="/DodajLekara" tag="b-dropdown-item">Dodaj lekara</router-link>
       </b-nav-item-dropdown>
       <b-nav-item-dropdown text="Klinika" right>
         <router-link to="/klinikaProfil" tag="b-dropdown-item">Profil</router-link>
@@ -21,6 +22,9 @@
         <router-link to="/dodajKliniku" tag="b-dropdown-item">Dodaj Kliniku</router-link>
         <div class="dropdown-divider"></div>
         <router-link to="/dodajAdministratoraKlinike" tag="b-dropdown-item">Dodaj Administratora Klinike</router-link>
+      </b-nav-item-dropdown>
+      <b-nav-item-dropdown text="Medicinsko osoblje" right>
+        <router-link to="/MedicinskoOsobljeProfil" tag="b-dropdown-item">Profil</router-link>
       </b-nav-item-dropdown>
     </b-navbar-nav>
   </b-navbar>
