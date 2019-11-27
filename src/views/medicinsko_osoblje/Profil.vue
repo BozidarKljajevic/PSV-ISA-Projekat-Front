@@ -44,10 +44,14 @@
 
             <!--  <label for="Form-email4">Naziv klinike</label>
               <input type="text" id="Form-email4" class="form-control" v-model="user.idKlinike.naziv" disabled > -->
-
+              <div v-if="this.$store.state.user.uloga == 'AdminKlinike'">
               <label for="Form-radno">Radno vremo od:</label>
-              <input type="text" id="Form-email4" class="form-control" v-model="user.radnoOd" disabled >
-              
+              <input type="text" id="Form-email4" class="form-control" v-model="user.radnoOd" :disabled="!izmeni" >
+              </div> 
+              <div v-else>
+                  <label for="Form-radno">Radno vremo od:</label>
+              <input type="text" id="Form-email4" class="form-control" v-model="user.radnoOd"  disabled >
+              </div>
 
             </div>
             </div>
@@ -68,9 +72,14 @@
               <label for="Form-city">Drzava</label>
               <input type="text" id="Form-city" class="form-control" v-model="user.drzava" :disabled="!izmeni" >
               
+              <div v-if="this.$store.state.user.uloga == 'AdminKlinike'">
+              <label for="Form-radno">Radno vremo do:</label>
+              <input type="text" id="Form-email4" class="form-control" v-model="user.radnoDo" :disabled="!izmeni"  >
+              </div>
+              <div v-else>
               <label for="Form-radno">Radno vremo do:</label>
               <input type="text" id="Form-email4" class="form-control" v-model="user.radnoDo" disabled >
-
+              </div>
             </div>
             </div>
           </div>
