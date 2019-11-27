@@ -11,6 +11,7 @@ import MedicinskoOsobljeProfil from '../views/medicinsko_osoblje/Profil.vue'
 
 import DodajAdministratoraKlinike from '../views/administrator_klinickog_centra/DodajAdministratoraKlinike.vue'
 import DodajKliniku from '../views/administrator_klinickog_centra/DodajKliniku.vue'
+import Zahtevi from '../views/administrator_klinickog_centra/Zahtevi.vue'
 
 Vue.use(VueRouter)
 
@@ -44,6 +45,11 @@ const routes = [
     path: '/dodajKliniku',
     name: 'Dodaj Kliniku',
     component: DodajKliniku
+  },
+  {
+    path: '/zahtevi',
+    name: 'Zahtevi',
+    component: Zahtevi
   },
   {
     path: '/DodajLekara',
