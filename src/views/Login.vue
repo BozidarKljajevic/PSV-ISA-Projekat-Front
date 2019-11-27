@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -66,6 +68,19 @@ export default {
         this.error = true;
         return;
       }
+
+      axios
+        .post("http://localhost:8080/prijava/login", this.user)
+        .then(user => {
+          this.user.mail = "";
+          this.user.sifra = "";
+          this.error = false;
+          this.$store.state.user = user.data;
+          this.$router.push("/");
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };
