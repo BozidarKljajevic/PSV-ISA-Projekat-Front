@@ -13,6 +13,7 @@
       </b-nav-item-dropdown>
       <b-nav-item-dropdown text="Klinika" right>
         <router-link to="/klinikaProfil" tag="b-dropdown-item">Profil</router-link>
+        <router-link to="/ListaSvihLekara" tag="b-dropdown-item">Lista Lekara</router-link>
         <b-dropdown-item>Lista Lekara</b-dropdown-item>
         <b-dropdown-item>Lista Sala</b-dropdown-item>
         <b-dropdown-item>Slobodni termini</b-dropdown-item>

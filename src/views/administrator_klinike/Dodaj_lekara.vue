@@ -51,14 +51,14 @@
                 <label for="Form-radnoOd">Radno vreme Od</label>
                 <input type="text" id="Form-radnoOd" class="form-control" v-model="user.radnoOd" />
 
-                <label for="Form-klinika">Klinika</label>
+               <!-- <label for="Form-klinika">Klinika</label>
                 <b-form-select v-model="selektovanaKlinika">
                   <option
                     v-for="klinika in klinike"
                     :value="klinika.id"
                     :key="klinika.id"
                   >{{klinika.naziv}}</option>
-                </b-form-select>
+                </b-form-select> -->
 
             <label for="">User</label>
             <b-form-select v-model="selectedUser" :options="optionsUser"></b-form-select>
@@ -74,7 +74,7 @@
               type="button"
               class="btn btn-danger btn-block z-depth-2"
               @click="dodajAdmina"
-            >Dodaj administratora</button>
+            >Dodaj Medicinsko osoblje</button>
           </div>
         </div>
       </div>
@@ -119,7 +119,7 @@ export default {
         }
       });
       if (this.user.ime === "" || this.user.prezime === "" || this.user.mail==="" || this.user.adresa==="" || this.user.grad===""
-       || this.user.drzava==="" || this.user.brojTelefona==="" || this.selektovanaKlinika==="" || this.selectedUser === ""){
+       || this.user.drzava==="" || this.user.brojTelefona===""   || this.selectedUser === ""){
          this.error=true;
          this.errormessage="Molimo Vas popunite sva polja";
          return;
@@ -173,7 +173,6 @@ export default {
           this.user.radnoOd = "";
           this.user.radnoDo = "",
           this.user.selectedUser = "",
-          this.user.idKlinike = {};
           this.error=false;
         })
         .catch(error => {
