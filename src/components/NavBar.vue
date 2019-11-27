@@ -7,26 +7,25 @@
         <router-link to="/pacijentProfil" tag="b-dropdown-item">Profil</router-link>
         <b-dropdown-item>Moj Karton</b-dropdown-item>
       </b-nav-item-dropdown>
-      <b-nav-item-dropdown text="Administrator klinike" right v-else-if="this.$store.state.user.uloga == 'AdminKlinike'">
+      <b-nav-item-dropdown text="Administrator klinike" right v-if="this.$store.state.user.uloga == 'AdminKlinike'">
         <router-link to="/administratorKlinikeProfil" tag="b-dropdown-item">Profil</router-link>
         <router-link to="/DodajLekara" tag="b-dropdown-item">Dodaj lekara</router-link>
       </b-nav-item-dropdown>
-      <b-nav-item-dropdown text="Klinika" right v-else-if="this.$store.state.user.uloga == 'AdminKlinike'">
+      <b-nav-item-dropdown text="Klinika" right v-if="this.$store.state.user.uloga == 'AdminKlinike'">
         <router-link to="/klinikaProfil" tag="b-dropdown-item">Profil</router-link>
         <router-link to="/ListaSvihLekara" tag="b-dropdown-item">Lista Lekara</router-link>
-        <b-dropdown-item>Lista Lekara</b-dropdown-item>
         <b-dropdown-item>Lista Sala</b-dropdown-item>
         <b-dropdown-item>Slobodni termini</b-dropdown-item>
         <b-dropdown-item>Cenovnik</b-dropdown-item>
       </b-nav-item-dropdown>
-      <b-nav-item-dropdown text="Admin KC" right v-else-if="this.$store.state.user.uloga == 'AdminCentra'">
+      <b-nav-item-dropdown text="Admin KC" right v-if="this.$store.state.user.uloga == 'AdminCentra'">
         <router-link to="/dodajKliniku" tag="b-dropdown-item">Dodaj Kliniku</router-link>
         <div class="dropdown-divider"></div>
         <router-link to="/dodajAdministratoraKlinike" tag="b-dropdown-item">Dodaj Administratora Klinike</router-link>
         <div class="dropdown-divider"></div>
         <router-link to="/zahtevi" tag="b-dropdown-item">Zahtevi</router-link>
       </b-nav-item-dropdown>
-      <b-nav-item-dropdown text="Medicinsko osoblje" right v-else-if="this.$store.state.user.uloga == 'MedicinskoOsoblje'">
+      <b-nav-item-dropdown text="Medicinsko osoblje" right v-if="this.$store.state.user.uloga == 'MedicinskoOsoblje'">
         <router-link to="/MedicinskoOsobljeProfil" tag="b-dropdown-item">Profil</router-link>
       </b-nav-item-dropdown>
     </b-navbar-nav>
