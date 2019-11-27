@@ -42,8 +42,8 @@
               <label for="Form-email4">Adresa</label>
               <input type="text" id="Form-email4" class="form-control" v-model="user.adresa" :disabled="!izmeni" >
 
-              <label for="Form-email4">Naziv klinike</label>
-              <input type="text" id="Form-email4" class="form-control" v-model="user.idKlinike.naziv" disabled >
+            <!--  <label for="Form-email4">Naziv klinike</label>
+              <input type="text" id="Form-email4" class="form-control" v-model="user.idKlinike.naziv" disabled > -->
 
               <label for="Form-radno">Radno vremo od:</label>
               <input type="text" id="Form-email4" class="form-control" v-model="user.radnoOd" disabled >

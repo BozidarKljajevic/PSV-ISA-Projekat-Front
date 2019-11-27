@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import PacijentProfil from '../views/pacijent/Profil.vue'
 import KlinikaProfil from '../views/klinika/Profil.vue'
 import AdministratorKlinikeProfil from '../views/administrator_klinike/Profil.vue'
+import ListaSvihLekara from '../views/klinika/ListaLekara.vue'
 import DodajLekara from '../views/administrator_klinike/Dodaj_lekara.vue'
 import MedicinskoOsobljeProfil from '../views/medicinsko_osoblje/Profil.vue'
 
@@ -72,6 +73,11 @@ const routes = [
     name: 'Dodaj Medicinsko Osoblje',
     component: MedicinskoOsobljeProfil
   },
+  {
+    path: '/ListaSvihLekara',
+    name: 'Lista Lekara',
+    component: ListaSvihLekara
+  }
   
 ]
 
