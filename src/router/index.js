@@ -10,6 +10,7 @@ import MedicinskoOsobljeProfil from '../views/medicinsko_osoblje/Profil.vue'
 
 import DodajAdministratoraKlinike from '../views/administrator_klinickog_centra/DodajAdministratoraKlinike.vue'
 import DodajKliniku from '../views/administrator_klinickog_centra/DodajKliniku.vue'
+import Zahtevi from '../views/administrator_klinickog_centra/Zahtevi.vue'
 
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
@@ -56,6 +57,10 @@ const routes = [
     path: '/register',
     name: 'Registracija',
     component: Register
+  },{
+    path: '/zahtevi',
+    name: 'Zahtevi',
+    component: Zahtevi
   },
   {
     path: '/DodajLekara',

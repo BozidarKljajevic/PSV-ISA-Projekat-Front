@@ -58,6 +58,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -114,6 +116,17 @@ export default {
         this.error = true;
         return;
       }
+
+      this.user["sifra"] = this.password;
+
+      axios
+        .post("http://localhost:8080/prijava/register", this.user)
+        .then(() => {
+          
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };
