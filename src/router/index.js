@@ -5,6 +5,8 @@ import Home from '../views/Home.vue'
 import PacijentProfil from '../views/pacijent/Profil.vue'
 import KlinikaProfil from '../views/klinika/Profil.vue'
 import AdministratorKlinikeProfil from '../views/administrator_klinike/Profil.vue'
+import DodajLekara from '../views/administrator_klinike/Dodaj_lekara.vue'
+import MedicinskoOsobljeProfil from '../views/medicinsko_osoblje/Profil.vue'
 
 import DodajAdministratoraKlinike from '../views/administrator_klinickog_centra/DodajAdministratoraKlinike.vue'
 import DodajKliniku from '../views/administrator_klinickog_centra/DodajKliniku.vue'
@@ -47,6 +49,16 @@ const routes = [
     path: '/zahtevi',
     name: 'Zahtevi',
     component: Zahtevi
+  },
+  {
+    path: '/DodajLekara',
+    name: 'Dodaj Lekara',
+    component: DodajLekara
+  },
+  {
+    path: '/MedicinskoOsobljeProfil',
+    name: 'Dodaj Lekara',
+    component: MedicinskoOsobljeProfil
   },
   
 ]
