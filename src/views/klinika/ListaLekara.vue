@@ -29,6 +29,9 @@
                     
                   >Izbrisi</button>
                 </div>
+                <div class="text-center mb-4">
+                  <router-link to="/MedicinskoOsobljeProfil" tag="button" class="btn btn-success btn-block z-depth-2">Profil</router-link>
+                </div>
               </div>
             </div>
            
