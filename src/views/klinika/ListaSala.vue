@@ -21,14 +21,14 @@
                 <label for="Form-ime">Broj</label>
                 <input id="Form-ime" class="form-control" v-model="sala.broj" :disabled="!izmeni">
 
-               <!-- <div class="text-center mb-4">
+                <div class="text-center mb-4">
                   <button
                     type="button"
                     class="btn btn-danger btn-block z-depth-2"
-                    @click="IzbrisiClick(lekar.id)" 
+                    @click="IzbrisiClick(sala.id)" 
                     
                   >Izbrisi</button>
-                </div> -->
+                </div> 
                <div class="text-center mb-4 mt-4">
             <template v-if="!izmeni">
             <button type="button" class="btn btn-danger btn-block z-depth-2" @click="izmeniClick" >Izmeni</button>
@@ -76,9 +76,9 @@ export default {
 
     IzbrisiClick(id) {
       axios
-      .delete("http://localhost:8080/medicinskoOsoblje/izbrisiMedicinskoOsoblje/"+ id)
-      .then(MedicinskoOsoblje => {
-        this.MedicinskoOsoblje = MedicinskoOsoblje.data;
+      .delete("http://localhost:8080/salaKLinike/izbrisiSaluKlinike/"+ id)
+      .then(salaK => {
+        this.SaleKlinike = salaK.data;
       })
       .catch(error => {
         console.log(error);

@@ -29,14 +29,15 @@
                 <label for="Form-grad">Broj</label>
                 <input type="text" id="Form-grad" class="form-control" v-model="user.broj" />
 
-               <!-- <label for="Form-klinika">Klinika</label>
+            
+                <label for="Form-klinika">Klinika</label>
                 <b-form-select v-model="selektovanaKlinika">
                   <option
                     v-for="klinika in klinike"
                     :value="klinika.id"
                     :key="klinika.id"
                   >{{klinika.naziv}}</option>
-                </b-form-select> -->
+                </b-form-select> 
               </div>
             </div>
           </div>
@@ -66,7 +67,7 @@ export default {
       user: {
         naziv: "",
         broj: "",
-        idKlinike: {}
+        klinika: {}
       },
       klinike: [],
       selektovanaKlinika: "",
@@ -78,7 +79,7 @@ export default {
     dodajSalu() {
       this.klinike.forEach(klinika => {
         if (klinika.id === this.selektovanaKlinika) {
-          this.user.idKlinike = klinika;
+          this.user.klinika = klinika;
         }
       });
       if (this.user.naziv === "" || this.user.broj === ""){

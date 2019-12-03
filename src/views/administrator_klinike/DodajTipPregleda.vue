@@ -23,20 +23,22 @@
                 <label for="Form-ime">Naziv</label>
                 <input type="text" id="Form-ime" class="form-control" v-model="user.naziv" />
               </div>
-            </div>
-            <div class="col">
-              <div class="md-form pb-3">
-                <label for="Form-grad">Broj</label>
-                <input type="text" id="Form-grad" class="form-control" v-model="user.oznaka" />
 
-               <!-- <label for="Form-klinika">Klinika</label>
+              <label for="Form-klinika">Klinika</label>
                 <b-form-select v-model="selektovanaKlinika">
                   <option
                     v-for="klinika in klinike"
                     :value="klinika.id"
                     :key="klinika.id"
                   >{{klinika.naziv}}</option>
-                </b-form-select> -->
+                </b-form-select> 
+            </div>
+            <div class="col">
+              <div class="md-form pb-3">
+                <label for="Form-grad">Broj</label>
+                <input type="text" id="Form-grad" class="form-control" v-model="user.oznaka" />
+
+                
               </div>
             </div>
           </div>
@@ -47,7 +49,7 @@
               type="button"
               class="btn btn-danger btn-block z-depth-2"
               @click="dodajTipPregleda"
-            >Dodaj salu</button>
+            >Dodaj tip pregleda</button>
           </div>
         </div>
       </div>
@@ -66,7 +68,7 @@ export default {
       user: {
         naziv: "",
         broj: "",
-        idKlinike: {}
+        klinika: {}
       },
       klinike: [],
       selektovanaKlinika: "",
@@ -78,7 +80,7 @@ export default {
     dodajTipPregleda() {
       this.klinike.forEach(klinika => {
         if (klinika.id === this.selektovanaKlinika) {
-          this.user.idKlinike = klinika;
+          this.user.klinika = klinika;
         }
       });
       if (this.user.naziv === "" || this.user.oznaka === ""){
@@ -97,6 +99,7 @@ export default {
         .then(user => {
           this.user.naziv = "";
           this.user.oznaka = "";
+           this.user.klinika = {};
           this.error=false;
         })
         .catch(error => {

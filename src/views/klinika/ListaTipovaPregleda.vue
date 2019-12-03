@@ -21,14 +21,14 @@
                 <label for="Form-ime">Oznaka</label>
                 <input id="Form-ime" class="form-control" v-model="tip.oznaka" :disabled="!izmeni">
 
-               <!-- <div class="text-center mb-4">
+                <div class="text-center mb-4">
                   <button
                     type="button"
                     class="btn btn-danger btn-block z-depth-2"
-                    @click="IzbrisiClick(lekar.id)" 
+                    @click="IzbrisiClick(tip.id)" 
                     
                   >Izbrisi</button>
-                </div> -->
+                </div> 
                <div class="text-center mb-4 mt-4">
             <template v-if="!izmeni">
             <button type="button" class="btn btn-danger btn-block z-depth-2" @click="izmeniClick" >Izmeni</button>
@@ -76,9 +76,9 @@ export default {
 
     IzbrisiClick(id) {
       axios
-      .delete("http://localhost:8080/medicinskoOsoblje/izbrisiMedicinskoOsoblje/"+ id)
-      .then(MedicinskoOsoblje => {
-        this.MedicinskoOsoblje = MedicinskoOsoblje.data;
+      .delete("http://localhost:8080/tipPregleda/izbrisiTipPregleda/"+ id)
+      .then(tipovi => {
+        this.TipoviPregleda = tipovi.data;
       })
       .catch(error => {
         console.log(error);
