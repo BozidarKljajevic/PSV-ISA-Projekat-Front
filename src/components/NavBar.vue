@@ -24,6 +24,9 @@
         <router-link to="/dodajAdministratoraKlinike" tag="b-dropdown-item">Dodaj Administratora Klinike</router-link>
         <div class="dropdown-divider"></div>
         <router-link to="/zahtevi" tag="b-dropdown-item">Zahtevi</router-link>
+        <div class="dropdown-divider"></div>
+        <router-link to="/bolesti" tag="b-dropdown-item">Bolest</router-link>
+        
       </b-nav-item-dropdown>
       <b-nav-item-dropdown text="Medicinsko osoblje" right v-if="this.$store.state.user.uloga == 'MedicinskoOsoblje'">
         <router-link to="/MedicinskoOsobljeProfil" tag="b-dropdown-item">Profil</router-link>
