@@ -8,7 +8,7 @@
       <!--Header-->
       <div class="header pt-3 grey lighten-2">
         <div class="row d-flex justify-content-start">
-          <h3 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Dodaj bolesti</h3>
+          <h3 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Dodaj lek</h3>
         </div>
       </div>
       <!--Header-->
@@ -19,14 +19,14 @@
             <div class="col">
               <div class="md-form">
                 <label for="Form-ime">Naziv</label>
-                <input type="text" id="Form-ime" class="form-control" v-model="bolest.naziv" />
+                <input type="text" id="Form-ime" class="form-control" v-model="lek.naziv" />
 
               </div>
             </div>
             <div class="col">
               <div class="md-form pb-3">
-                <label for="Form-grad">Šifra bolesti</label>
-                <input type="text" id="Form-grad" class="form-control" v-model="bolest.sifra" />
+                <label for="Form-grad">Šifra leka</label>
+                <input type="text" id="Form-grad" class="form-control" v-model="lek.sifra" />
 
             </div>
           </div>
@@ -37,8 +37,8 @@
             <button
               type="button"
               class="btn btn-danger btn-block z-depth-2"
-              @click="dodajBolest"
-            >Dodaj Bolest</button>
+              @click="dodajLek"
+            >Dodaj Lek</button>
           </div>
         </div>
       </div>
@@ -53,25 +53,25 @@ import axios from "axios";
 export default {
     data() {
     return {
-      bolest: {
+      lek: {
           naziv: "",
           sifra: "",
       }
     };
   },
    methods: {
-    dodajBolest() {
+    dodajLek() {
       axios
         .post(
-          "http://localhost:8080/bolesti/dodajBolest",
-          this.bolest
+          "http://localhost:8080/lek/dodajLek",
+          this.lek
         )
-        .then(bolest => {
-          this.bolest.naziv = "";
-          this.bolest.sifra = "";
+        .then(lek => {
+          this.lek.naziv = "";
+          this.lek.sifra = "";
         })
         .catch(error => {
-            alert("Bolest sa tom šifrom već postoji")
+            alert("Lek sa tom šifrom već postoji")
           console.log(error);
         });
     },

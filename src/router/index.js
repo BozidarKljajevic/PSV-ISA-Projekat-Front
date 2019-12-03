@@ -13,6 +13,8 @@ import DodajAdministratoraKlinike from '../views/administrator_klinickog_centra/
 import DodajKliniku from '../views/administrator_klinickog_centra/DodajKliniku.vue'
 import Zahtevi from '../views/administrator_klinickog_centra/Zahtevi.vue'
 import Bolesti from '../views/administrator_klinickog_centra/Bolesti.vue'
+import Lek from '../views/administrator_klinickog_centra/Lek.vue'
+import Sifarnik from '../views/administrator_klinickog_centra/Sifarnik.vue'
 
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
@@ -67,6 +69,16 @@ const routes = [
     path: '/bolesti',
     name: 'Bolesti',
     component: Bolesti
+  },
+  {
+    path: '/lek',
+    name: 'Lek',
+    component: Lek
+  },
+  {
+    path: '/sifarnik',
+    name: 'Sifarnik',
+    component: Sifarnik
   },
   {
     path: '/DodajLekara',
