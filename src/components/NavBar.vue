@@ -10,6 +10,7 @@
       <b-nav-item-dropdown text="Administrator klinike" right v-if="this.$store.state.user.uloga == 'AdminKlinike'">
         <router-link to="/administratorKlinikeProfil" tag="b-dropdown-item">Profil</router-link>
         <router-link to="/DodajLekara" tag="b-dropdown-item">Dodaj lekara</router-link>
+        
       </b-nav-item-dropdown>
       <b-nav-item-dropdown text="Klinika" right v-if="this.$store.state.user.uloga == 'AdminKlinike'">
         <router-link to="/klinikaProfil" tag="b-dropdown-item">Profil</router-link>
