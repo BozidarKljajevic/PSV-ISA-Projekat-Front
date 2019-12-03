@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 
 import PacijentProfil from '../views/pacijent/Profil.vue'
 import AktivacijaPacijenta from '../views/pacijent/AktivacijaPacijenta.vue'
+import ListaKlinika from '../views/pacijent/ListaKlinika.vue'
 import KlinikaProfil from '../views/klinika/Profil.vue'
 import AdministratorKlinikeProfil from '../views/administrator_klinike/Profil.vue'
 import ListaSvihLekara from '../views/klinika/ListaLekara.vue'
@@ -83,6 +84,11 @@ const routes = [
     path: '/aktivacijaPacijenta/:mail',
     name: 'Aktivacija pacijenta',
     component: AktivacijaPacijenta
+  },
+  {
+    path: '/listaKlinika',
+    name: 'Lista Klinika pacijenta',
+    component: ListaKlinika
   }
   
 ]

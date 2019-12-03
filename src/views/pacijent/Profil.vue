@@ -192,7 +192,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:8080/pacijent/postojeciPacijent")
+      .get("http://localhost:8080/pacijent/postojeciPacijent/"+this.$store.state.user.mail)
       .then(pacijent => {
         this.user = pacijent.data;
       })
