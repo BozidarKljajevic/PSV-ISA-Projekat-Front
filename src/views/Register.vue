@@ -122,10 +122,21 @@ export default {
       axios
         .post("http://localhost:8080/prijava/register", this.user)
         .then(() => {
-          
+          this.user.mail = "";
+          this.user.ime = "";
+          this.user.prezime = "";
+          this.user.brojTelefona = "";
+          this.user.adresa = "";
+          this.user.grad = "";
+          this.user.drzava = "";
+          this.password = "";
+          this.checkPassword = "";
+          this.$router.push("/");
         })
         .catch(error => {
           console.log(error);
+          this.errorMessage = "Mail vec postoji";
+          this.error = true;
         });
     }
   }

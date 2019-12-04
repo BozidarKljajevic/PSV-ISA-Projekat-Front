@@ -80,6 +80,8 @@ export default {
         })
         .catch(error => {
           console.log(error);
+          this.errorMessage = "Mail ili Sifra nisu tacni";
+          this.error = true;
         });
     }
   }

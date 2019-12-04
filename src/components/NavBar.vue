@@ -5,6 +5,7 @@
     <b-navbar-nav class="ml-auto">
       <b-nav-item-dropdown text="Pacijent" right v-if="this.$store.state.user.uloga == 'Pacijent'">
         <router-link to="/pacijentProfil" tag="b-dropdown-item">Profil</router-link>
+        <router-link to="/listaKlinika" tag="b-dropdown-item">Klinike</router-link>
         <b-dropdown-item>Moj Karton</b-dropdown-item>
       </b-nav-item-dropdown>
       <b-nav-item-dropdown text="Administrator klinike" right v-if="this.$store.state.user.uloga == 'AdminKlinike'">
