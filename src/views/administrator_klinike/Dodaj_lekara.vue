@@ -113,11 +113,25 @@ export default {
   },
   methods: {
     dodajAdmina() {
-      this.klinike.forEach(klinika => {
+      axios
+      .get(
+          "http://localhost:8080/klinika/klinikaId/"+this.$store.state.user.mail
+           )
+      .then (
+            response => {
+                this.user.idKlinike = response.data;
+                
+            }
+      )
+    .catch(error => {
+          console.log(error);
+        });
+
+      /*this.klinike.forEach(klinika => {
         if (klinika.id === this.selektovanaKlinika) {
           this.user.idKlinike = klinika;
         }
-      });
+      });*/
       if (this.user.ime === "" || this.user.prezime === "" || this.user.mail==="" || this.user.adresa==="" || this.user.grad===""
        || this.user.drzava==="" || this.user.brojTelefona===""   || this.selectedUser === ""){
          this.error=true;
@@ -156,7 +170,8 @@ export default {
        } else {
            this.user.lekar = false;
        }
-
+      console.log(this.user.idKlinike)
+      console.log(this.user)
       axios
         .post(
           "http://localhost:8080/medicinskoOsoblje/dodajMedicinskoOsoblje",

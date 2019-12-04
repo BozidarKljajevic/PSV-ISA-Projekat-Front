@@ -11,11 +11,14 @@
       <b-nav-item-dropdown text="Administrator klinike" right v-if="this.$store.state.user.uloga == 'AdminKlinike'">
         <router-link to="/administratorKlinikeProfil" tag="b-dropdown-item">Profil</router-link>
         <router-link to="/DodajLekara" tag="b-dropdown-item">Dodaj lekara</router-link>
+        <router-link to="/DodajSalu" tag="b-dropdown-item">Dodaj Salu</router-link>
+        <router-link to="/DodajTipPregleda" tag="b-dropdown-item">Dodaj Tip Pregleda</router-link>
       </b-nav-item-dropdown>
       <b-nav-item-dropdown text="Klinika" right v-if="this.$store.state.user.uloga == 'AdminKlinike'">
         <router-link to="/klinikaProfil" tag="b-dropdown-item">Profil</router-link>
         <router-link to="/ListaSvihLekara" tag="b-dropdown-item">Lista Lekara</router-link>
-        <b-dropdown-item>Lista Sala</b-dropdown-item>
+        <router-link to="/ListaSala" tag="b-dropdown-item">Lista Sala</router-link>
+        <router-link to="/ListaTipovaPregleda" tag="b-dropdown-item">Lista Tipova pregleda</router-link>
         <b-dropdown-item>Slobodni termini</b-dropdown-item>
         <b-dropdown-item>Cenovnik</b-dropdown-item>
       </b-nav-item-dropdown>
@@ -25,6 +28,12 @@
         <router-link to="/dodajAdministratoraKlinike" tag="b-dropdown-item">Dodaj Administratora Klinike</router-link>
         <div class="dropdown-divider"></div>
         <router-link to="/zahtevi" tag="b-dropdown-item">Zahtevi</router-link>
+        <div class="dropdown-divider"></div>
+        <router-link to="/bolesti" tag="b-dropdown-item">Bolest</router-link>
+        <router-link to="/lek" tag="b-dropdown-item">Lek</router-link>
+        <div class="dropdown-divider"></div>
+        <router-link to="/sifarnik" tag="b-dropdown-item">Šifarnik</router-link>
+        
       </b-nav-item-dropdown>
       <b-nav-item-dropdown text="Medicinsko osoblje" right v-if="this.$store.state.user.uloga == 'MedicinskoOsoblje'">
         <router-link to="/MedicinskoOsobljeProfil" tag="b-dropdown-item">Profil</router-link>
