@@ -6,7 +6,12 @@ import PacijentProfil from '../views/pacijent/Profil.vue'
 import KlinikaProfil from '../views/klinika/Profil.vue'
 import AdministratorKlinikeProfil from '../views/administrator_klinike/Profil.vue'
 import ListaSvihLekara from '../views/klinika/ListaLekara.vue'
+import ListaSala from  '../views/klinika/ListaSala.vue'
+import ListaTipovaPregleda from  '../views/klinika/ListaTipovaPregleda.vue'
 import DodajLekara from '../views/administrator_klinike/Dodaj_lekara.vue'
+import DodajSalu from '../views/administrator_klinike/DodajSalu.vue'
+import DodajTipPregleda from '../views/administrator_klinike/DodajTipPregleda.vue'
+
 import MedicinskoOsobljeProfil from '../views/medicinsko_osoblje/Profil.vue'
 
 import DodajAdministratoraKlinike from '../views/administrator_klinickog_centra/DodajAdministratoraKlinike.vue'
@@ -46,6 +51,16 @@ const routes = [
     path: '/dodajAdministratoraKlinike',
     name: 'Dodaj AdministratoraKlinike',
     component: DodajAdministratoraKlinike
+  },
+  {
+    path: '/DodajSalu',
+    name: 'Dodaj Salu',
+    component: DodajSalu
+  },
+  {
+    path: '/DodajTipPregleda',
+    name: 'Dodaj Tip',
+    component: DodajTipPregleda
   },
   {
     path: '/dodajKliniku',
@@ -94,6 +109,16 @@ const routes = [
     path: '/ListaSvihLekara',
     name: 'Lista Lekara',
     component: ListaSvihLekara
+  },
+  {
+    path: '/ListaSala',
+    name: 'Lista Sala',
+    component: ListaSala
+  },
+  {
+    path: '/ListaTipovaPregleda',
+    name: 'Lista Tipova Pregleda',
+    component: ListaTipovaPregleda
   }
   
 ]
