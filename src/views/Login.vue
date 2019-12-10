@@ -41,6 +41,7 @@
 
 <script>
 import axios from "axios";
+import VueJwtDecode from "vue-jwt-decode";
 
 export default {
   data() {
@@ -70,12 +71,15 @@ export default {
       }
 
       axios
-        .post("http://localhost:8080/prijava/login", this.user)
-        .then(user => {
+        .post("/auth/login", this.user)
+        .then(response => {
           this.user.mail = "";
           this.user.sifra = "";
           this.error = false;
-          this.$store.state.user = user.data;
+          localStorage.setItem("jwt", response.data.accessToken);
+          this.$store.state.user = VueJwtDecode.decode(
+            localStorage.getItem("jwt")
+          );
           this.$router.push("/");
         })
         .catch(error => {
