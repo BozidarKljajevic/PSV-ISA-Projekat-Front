@@ -113,7 +113,7 @@ const routes = [
     component: ListaSvihLekara
   },
   {
-    path: '/aktivacijaPacijenta/:mail',
+    path: '/aktivacijaPacijenta/:code',
     name: 'Aktivacija pacijenta',
     component: AktivacijaPacijenta
   },
