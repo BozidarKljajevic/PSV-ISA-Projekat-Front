@@ -10,7 +10,7 @@
       >
         <router-link to="/pacijentProfil" tag="b-dropdown-item">Profil</router-link>
         <router-link to="/listaKlinika" tag="b-dropdown-item">Klinike</router-link>
-        <b-dropdown-item>Moj Karton</b-dropdown-item>
+        <router-link to="/karton" tag="b-dropdown-item">Moj Karton</router-link>
         <b-dropdown-item @click="odjavaFun">Odjava</b-dropdown-item>
       </b-nav-item-dropdown>
       <b-nav-item-dropdown

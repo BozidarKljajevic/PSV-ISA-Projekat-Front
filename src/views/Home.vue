@@ -8,7 +8,42 @@
     <router-link to="/login" tag="button" class="btn btn-danger btn-block z-depth-2">Prijava</router-link>
   </b-container>
   <b-container class="mt-4" v-else>
-    {{this.$store.state.user.ime}},{{this.$store.state.user.prezime}},{{this.$store.state.user.uloga}}
+    <div class="row mb-4" v-if="this.$store.state.user.role.authority == 'PACIJENT'">
+      <div class="col-6 mb-4" v-for="pregled in pregledi" :key="pregled.id">
+        <b-card bg-variant="danger" text-variant="white" header="Pregled" class="text-center">
+          <div class="row">
+            <div class="col">
+              <div class="md-form">
+                <label>Tip Pregleda</label>
+                <label class="form-control">{{pregled.tipPregleda.naziv}}</label>
+                <label>Datum</label>
+                <label class="form-control">{{pregled.datum}}</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="md-form pb-3">
+                <label>Klinika</label>
+                <label class="form-control">{{pregled.lekar.klinika.naziv}}</label>
+                <label>Vreme</label>
+                <label class="form-control">{{pregled.vreme}}</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="md-form pb-3">
+                <label>Lekar</label>
+                <label class="form-control">{{pregled.lekar.ime}}</label>
+                <label>Cena</label>
+                <label class="form-control">{{pregled.cena}}</label>
+              </div>
+            </div>
+          </div>
+          <template v-slot:footer>
+            <b-button @click="zakazi(pregled.id)">Zakazi</b-button>
+          </template>
+        </b-card>
+      </div>
+    </div>
+
     <b-modal ref="my-modal" id="odbij" hide-footer title="Promena lozinke">
       <label for="Form-ime">Lozinka</label>
       <input
@@ -31,28 +66,39 @@ export default {
       lozinka: {
         sifra: ""
       },
-      putanja: ""
+      putanja: "",
+      pregledi: []
     };
   },
   methods: {
+    zakazi(idPregleda){
+      axios
+        .post("pregled/zakaziPregled/"+idPregleda+"/"+this.$store.state.user.id)
+        .then(response => {
+          console.log(response.data);
+          this.pregledi = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     promeniLozinku() {
-
-      if (this.$store.state.user.role.authority == 'ADMINCENTRA') {
-        this.putanja = "adminCentra"
-      }else if(this.$store.state.user.role.authority == 'ADMIN'){ 
-        this.putanja = "adminKlinike"
-      }else if(this.$store.state.user.role.authority == 'LEKAR'){ 
-        this.putanja = "lekar"
-      }else if(this.$store.state.user.role.authority == 'MEDICINSKASESTRA'){ 
-        this.putanja = "medicinskaSestra"
-      }
-      else if (this.$store.state.user.role.authority == 'PACIJENT') {
-        
+      if (this.$store.state.user.role.authority == "ADMINCENTRA") {
+        this.putanja = "adminCentra";
+      } else if (this.$store.state.user.role.authority == "ADMIN") {
+        this.putanja = "adminKlinike";
+      } else if (this.$store.state.user.role.authority == "LEKAR") {
+        this.putanja = "lekar";
+      } else if (this.$store.state.user.role.authority == "MEDICINSKASESTRA") {
+        this.putanja = "medicinskaSestra";
       }
 
       axios
         .post(
-          "/"+ this.putanja +"/izmeniGenerickuSifru/" + this.$store.state.user.id,
+          "/" +
+            this.putanja +
+            "/izmeniGenerickuSifru/" +
+            this.$store.state.user.id,
           this.lozinka
         )
         .then(() => {
@@ -70,6 +116,18 @@ export default {
     }
   },
   mounted() {
+    if (this.$store.state.user.role.authority == "PACIJENT") {
+      axios
+        .get("pregled/predefinisaniPregledi")
+        .then(response => {
+          console.log(response.data);
+          this.pregledi = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+
     if (
       this.$store.state.user.role.authority != "" &&
       this.$store.state.user.role.authority != "PACIJENT"

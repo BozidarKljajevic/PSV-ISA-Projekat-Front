@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 
 import PacijentProfil from '../views/pacijent/Profil.vue'
 import AktivacijaPacijenta from '../views/pacijent/AktivacijaPacijenta.vue'
+import Karton from '../views/pacijent/Karton.vue'
 import ListaKlinika from '../views/pacijent/ListaKlinika.vue'
 import KlinikaProfil from '../views/klinika/Profil.vue'
 import AdministratorKlinikeProfil from '../views/administrator_klinike/Profil.vue'
@@ -42,6 +43,11 @@ const routes = [
     path: '/pacijentProfil',
     name: 'Profil Pacijenta',
     component: PacijentProfil
+  },
+  {
+    path: '/karton',
+    name: 'Karton',
+    component: Karton
   },
   {
     path: '/klinikaProfil',
