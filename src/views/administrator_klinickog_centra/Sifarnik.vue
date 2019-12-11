@@ -106,7 +106,7 @@ export default {
    methods: {
     IzbrisiClick1(id) {
       axios
-      .delete("http://localhost:8080/lek/izbrisiLek/"+ id)
+      .post("/lek/izbrisiLek/"+ id)
       .then(lekovi => {
         this.lekovi = lekovi.data;
       })
@@ -116,9 +116,9 @@ export default {
 
     },
     IzbrisiClick2(id) {
-        alert(id)
+    
       axios
-      .delete("http://localhost:8080/bolesti/izbrisiBolest/"+ id)
+      .post("/bolesti/izbrisiBolest/"+ id)
       .then(bolesti => {
         this.bolesti = bolesti.data;
       })
@@ -130,7 +130,7 @@ export default {
    },
   mounted() {
     axios
-      .get("http://localhost:8080/lek/postojeciLek")
+      .get("/lek/postojeciLek")
       .then(lekovi => {
         this.lekovi = lekovi.data;
         
@@ -139,7 +139,7 @@ export default {
         console.log(error);
       });
     axios
-      .get("http://localhost:8080/bolesti/postojeceBolesti")
+      .get("/bolesti/postojeceBolesti")
       .then(bolesti => {
         this.bolesti = bolesti.data;
         

@@ -86,7 +86,7 @@ export default {
         grad: "",
         drzava: "",
         brojTelefona: "",
-        idKlinike: {}
+        klinika: {}
       },
       klinike: [],
       selektovanaKlinika: "",
@@ -98,7 +98,7 @@ export default {
     dodajAdmina() {
       this.klinike.forEach(klinika => {
         if (klinika.id === this.selektovanaKlinika) {
-          this.user.idKlinike = klinika;
+          this.user.klinika = klinika;
         }
       });
       if (this.user.ime === "" || this.user.prezime === "" || this.user.mail==="" || this.user.adresa==="" || this.user.grad===""
@@ -121,7 +121,7 @@ export default {
       }
       axios
         .post(
-          "http://localhost:8080/adminKlinike/dodajAdminaKlinike",
+          "/adminKlinike/dodajAdminaKlinike",
           this.user
         )
         .then(user => {
@@ -132,17 +132,18 @@ export default {
           this.user.grad = "";
           this.user.drzava = "";
           this.user.brojTelefona = "";
-          this.user.idKlinike = {};
+          this.user.klinika = {};
           this.error=false;
         })
         .catch(error => {
+          alert("Administator sa ovo mail adresom vec postoji")
           console.log(error);
         });
     }
   },
   mounted() {
     axios
-      .get("http://localhost:8080/klinika/sveKlinike")
+      .get("/klinika/sveKlinike")
       .then(klinike => {
         this.klinike = klinike.data;
       })

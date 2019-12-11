@@ -1,6 +1,8 @@
 <template>
 <div>
-  
+  <b-container v-if="error">
+      <b-alert show variant="danger" class="d-flex justify-content-center">{{errormessage}}</b-alert>
+    </b-container>
 
   <div class="container d-flex justify-content-center" style="margin-top: 20px">
     <!--Form with header-->
@@ -56,19 +58,29 @@ export default {
       bolest: {
           naziv: "",
           sifra: "",
-      }
+      },
+      error: false,
+      errormessage: ""
     };
   },
    methods: {
     dodajBolest() {
+      this.error = false;
+      var re = /^[0-9]+$/;
+      if (!re.test(String(this.bolest.sifra.trim()))) {
+        this.errormessage = "Šifra treba da bude sastavljena od borjeva";
+        this.error = true;
+        return;
+      }
       axios
         .post(
-          "http://localhost:8080/bolesti/dodajBolest",
+          "/bolesti/dodajBolest",
           this.bolest
         )
         .then(bolest => {
           this.bolest.naziv = "";
           this.bolest.sifra = "";
+          this.error = false;
         })
         .catch(error => {
             alert("Bolest sa tom šifrom već postoji")

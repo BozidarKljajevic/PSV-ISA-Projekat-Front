@@ -71,8 +71,8 @@ export default {
    methods: {
     posaljiClick() {
       axios
-        .delete(
-          "http://localhost:8080/pacijent/ibrisiNeaktivnogPacijenta/"+this.aktivan,
+        .post(
+          "/pacijent/ibrisiNeaktivnogPacijenta/"+this.aktivan,
           
         )
         .then(pacijenti => {
@@ -87,7 +87,7 @@ export default {
    },
   mounted() {
     axios
-      .get("http://localhost:8080/pacijent/postojeciNeaktivanPacijent")
+      .get("/pacijent/postojeciNeaktivanPacijent")
       .then(pacijenti => {
         this.pacijenti = pacijenti.data;
         

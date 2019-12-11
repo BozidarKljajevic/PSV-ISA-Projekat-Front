@@ -121,7 +121,7 @@ export default {
       }
 
       axios
-        .post("http://localhost:8080/klinika/dodajKliniku", this.klinika)
+        .post("/klinika/dodajKliniku", this.klinika)
         .then(klinika => {
           this.klinika.naziv="";
           this.klinika.opis="";
