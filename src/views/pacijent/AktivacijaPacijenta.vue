@@ -31,7 +31,7 @@ export default {
     this.prikazi_dugme = false;
 
     axios
-      .put("/auth/activate" + this.code)
+      .post("/auth/activate/" + this.code)
       .then(() => {
         this.poruka = "Vas nalog je uspesno aktiviran";
         this.prikazi_dugme = true;
