@@ -60,7 +60,7 @@ export default {
   },
   mounted() {
       axios
-      .get("http://localhost:8080/klinika/sveKlinike")
+      .get("/klinika/sveKlinike")
       .then(klinike => {
         this.klinike = klinike.data;
       })
