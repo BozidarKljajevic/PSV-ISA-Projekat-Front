@@ -62,6 +62,9 @@
         v-if="this.$store.state.user.role.authority == 'LEKAR'"
       >
         <router-link to="/MedicinskoOsobljeProfil" tag="b-dropdown-item">Profil</router-link>
+        <div class="dropdown-divider"></div>
+        <router-link to="/listaPacijenata" tag="b-dropdown-item">Lista Pacijenata</router-link>
+        <div class="dropdown-divider"></div>
          <b-dropdown-item @click="odjavaFun">Odjava</b-dropdown-item>
       </b-nav-item-dropdown>
     </b-navbar-nav>

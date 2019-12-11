@@ -15,6 +15,7 @@ import DodajSalu from '../views/administrator_klinike/DodajSalu.vue'
 import DodajTipPregleda from '../views/administrator_klinike/DodajTipPregleda.vue'
 
 import MedicinskoOsobljeProfil from '../views/medicinsko_osoblje/Profil.vue'
+import ListaPacijenata from '../views/medicinsko_osoblje/ListaPacijenata.vue'
 
 import DodajAdministratoraKlinike from '../views/administrator_klinickog_centra/DodajAdministratoraKlinike.vue'
 import DodajKliniku from '../views/administrator_klinickog_centra/DodajKliniku.vue'
@@ -136,7 +137,12 @@ const routes = [
     path: '/ListaTipovaPregleda',
     name: 'Lista Tipova Pregleda',
     component: ListaTipovaPregleda
-  }
+  },
+  {
+    path: '/listaPacijenata',
+    name: 'Lista Pacijenta',
+    component: ListaPacijenata
+  },
 
 ]
 
