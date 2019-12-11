@@ -38,7 +38,7 @@
       <b-nav-item-dropdown
         text="Admin KC"
         right
-        v-if="this.$store.state.user.uloga == 'AdminCentra'"
+        v-if="this.$store.state.user.role.authority == 'ADMINCENTRA'"
       >
         <router-link to="/dodajKliniku" tag="b-dropdown-item">Dodaj Kliniku</router-link>
         <div class="dropdown-divider"></div>
@@ -53,6 +53,7 @@
         <router-link to="/lek" tag="b-dropdown-item">Lek</router-link>
         <div class="dropdown-divider"></div>
         <router-link to="/sifarnik" tag="b-dropdown-item">Šifarnik</router-link>
+        <b-dropdown-item @click="odjavaFun">Odjava</b-dropdown-item>
       </b-nav-item-dropdown>
       <b-nav-item-dropdown
         text="Medicinsko osoblje"
