@@ -16,19 +16,20 @@
       <b-nav-item-dropdown
         text="Administrator klinike"
         right
-        v-if="this.$store.state.user.uloga == 'AdminKlinike'"
+        v-if="this.$store.state.user.role.authority == 'ADMIN'"
       >
         <router-link to="/administratorKlinikeProfil" tag="b-dropdown-item">Profil</router-link>
         <router-link to="/DodajLekara" tag="b-dropdown-item">Dodaj lekara</router-link>
         <router-link to="/DodajSalu" tag="b-dropdown-item">Dodaj Salu</router-link>
         <router-link to="/DodajTipPregleda" tag="b-dropdown-item">Dodaj Tip Pregleda</router-link>
+        <b-dropdown-item @click="odjavaFun">Odjava</b-dropdown-item>
       </b-nav-item-dropdown>
       <b-nav-item-dropdown
         text="Klinika"
         right
-        v-if="this.$store.state.user.uloga == 'AdminKlinike'"
+        v-if="this.$store.state.user.role.authority == 'ADMIN'"
       >
-        <router-link to="/klinikaProfil" tag="b-dropdown-item">Profil</router-link>
+        <router-link to="/klinikaProfil" tag="b-dropdown-item">Profil Klinike</router-link>
         <router-link to="/ListaSvihLekara" tag="b-dropdown-item">Lista Lekara</router-link>
         <router-link to="/ListaSala" tag="b-dropdown-item">Lista Sala</router-link>
         <router-link to="/ListaTipovaPregleda" tag="b-dropdown-item">Lista Tipova pregleda</router-link>
@@ -57,9 +58,10 @@
       <b-nav-item-dropdown
         text="Medicinsko osoblje"
         right
-        v-if="this.$store.state.user.uloga == 'MedicinskoOsoblje'"
+        v-if="this.$store.state.user.role.authority == 'LEKAR'"
       >
         <router-link to="/MedicinskoOsobljeProfil" tag="b-dropdown-item">Profil</router-link>
+         <b-dropdown-item @click="odjavaFun">Odjava</b-dropdown-item>
       </b-nav-item-dropdown>
     </b-navbar-nav>
   </b-navbar>

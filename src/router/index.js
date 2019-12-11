@@ -108,12 +108,17 @@ const routes = [
     component: MedicinskoOsobljeProfil
   },
   {
+    path: '/MedicinskoOsobljeProfil/:id',
+    name: 'Dodaj Medicinsko Osoblje',
+    component: MedicinskoOsobljeProfil
+  },
+  {
     path: '/ListaSvihLekara',
     name: 'Lista Lekara',
     component: ListaSvihLekara
   },
   {
-    path: '/aktivacijaPacijenta/:mail',
+    path: '/aktivacijaPacijenta/:code',
     name: 'Aktivacija pacijenta',
     component: AktivacijaPacijenta
   },

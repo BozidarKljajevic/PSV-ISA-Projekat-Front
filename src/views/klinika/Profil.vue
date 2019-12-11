@@ -113,7 +113,7 @@ export default {
       this.error = false;
       this.izmeni = false
       axios
-      .get("http://localhost:8080/klinika/postojecaKlinika")
+      .get("/klinika/postojecaKlinika/" + this.$store.state.user.id)
       .then(klinike =>{
         this.klinika = klinike.data;
       })
@@ -138,7 +138,7 @@ export default {
       }
 
       axios
-      .put("http://localhost:8080/klinika/izmeniPodatkeKlinike", this.klinika)
+      .post("/klinika/izmeniPodatkeKlinike", this.klinika)
       .then(klinike =>{
         this.klinika = klinike.data;
         this.izmeni = false;
@@ -151,7 +151,7 @@ export default {
   
   mounted() {
     axios
-      .get("http://localhost:8080/klinika/postojecaKlinika")
+      .get("/klinika/postojecaKlinika/" + + this.$store.state.user.id)
       .then(klinike =>{
         this.klinika = klinike.data;
         console.log(klinike.data)
