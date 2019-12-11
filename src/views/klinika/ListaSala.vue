@@ -70,13 +70,21 @@ export default {
     odustaniClick() {
       this.error = false;
       this.izmeni = false
+      axios
+      .get("/salaKLinike/SaleKlinike/" + this.$store.state.user.id)
+      .then(SaleKlinike => {
+        this.SaleKlinike = SaleKlinike.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
      
     },
     
 
     IzbrisiClick(id) {
       axios
-      .delete("http://localhost:8080/salaKLinike/izbrisiSaluKlinike/"+ id)
+      .post("http://localhost:8080/salaKLinike/izbrisiSaluKlinike/"+ id)
       .then(salaK => {
         this.SaleKlinike = salaK.data;
       })
@@ -97,7 +105,7 @@ export default {
       
     
       axios
-      .put("http://localhost:8080/salaKLinike/izmeniPodatkeSaleKlinike", sala)
+      .post("/salaKLinike/izmeniPodatkeSaleKlinike", sala)
       .then(SaleKlinikee =>{
         this.user = SaleKlinikee.data;
         this.izmeni = false;
@@ -110,7 +118,7 @@ export default {
    },
   mounted() {
     axios
-      .get("http://localhost:8080/salaKLinike/sveSale")
+      .get("/salaKLinike/SaleKlinike/" + this.$store.state.user.id)
       .then(SaleKlinike => {
         this.SaleKlinike = SaleKlinike.data;
       })
