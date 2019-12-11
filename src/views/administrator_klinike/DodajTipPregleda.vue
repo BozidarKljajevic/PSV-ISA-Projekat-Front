@@ -22,20 +22,22 @@
               <div class="md-form">
                 <label for="Form-ime">Naziv</label>
                 <input type="text" id="Form-ime" class="form-control" v-model="user.naziv" />
+                 <label for="Form-ime">Cena</label>
+                <input type="text" id="Form-ime" class="form-control" v-model="user.cena" />
               </div>
 
-              <label for="Form-klinika">Klinika</label>
+           <!--   <label for="Form-klinika">Klinika</label>
                 <b-form-select v-model="selektovanaKlinika">
                   <option
                     v-for="klinika in klinike"
                     :value="klinika.id"
                     :key="klinika.id"
                   >{{klinika.naziv}}</option>
-                </b-form-select> 
+                </b-form-select>  -->
             </div>
             <div class="col">
               <div class="md-form pb-3">
-                <label for="Form-grad">Broj</label>
+                <label for="Form-grad">Oznaka</label>
                 <input type="text" id="Form-grad" class="form-control" v-model="user.oznaka" />
 
                 
@@ -68,6 +70,7 @@ export default {
       user: {
         naziv: "",
         broj: "",
+        cena: "",
         klinika: {}
       },
       klinike: [],
@@ -83,39 +86,42 @@ export default {
           this.user.klinika = klinika;
         }
       });
-      if (this.user.naziv === "" || this.user.oznaka === ""){
+      if (this.user.naziv === "" || this.user.oznaka === "" || this.user.cena === ""){
          this.error=true;
          this.errormessage="Molimo Vas popunite sva polja";
          return;
        }
     
       
+      var rexx = /^[0-9]+$/;
+      if (!rexx.test(String(this.user.cena.trim()))) {
+        this.errormessage = "Cena  ne sme da sadrzi slova i bude negativna";
+        this.error = true;
+        return;
+      }
+      
 
       axios
         .post(
-          "http://localhost:8080/tipPregleda/dodajTipPregleda",
+          "/tipPregleda/dodajTipPregleda/" + this.$store.state.user.id,
           this.user
         )
         .then(user => {
           this.user.naziv = "";
           this.user.oznaka = "";
+          this.user.cena = "";
            this.user.klinika = {};
           this.error=false;
         })
         .catch(error => {
           console.log(error);
+          this.errormessage = "Oznaka ili naziv vec postoji";
+          this.error = true;
         });
     }
   },
   mounted() {
-    axios
-      .get("http://localhost:8080/klinika/sveKlinike")
-      .then(klinike => {
-        this.klinike = klinike.data;
-      })
-      .catch(error => {
-        console.log(error);
-      });
+   
   }
 };
 </script>

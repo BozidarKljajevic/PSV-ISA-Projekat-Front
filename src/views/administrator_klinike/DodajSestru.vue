@@ -10,7 +10,7 @@
         <!--Header-->
         <div class="header pt-3 grey lighten-2">
           <div class="row d-flex justify-content-start">
-            <h3 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Dodavanje Medicinskog osoblja klinike</h3>
+            <h3 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Dodavanje Sestre klinike</h3>
           </div>
         </div>
         <!--Header-->
@@ -50,14 +50,14 @@
                   <label for="Form-radnoOd">Radno vreme Od</label>
                   <input type="text" id="Form-radnoOd" class="form-control" v-model="user.radnoOd" />
 
-                  <label for="Form-klinika">Tipovi pregleda</label>
+                 <!-- <label for="Form-klinika">Tipovi pregleda</label>
                   <b-form-select v-model="selektovaniTip">
                     <option
                       v-for="tip in tipoviPregleda"
                       :value="tip.id"
                       :key="tip.id"
                     >{{tip.naziv}}</option>
-                  </b-form-select>
+                  </b-form-select> -->
                 </div>
               </div>
             </div>
@@ -68,7 +68,7 @@
                 type="button"
                 class="btn btn-danger btn-block z-depth-2"
                 @click="dodajAdmina"
-              >Dodaj Lekara</button>
+              >Dodaj Sestru</button>
             </div>
           </div>
         </div>
@@ -94,7 +94,7 @@ export default {
         brojTelefona: "",
         radnoOd: "",
         radnoDo: "",
-        tipPregleda: {}
+        
       },
       tipoviPregleda: [],
       selektovaniTip: "",
@@ -155,7 +155,7 @@ export default {
       }
 
       axios
-        .post("/lekar/dodajLekara/" + this.$store.state.user.id, this.user)
+        .post("/medicinskaSestra/dodajSestru/" + this.$store.state.user.id, this.user)
         .then(user => {
           this.user.ime = "";
           this.user.prezime = "";
@@ -166,8 +166,7 @@ export default {
           this.user.brojTelefona = "";
           this.user.radnoOd = "";
           this.user.radnoDo = "";
-          this.user.tipPregleda = {};
-          this.selektovaniTip = "";
+         
 
           this.error = false;
         })
@@ -179,14 +178,7 @@ export default {
     }
   },
   mounted() {
-    axios
-      .get("/tipPregleda/sviTipovi")
-      .then(tipoviPregleda => {
-        this.tipoviPregleda = tipoviPregleda.data;
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    
   }
 };
 </script>
