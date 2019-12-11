@@ -15,7 +15,7 @@ import DodajLekara from '../views/administrator_klinike/Dodaj_lekara.vue'
 import DodajSestru from '../views/administrator_klinike/DodajSestru.vue'
 import DodajSalu from '../views/administrator_klinike/DodajSalu.vue'
 import DodajTipPregleda from '../views/administrator_klinike/DodajTipPregleda.vue'
-
+import DodajPredPregled from '../views/administrator_klinike/DodajPredPregled.vue'
 import MedicinskoOsobljeProfil from '../views/medicinsko_osoblje/Profil.vue'
 import SestraProfil from '../views/medicinsko_osoblje/ProfilSestre.vue'
 
@@ -104,6 +104,11 @@ const routes = [
     path: '/DodajLekara',
     name: 'Dodaj Lekara',
     component: DodajLekara
+  },
+  {
+    path: '/DodajPredPregled',
+    name: 'Dodaj Predefinisan pregled',
+    component: DodajPredPregled
   },
   {
     path: '/DodajSestru',

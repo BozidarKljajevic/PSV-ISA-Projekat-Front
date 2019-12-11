@@ -23,6 +23,7 @@
         <router-link to="/DodajSestru" tag="b-dropdown-item">Dodaj Sestru</router-link>
         <router-link to="/DodajSalu" tag="b-dropdown-item">Dodaj Salu</router-link>
         <router-link to="/DodajTipPregleda" tag="b-dropdown-item">Dodaj Tip Pregleda</router-link>
+        <router-link to="/DodajPredPregled" tag="b-dropdown-item">Dodaj Predefinisane termine</router-link>
         <b-dropdown-item @click="odjavaFun">Odjava</b-dropdown-item>
       </b-nav-item-dropdown>
       <b-nav-item-dropdown
