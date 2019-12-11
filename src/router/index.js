@@ -8,13 +8,16 @@ import ListaKlinika from '../views/pacijent/ListaKlinika.vue'
 import KlinikaProfil from '../views/klinika/Profil.vue'
 import AdministratorKlinikeProfil from '../views/administrator_klinike/Profil.vue'
 import ListaSvihLekara from '../views/klinika/ListaLekara.vue'
+import ListaSestara from '../views/klinika/ListaSestara.vue'
 import ListaSala from '../views/klinika/ListaSala.vue'
 import ListaTipovaPregleda from '../views/klinika/ListaTipovaPregleda.vue'
 import DodajLekara from '../views/administrator_klinike/Dodaj_lekara.vue'
+import DodajSestru from '../views/administrator_klinike/DodajSestru.vue'
 import DodajSalu from '../views/administrator_klinike/DodajSalu.vue'
 import DodajTipPregleda from '../views/administrator_klinike/DodajTipPregleda.vue'
 
 import MedicinskoOsobljeProfil from '../views/medicinsko_osoblje/Profil.vue'
+import SestraProfil from '../views/medicinsko_osoblje/ProfilSestre.vue'
 
 import DodajAdministratoraKlinike from '../views/administrator_klinickog_centra/DodajAdministratoraKlinike.vue'
 import DodajKliniku from '../views/administrator_klinickog_centra/DodajKliniku.vue'
@@ -103,6 +106,21 @@ const routes = [
     component: DodajLekara
   },
   {
+    path: '/DodajSestru',
+    name: 'Dodaj Sestru',
+    component: DodajSestru
+  },
+  {
+    path: '/SestraProfil',
+    name: 'Dodaj Sestru',
+    component: SestraProfil
+  },
+  {
+    path: '/SestraProfil/:id',
+    name: 'Dodaj Sestru',
+    component: SestraProfil
+  },
+  {
     path: '/MedicinskoOsobljeProfil',
     name: 'Dodaj Medicinsko Osoblje',
     component: MedicinskoOsobljeProfil
@@ -116,6 +134,11 @@ const routes = [
     path: '/ListaSvihLekara',
     name: 'Lista Lekara',
     component: ListaSvihLekara
+  },
+  {
+    path: '/ListaSestara',
+    name: 'Lista Sestrara',
+    component: ListaSestara
   },
   {
     path: '/aktivacijaPacijenta/:code',
