@@ -100,9 +100,10 @@ export default {
           this.SaleKlinike = salaK.data;
         })
         .catch(error => {
+          console.log(error);
           this.error = true;
           this.errormessage = "Ne mozete salu koja ne pribada toj klinici";
-          console.log(error);
+          
         });
     },
 

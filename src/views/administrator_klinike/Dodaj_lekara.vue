@@ -10,7 +10,7 @@
         <!--Header-->
         <div class="header pt-3 grey lighten-2">
           <div class="row d-flex justify-content-start">
-            <h3 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Dodavanje Medicinskog osoblja klinike</h3>
+            <h3 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Dodavanje Lekara</h3>
           </div>
         </div>
         <!--Header-->
@@ -140,16 +140,16 @@ export default {
         return;
       }
 
-      var r = /^[0-9]{2}:[0-9]{2}$/;
+      var r = /^[0-9]{2}:[0]{2}$/;
       if (!r.test(String(this.user.radnoDo.trim()))) {
-        this.errormessage = "Radno vreme mora u formatu 00:00";
+        this.errormessage = "Radno vreme mora u formatu bb:00";
         this.error = true;
         return;
       }
 
-      var rexx = /^[0-9]{2}:[0-9]{2}$/;
+      var rexx = /^[0-9]{2}:[0]{2}$/;
       if (!rexx.test(String(this.user.radnoOd.trim()))) {
-        this.errormessage = "Radno vreme mora u formatu 00:00";
+        this.errormessage = "Radno vreme mora u formatu bb:00";
         this.error = true;
         return;
       }

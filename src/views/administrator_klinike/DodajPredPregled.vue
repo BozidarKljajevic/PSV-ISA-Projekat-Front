@@ -140,7 +140,7 @@ export default {
         return;
       }
 
-       var r = /^[0-9]+[.][0-9]$/;
+       var r = /^[0-9]+[.]{0,5}$/;
       if (!r.test(String(this.user.trajanjePregleda.trim()))) {
         this.errormessage = "trajanje mora biti u formatu npr 0.5 ili 1.0 odnosi se na sate";
         this.error = true;
@@ -191,9 +191,10 @@ export default {
           this.error=false;
         })
         .catch(error => {
-          console.log(error);
-          this.errormessage = "Oznaka ili broj vec postoji";
+          
+          this.errormessage = "Vec postoji termin u tom periodu i za tu salu i lekara";
           this.error = true;
+          console.log(error);
         });
     }
   },
