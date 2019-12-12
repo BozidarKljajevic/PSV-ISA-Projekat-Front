@@ -140,7 +140,7 @@ export default {
         return;
       }
 
-       var r = /^[0-9]+[.]{0,5}$/;
+       var r = /^[0-9]+[.][0,5]$/;
       if (!r.test(String(this.user.trajanjePregleda.trim()))) {
         this.errormessage = "trajanje mora biti u formatu npr 0.5 ili 1.0 odnosi se na sate";
         this.error = true;
