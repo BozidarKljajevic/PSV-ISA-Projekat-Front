@@ -30,6 +30,13 @@ export default {
     this.poruka = "Vas nalog je u procesu aktiviranja";
     this.prikazi_dugme = false;
 
+    localStorage.removeItem("jwt");
+      this.$store.state.user = {
+        role: {
+          authority: ''
+        }
+      };
+
     axios
       .post("/auth/activate/" + this.code)
       .then(() => {
