@@ -1,4 +1,8 @@
 <template>
+<div>
+<b-container v-if="error">
+      <b-alert show variant="danger" class="d-flex justify-content-center"> {{errormessage}}</b-alert>
+    </b-container>
   <div class="container d-flex justify-content-center" style="margin-top: 20px">
     
     <div class="card" style="width: 60%">
@@ -20,6 +24,9 @@
                 <input id="Form-ime"  class="form-control" v-model="tip.naziv" :disabled="!izmeni">
                 <label for="Form-ime">Oznaka</label>
                 <input id="Form-ime" class="form-control" v-model="tip.oznaka" :disabled="!izmeni">
+
+                <label for="Form-ime">Cena</label>
+                <input id="Form-ime" class="form-control" v-model="tip.cena" :disabled="!izmeni">
 
                 <div class="text-center mb-4">
                   <button
@@ -45,7 +52,7 @@
           </div>
            </div>
     </div>
-
+  </div>
   </div>
 </template>
 
@@ -55,7 +62,8 @@ export default {
   data() {
     return {
         izmeni:false,
-      
+        error: false,
+        errormessage: "",
       TipoviPregleda: []
 
       
@@ -70,25 +78,34 @@ export default {
     odustaniClick() {
       this.error = false;
       this.izmeni = false
-      
+     axios
+      .get("/tipPregleda/TipoviKlinike/"+ this.$store.state.user.id )
+      .then(TipoviPregleda => {
+        this.TipoviPregleda = TipoviPregleda.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
     },
     
 
     IzbrisiClick(id) {
       axios
-      .delete("http://localhost:8080/tipPregleda/izbrisiTipPregleda/"+ id)
+      .post("/tipPregleda/izbrisiTipPregleda/"+ id + "/" + this.$store.state.user.id )
       .then(tipovi => {
         this.TipoviPregleda = tipovi.data;
       })
       .catch(error => {
         console.log(error);
+        this.error=true;
+         this.errormessage="Ne mozete obrisati tip koji koristi lekar te klinike";
       });
 
     },
 
      sacuvajPodatke(tip) {
       this.error = false;
-      if (tip.naziv === "" || tip.oznaka === ""){
+      if (tip.naziv === "" || tip.oznaka === "" || tip.cena === ""){
          this.error=true;
          this.errormessage="Molimo Vas popunite sva polja";
          return;
@@ -97,7 +114,7 @@ export default {
       
     
       axios
-      .put("http://localhost:8080/tipPregleda/izmeniPodatkeTipaPregleda", tip)
+      .post("/tipPregleda/izmeniPodatkeTipaPregleda", tip)
       .then(SaleKlinikee =>{
         this.user = SaleKlinikee.data;
         this.izmeni = false;
@@ -110,7 +127,7 @@ export default {
    },
   mounted() {
     axios
-      .get("http://localhost:8080/tipPregleda/sviTipoviPregleda")
+      .get("/tipPregleda/TipoviKlinike/"+ this.$store.state.user.id)
       .then(TipoviPregleda => {
         this.TipoviPregleda = TipoviPregleda.data;
       })

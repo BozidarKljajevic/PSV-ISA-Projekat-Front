@@ -20,18 +20,25 @@ import axios from "axios";
 export default {
   data() {
     return {
-      mail: "",
+      code: "",
       poruka: "Vas nalog je u procesu aktiviranja",
       prikazi_dugme: false
     };
   },
   mounted() {
-    this.mail = this.$route.params.mail;
+    this.code = this.$route.params.code;
     this.poruka = "Vas nalog je u procesu aktiviranja";
     this.prikazi_dugme = false;
 
+    localStorage.removeItem("jwt");
+      this.$store.state.user = {
+        role: {
+          authority: ''
+        }
+      };
+
     axios
-      .put("http://localhost:8080/pacijent/aktivirajPacijenta/" + this.mail)
+      .post("/auth/activate/" + this.code)
       .then(() => {
         this.poruka = "Vas nalog je uspesno aktiviran";
         this.prikazi_dugme = true;

@@ -144,7 +144,7 @@ export default {
       this.errorMessage = "";
       this.izmeni = false;
       axios
-        .get("http://localhost:8080/pacijent/postojeciPacijent")
+        .get("/pacijent/preuzmi/" + this.$store.state.user.id)
         .then(pacijent => {
           this.user = pacijent.data;
         })
@@ -177,8 +177,8 @@ export default {
       }
 
       axios
-        .put(
-          "http://localhost:8080/pacijent/promeniPodatkePacijenta",
+        .post(
+          "/pacijent/izmeni",
           this.user
         )
         .then(pacijent => {
@@ -192,7 +192,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:8080/pacijent/postojeciPacijent/"+this.$store.state.user.mail)
+      .get("/pacijent/preuzmi/" + this.$store.state.user.id)
       .then(pacijent => {
         this.user = pacijent.data;
       })

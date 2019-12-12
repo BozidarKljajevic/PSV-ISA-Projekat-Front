@@ -30,14 +30,14 @@
                 <input type="text" id="Form-grad" class="form-control" v-model="user.broj" />
 
             
-                <label for="Form-klinika">Klinika</label>
+              <!--  <label for="Form-klinika">Klinika</label>
                 <b-form-select v-model="selektovanaKlinika">
                   <option
                     v-for="klinika in klinike"
                     :value="klinika.id"
                     :key="klinika.id"
                   >{{klinika.naziv}}</option>
-                </b-form-select> 
+                </b-form-select> -->
               </div>
             </div>
           </div>
@@ -97,7 +97,7 @@ export default {
 
       axios
         .post(
-          "http://localhost:8080/salaKLinike/dodajSaluKlinike",
+          "/salaKLinike/dodajSaluKlinike/" + this.$store.state.user.id,
           this.user
         )
         .then(user => {
@@ -107,18 +107,13 @@ export default {
         })
         .catch(error => {
           console.log(error);
+          this.errormessage = "Oznaka ili broj vec postoji";
+          this.error = true;
         });
     }
   },
   mounted() {
-    axios
-      .get("http://localhost:8080/klinika/sveKlinike")
-      .then(klinike => {
-        this.klinike = klinike.data;
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    
   }
 };
 </script>

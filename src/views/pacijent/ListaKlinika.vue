@@ -2,49 +2,46 @@
   <div class="container d-flex justify-content-center" style="margin-top: 20px">
     <!--Form with header-->
     <b-container class="card" style="width: 60%">
-      <!--Header-->
       <div class="header pt-3 grey lighten-2">
         <div class="row d-flex justify-content-start">
-          <h3 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Klinike</h3>
+          <h1 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Klinike</h1>
         </div>
       </div>
-      <!--Header-->
 
-      <div class="form-group" v-for="klinika in klinike" :key="klinika.id">
-        <div class="card-body mx-4 mt-4">
-          <div class="row">
-            <div class="col">
-              <div class="md-form">
-                <label>Naziv</label>
-                <label class="form-control">{{klinika.naziv}}</label>
-                <label>Grad</label>
-                <label class="form-control">{{klinika.grad}}</label>
-                <label>Broj Telefona</label>
-                <label class="form-control">{{klinika.brojTelefona}}</label>
-              </div>
-            </div>
-            <div class="col">
-              <div class="md-form pb-3">
-                <label>Adresa</label>
-                <label class="form-control">{{klinika.adresa}}</label>
-                <label>Drzava</label>
-                <label class="form-control">{{klinika.drzava}}</label>
-                <label>Ocena</label>
-                <label class="form-control">{{klinika.ocena}}</label>
-              </div>
+      <b-container class="mt-4">
+        <h4>Sortiraj po</h4>
+        <b-select v-model="sortirajPo">
+          <option value="">Dodavanju</option>
+          <option value="naziv">Naziv</option>
+          <option value="ocena">Ocena</option>
+        </b-select>
+      </b-container>
+
+      <b-card
+        border-variant="danger"
+        header-border-variant="danger"
+        header-text-variant="danger"
+        align="center"
+        class="mt-4"
+        v-for="klinika in sortiraneKlinike"
+        :header="klinika.naziv"
+        :key="klinika.id"
+      >
+        <div class="row">
+          <div class="col">
+            <div class="md-form">
+              <label>Opis</label>
+              <label class="form-control">{{klinika.opis}}</label>
             </div>
           </div>
-          <div class="row">
-            <div class="col">
-              <div class="md-form">
-                <label>Opis</label>
-                <label class="form-control">{{klinika.opis}}</label>
-              </div>
+          <div class="col">
+            <div class="md-form pb-3">
+              <label>Ocena</label>
+              <label class="form-control">{{klinika.ocena}}</label>
             </div>
           </div>
         </div>
-        <hr>
-      </div>
+      </b-card>
     </b-container>
   </div>
 </template>
@@ -55,12 +52,33 @@ import axios from "axios";
 export default {
   data() {
     return {
-      klinike: []
+      klinike: [],
+      sortirajPo: ""
     };
   },
+  methods: {
+    compare(a, b) {
+      if (a[this.sortirajPo] < b[this.sortirajPo]) {
+        return -1;
+      }
+      if (a[this.sortirajPo] > b[this.sortirajPo]) {
+        return 1;
+      }
+      return 0;
+    }
+  },
+  computed: {
+    sortiraneKlinike() {
+      if (this.sortirajPo != "") {
+        return this.klinike.sort(this.compare);
+      } else {
+        return this.klinike;
+      }
+    }
+  },
   mounted() {
-      axios
-      .get("http://localhost:8080/klinika/sveKlinike")
+    axios
+      .get("/klinika/sveKlinike")
       .then(klinike => {
         this.klinike = klinike.data;
       })

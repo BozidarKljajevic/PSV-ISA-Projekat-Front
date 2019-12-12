@@ -43,7 +43,7 @@
               <input type="text" id="Form-email4" class="form-control" v-model="user.adresa" :disabled="!izmeni" >
 
               <label for="Form-email4">Naziv klinike</label>
-              <input type="text" id="Form-email4" class="form-control" v-model="user.idKlinike.naziv" disabled >
+              <input type="text" id="Form-email4" class="form-control" v-model="user.klinika.naziv" disabled >
               
 
             </div>
@@ -102,7 +102,7 @@ export default {
     return {
       izmeni:false,
       user: {
-        idKlinike: {}
+        klinika: {}
       },
       error: false,
       message: ""
@@ -117,7 +117,7 @@ export default {
       this.error = false;
       this.izmeni = false
       axios
-      .get("http://localhost:8080/adminKlinike/postojeciAdminKlinike")
+      .get("/adminKlinike/postojeciAdminKlinike/" + this.$store.state.user.id)
       .then(adminKlinike =>{
         this.user = adminKlinike.data;
       })
@@ -142,7 +142,7 @@ export default {
       }
 
       axios
-      .put("http://localhost:8080/adminKlinike/izmeniPodatkeAdminaKlinike", this.user)
+      .post("/adminKlinike/izmeniPodatkeAdminaKlinike", this.user)
       .then(adminKlinike =>{
         this.user = adminKlinike.data;
         this.izmeni = false;
@@ -155,7 +155,7 @@ export default {
 
   mounted() {
     axios
-      .get("http://localhost:8080/adminKlinike/postojeciAdminKlinike")
+      .get("/adminKlinike/postojeciAdminKlinike/" + this.$store.state.user.id)
       .then(adminKlinike =>{
         this.user = adminKlinike.data;
       })

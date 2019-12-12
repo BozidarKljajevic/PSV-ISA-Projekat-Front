@@ -9,7 +9,7 @@
         <div class="card" style="width: 60%">
           <div class="header pt-3 grey lighten-2">
             <div class="row d-flex justify-content-start">
-              <h3 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Profil</h3>
+              <h3 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Profil Sestre</h3>
             </div>
           </div>
 
@@ -195,7 +195,7 @@ export default {
         this.id = this.$store.state.user.id;
 
         axios
-          .get("/lekar/postojeciLekar/" + this.id)
+          .get("/medicinskaSestra/postojecaSestra/" + this.id)
           .then(medicinskoOsoblje => {
             this.user = medicinskoOsoblje.data;
           })
@@ -205,7 +205,7 @@ export default {
       } else {
         this.id = this.$route.params.id;
         axios
-          .get("/lekar/postojeciLekarAdmin/" + this.id)
+          .get("/medicinskaSestra/postojecaSestraAdmin/" + this.id)
           .then(medicinskoOsoblje => {
             this.user = medicinskoOsoblje.data;
           })
@@ -249,9 +249,9 @@ export default {
         this.error = true;
         return;
       }
-      if (this.$store.state.user.role.authority == "LEKAR") {
+      if (this.$store.state.user.role.authority == "MEDICINSKASESTRA") {
         axios
-          .post("/lekar/izmeniLekara", this.user)
+          .post("/medicinskaSestra/izmeniSestru", this.user)
           .then(medicinskoOsoblje => {
             this.user = medicinskoOsoblje.data;
             this.izmeni = false;
@@ -261,7 +261,7 @@ export default {
           });
       } else if (this.$store.state.user.role.authority == "ADMIN") {
         axios
-          .post("/lekar/izmeniLekaraAdmin", this.user)
+          .post("/medicinskaSestra/izmeniSestruAdmin", this.user)
           .then(medicinskoOsoblje => {
             this.user = medicinskoOsoblje.data;
             this.izmeni = false;
@@ -278,7 +278,7 @@ export default {
       this.id = this.$store.state.user.id;
 
       axios
-        .get("/lekar/postojeciLekar/" + this.id)
+        .get("/medicinskaSestra/postojecaSestra/" + this.id)
         .then(medicinskoOsoblje => {
           this.user = medicinskoOsoblje.data;
         })
@@ -288,7 +288,7 @@ export default {
     } else {
       this.id = this.$route.params.id;
       axios
-        .get("/lekar/postojeciLekarAdmin/" + this.id)
+        .get("/medicinskaSestra/postojecaSestraAdmin/" + this.id)
         .then(medicinskoOsoblje => {
           this.user = medicinskoOsoblje.data;
         })

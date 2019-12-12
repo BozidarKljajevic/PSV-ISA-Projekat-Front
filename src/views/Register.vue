@@ -120,7 +120,7 @@ export default {
       this.user["sifra"] = this.password;
 
       axios
-        .post("http://localhost:8080/prijava/register", this.user)
+        .post("/auth/register", this.user)
         .then(() => {
           this.user.mail = "";
           this.user.ime = "";

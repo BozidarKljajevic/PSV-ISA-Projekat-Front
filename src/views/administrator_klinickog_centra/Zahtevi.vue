@@ -24,7 +24,7 @@
                   <button
                     type="button"
                     class="btn btn-success btn-block z-depth-2"
-                    
+                    @click="potvrda(pacijent.id)"
                   >Prihvati</button>
                 </div>
               </div>
@@ -52,8 +52,8 @@
     </div>
     <!--/Form with header-->
     <b-modal ref="my-modal" id="odbij" hide-footer title="Razlog odbijanja">
-      <label for="Form-ime">Opis</label>
-      <b-form-textarea id="textarea" placeholder="Opis..." rows="3"></b-form-textarea>
+      <label for="Form-ime" >Opis</label>
+      <b-form-textarea id="textarea" placeholder="Opis..." rows="3" v-model="odgovor.poruka"></b-form-textarea>
       <b-button class="mt-2" variant="danger" @click="posaljiClick">Pošalji</b-button>
     </b-modal>
   </div>
@@ -66,31 +66,39 @@ export default {
     return {
       pacijenti: [],
       aktivan: "",
+      odgovor: {
+        poruka: ""
+      }
     };
   },
-   methods: {
-    posaljiClick() {
+  methods: {
+    potvrda(id) {
       axios
-        .delete(
-          "http://localhost:8080/pacijent/ibrisiNeaktivnogPacijenta/"+this.aktivan,
-          
-        )
+        .post("/adminCentra/aktivirajPacijenta/" + id)
         .then(pacijenti => {
-          this.pacijenti= pacijenti.data;
-          this.$refs['my-modal'].hide()
-          
+          this.pacijenti = pacijenti.data;
         })
         .catch(error => {
           console.log(error);
         });
     },
-   },
+    posaljiClick() {
+      axios
+        .post("/pacijent/ibrisiNeaktivnogPacijenta/" + this.aktivan, this.odgovor)
+        .then(pacijenti => {
+          this.pacijenti = pacijenti.data;
+          this.$refs["my-modal"].hide();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  },
   mounted() {
     axios
-      .get("http://localhost:8080/pacijent/postojeciNeaktivanPacijent")
+      .get("/pacijent/postojeciNeaktivanPacijent")
       .then(pacijenti => {
         this.pacijenti = pacijenti.data;
-        
       })
       .catch(error => {
         console.log(error);

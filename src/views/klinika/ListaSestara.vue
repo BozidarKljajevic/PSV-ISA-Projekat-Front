@@ -30,7 +30,7 @@
                   >Izbrisi</button>
                 </div>
                 <div class="text-center mb-4">
-                  <router-link :to="'/MedicinskoOsobljeProfil/'+lekar.id" tag="button" class="btn btn-success btn-block z-depth-2">Profil</router-link>
+                  <router-link :to="'/SestraProfil/'+lekar.id" tag="button" class="btn btn-success btn-block z-depth-2">Profil</router-link>
                 </div>
               </div>
             </div>
@@ -55,7 +55,7 @@ export default {
    methods: {
     IzbrisiClick(id) {
       axios
-      .post("/lekar/izbrisiLekara/"+ id)
+      .post("/medicinskaSestra/izbrisiSestru/"+ id)
       .then(MedicinskoOsoblje => {
         this.MedicinskoOsoblje = MedicinskoOsoblje.data;
       })
@@ -67,7 +67,7 @@ export default {
    },
   mounted() {
     axios
-      .get("/lekar/postojeciLekariKlinike/" + this.$store.state.user.id)
+      .get("/medicinskaSestra/postojeceSestreKlinike/" + this.$store.state.user.id)
       .then(MedicinskoOsoblje => {
         this.MedicinskoOsoblje = MedicinskoOsoblje.data;
       })
