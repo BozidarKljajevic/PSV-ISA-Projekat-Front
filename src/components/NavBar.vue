@@ -2,7 +2,7 @@
   <b-navbar toggleable="lg" type="dark" variant="danger">
     <router-link to="/" tag="b-navbar-brand">Klinicki centar</router-link>
 
-    <b-navbar-nav class="ml-auto">
+    <b-navbar-nav class="ml-auto" v-if="this.$store.state.user.enabled == true">
       <b-nav-item-dropdown
         text="Pacijent"
         right

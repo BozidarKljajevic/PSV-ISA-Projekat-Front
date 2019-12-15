@@ -12,8 +12,8 @@
        <b-container class="mt-4">
         <h4>Sortiraj po</h4>
         <b-select v-model="sortirajPo">
-          <option value="">Dodavanju</option>
-          <option value="ime">Ime</option>
+          <option value="">Vremenu Nastanka</option>
+          <option value="ime">Imenu</option>
         </b-select>
       </b-container>
 

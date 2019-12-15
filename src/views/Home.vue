@@ -44,17 +44,40 @@
       </div>
     </div>
 
-    <b-modal ref="my-modal" id="odbij" hide-footer title="Promena lozinke">
-      <label for="Form-ime">Lozinka</label>
-      <input
-        type="password"
-        id="Form-lozinka"
-        class="form-control"
-        placeholder="Nova lozinka..."
-        v-model="lozinka.sifra"
-      />
-      <b-button class="mt-2" variant="danger" @click="promeniLozinku">Promeni</b-button>
-    </b-modal>
+    <div class="row mb-4 d-flex justify-content-center" v-else>
+      <div v-if="this.$store.state.user.enabled == false">
+        <b-card>
+          <div class="header pt-3 lighten-2">
+            <div class="row d-flex justify-content-start">
+              <h3 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Promena Lozinke</h3>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="card-body mx-4 mt-4">
+              <div class="row">
+                <div class="col">
+                  <div class="md-form">
+                    <label for="Form-ime">Lozinka</label>
+                    <input
+                      type="password"
+                      id="Form-lozinka"
+                      class="form-control"
+                      placeholder="Nova lozinka..."
+                      v-model="lozinka.sifra"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-center mb-4 mt-4">
+                <b-button class="mt-2" variant="danger" @click="promeniLozinku">Promeni</b-button>
+              </div>
+            </div>
+          </div>
+        </b-card>
+      </div>
+    </div>
   </b-container>
 </template>
 
@@ -71,9 +94,14 @@ export default {
     };
   },
   methods: {
-    zakazi(idPregleda){
+    zakazi(idPregleda) {
       axios
-        .post("pregled/zakaziPregled/"+idPregleda+"/"+this.$store.state.user.id)
+        .post(
+          "pregled/zakaziPregled/" +
+            idPregleda +
+            "/" +
+            this.$store.state.user.id
+        )
         .then(response => {
           console.log(response.data);
           this.pregledi = response.data;
@@ -126,15 +154,6 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    }
-
-    if (
-      this.$store.state.user.role.authority != "" &&
-      this.$store.state.user.role.authority != "PACIJENT"
-    ) {
-      if (this.$store.state.user.enabled == false) {
-        this.$refs["my-modal"].show();
-      }
     }
   }
 };
