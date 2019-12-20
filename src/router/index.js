@@ -20,6 +20,7 @@ import DodajPredPregled from '../views/administrator_klinike/DodajPredPregled.vu
 import MedicinskoOsobljeProfil from '../views/medicinsko_osoblje/Profil.vue'
 import ListaPacijenata from '../views/medicinsko_osoblje/ListaPacijenata.vue'
 import SestraProfil from '../views/medicinsko_osoblje/ProfilSestre.vue'
+import Klanedar from '../views/medicinsko_osoblje/Kalendar.vue'
 
 import DodajAdministratoraKlinike from '../views/administrator_klinickog_centra/DodajAdministratoraKlinike.vue'
 import DodajKliniku from '../views/administrator_klinickog_centra/DodajKliniku.vue'
@@ -48,6 +49,11 @@ const routes = [
     path: '/karton',
     name: 'Karton',
     component: Karton
+  },
+  {
+    path: '/kalendar',
+    name: 'Kalendar',
+    component: Klanedar
   },
   {
     path: '/klinikaProfil',

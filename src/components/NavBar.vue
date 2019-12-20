@@ -68,6 +68,8 @@
         <div class="dropdown-divider"></div>
         <router-link to="/listaPacijenata" tag="b-dropdown-item">Lista Pacijenata</router-link>
         <div class="dropdown-divider"></div>
+        <router-link to="/kalendar" tag="b-dropdown-item">Kalendar</router-link>
+        <div class="dropdown-divider"></div>
          <b-dropdown-item @click="odjavaFun">Odjava</b-dropdown-item>
       </b-nav-item-dropdown>
 
