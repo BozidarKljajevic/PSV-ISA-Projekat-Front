@@ -11,7 +11,7 @@
       <b-container class="mt-4">
         <h4>Sortiraj po</h4>
         <b-select v-model="sortirajPo">
-          <option value="">Dodavanju</option>
+          <option value>Vremenu Nastanka</option>
           <option value="naziv">Naziv</option>
           <option value="ocena">Ocena</option>
         </b-select>
@@ -26,6 +26,7 @@
         v-for="klinika in sortiraneKlinike"
         :header="klinika.naziv"
         :key="klinika.id"
+        @click="otvoriKliniku(klinika)"
       >
         <div class="row">
           <div class="col">
@@ -65,6 +66,9 @@ export default {
         return 1;
       }
       return 0;
+    },
+    otvoriKliniku(klinika) {
+      this.$router.push("/klinika/"+klinika.id+"/"+klinika.naziv);
     }
   },
   computed: {
@@ -89,5 +93,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.card:hover {
+  border-width: thick
+}
 </style>
