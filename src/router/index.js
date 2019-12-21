@@ -21,6 +21,9 @@ import MedicinskoOsobljeProfil from '../views/medicinsko_osoblje/Profil.vue'
 import ListaPacijenata from '../views/medicinsko_osoblje/ListaPacijenata.vue'
 import SestraProfil from '../views/medicinsko_osoblje/ProfilSestre.vue'
 
+import ZapocniPregled from '../views/medicinsko_osoblje/ZapocniPregled.vue'
+import ZakaziPregled from '../views/medicinsko_osoblje/ZakaziPregled.vue'
+
 import DodajAdministratoraKlinike from '../views/administrator_klinickog_centra/DodajAdministratoraKlinike.vue'
 import DodajKliniku from '../views/administrator_klinickog_centra/DodajKliniku.vue'
 import Zahtevi from '../views/administrator_klinickog_centra/Zahtevi.vue'
@@ -141,6 +144,16 @@ const routes = [
     path: '/MedicinskoOsobljeProfil/:id',
     name: 'Dodaj Medicinsko Osoblje',
     component: MedicinskoOsobljeProfil
+  },
+  {
+    path: '/ZapocniPregled/:id',
+    name: 'Zapocni Pregled',
+    component: ZapocniPregled
+  },
+  {
+    path: '/ZakaziPregled/:id',
+    name: 'Zakazi Pregled',
+    component: ZakaziPregled
   },
   {
     path: '/ListaSvihLekara',

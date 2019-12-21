@@ -44,6 +44,42 @@
       </div>
     </div>
 
+    <div class="row mb-4" v-if="this.$store.state.user.role.authority == 'LEKAR'">
+      <div class="col-6 mb-4" v-for="pregled in pregledi" :key="pregled.id">
+        <b-card bg-variant="danger" text-variant="white" header="Pregled" class="text-center">
+          <div class="row">
+            <div class="col">
+              <div class="md-form">
+                <label>Tip Pregleda</label>
+                <label class="form-control">{{pregled.tipPregleda.naziv}}</label>
+                <label>Datum</label>
+                <label class="form-control">{{pregled.datum}}</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="md-form pb-3">
+                <label>Klinika</label>
+                <label class="form-control">{{pregled.lekar.klinika.naziv}}</label>
+                <label>Vreme</label>
+                <label class="form-control">{{pregled.vreme}}</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="md-form pb-3">
+                <label>Lekar</label>
+                <label class="form-control">{{pregled.lekar.ime}}</label>
+                <label>Cena</label>
+                <label class="form-control">{{pregled.cena}}</label>
+              </div>
+            </div>
+          </div>
+          <template v-slot:footer>
+            <router-link :to="'/ZapocniPregled/'+pregled.id" tag="button" class="btn btn-success btn-block z-depth-2">Zapocni Pregled</router-link>
+          </template>
+        </b-card>
+      </div>
+    </div>
+
     <b-modal ref="my-modal" id="odbij" hide-footer title="Promena lozinke">
       <label for="Form-ime">Lozinka</label>
       <input
@@ -126,7 +162,20 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    }
+    } 
+
+    if (this.$store.state.user.role.authority == "LEKAR") {
+      axios
+        .get("pregled/PreglediLekar/" + this.$store.state.user.id)
+        .then(response => {
+          console.log(response.data);
+          this.pregledi = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } 
+    
 
     if (
       this.$store.state.user.role.authority != "" &&
