@@ -3,6 +3,13 @@
 <b-container v-if="error">
       <b-alert show variant="danger" class="d-flex justify-content-center"> {{errormessage}}</b-alert>
     </b-container>
+     <b-container v-if="success">
+          <b-alert
+            show="2"
+            variant="success"
+            class="d-flex justify-content-center mt-2"
+          >Uspesno ste poslali zahtev za pregled</b-alert>
+        </b-container>
   <div>
     <div>
      
@@ -25,6 +32,7 @@
                       type="text"
                       id="Form-ime"
                       class="form-control"
+                    v-model="user.datum"
                      
                     />
 
@@ -52,6 +60,7 @@
                       type="text"
                       id="Form-prezime"
                       class="form-control"
+                       v-model="user.vreme"
                       
                       
                     />
@@ -90,13 +99,14 @@ export default {
 
       error: false,
       errormessage: "",
+       success: false
     };
   },
 
     methods: {
 
     zakazi() {
-
+    this.error = false;
      if (this.user.datum === "" || this.user.vreme === "" ){
          this.error=true;
          this.errormessage="Molimo Vas popunite sva polja";
@@ -116,8 +126,25 @@ export default {
         this.error = true;
         return;
       }
+ this.success = false;
+    axios
+        .post("/pregled/podnesiZahtevLekar/" + this.$route.params.id, this.user)
+        .then(response => {
+          this.success = true;
+          this.user.datum = "";
+          this.user.vreme = "";
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+
     }
+
+    
     },
+
+
 
  mounted() {
    
