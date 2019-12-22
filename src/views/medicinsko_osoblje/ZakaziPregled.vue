@@ -37,6 +37,25 @@
                     />
 
                  
+                  <label for="Form-prezime">vreme</label>
+                    <input
+                      type="text"
+                      id="Form-prezime"
+                      class="form-control"
+                       v-model="user.vreme"
+                      
+                      
+                    />
+
+                     <label for="Form-prezime">Trajanje</label>
+                    <input
+                      type="text"
+                      id="Form-prezime"
+                      class="form-control"
+                       v-model="user.trajanjePregleda"
+                      
+                      
+                    />
                
                   <button
                     type="button"
@@ -50,27 +69,6 @@
 
                 </div>
                 </div>
-
-                    <div class="col">
-                  <div class="md-form pb-3">
-                   
-
-                    <label for="Form-prezime">vreme</label>
-                    <input
-                      type="text"
-                      id="Form-prezime"
-                      class="form-control"
-                       v-model="user.vreme"
-                      
-                      
-                    />
-
-                   
-                    
-                 
-                    
-                    </div>
-                  </div>
 
                 
 
@@ -95,6 +93,7 @@ export default {
       user: {
         datum: "",
         vreme: "",
+        trajanjePregleda: ""
       },
 
       error: false,
@@ -112,6 +111,14 @@ export default {
          this.errormessage="Molimo Vas popunite sva polja";
          return;
        }
+
+       var r = /^[0-9]+[.][0,5]$/;
+      if (!r.test(String(this.user.trajanjePregleda.trim()))) {
+        this.errormessage = "trajanje mora biti u formatu npr 0.5 ili 1.0 odnosi se na sate";
+        this.error = true;
+        return;
+      }
+
 
         var r = /^[0-9]{2}:[0-9]{2}$/;
       if (!r.test(String(this.user.vreme.trim()))) {
@@ -133,8 +140,11 @@ export default {
           this.success = true;
           this.user.datum = "";
           this.user.vreme = "";
+          this.user.trajanjePregleda = ""
         })
         .catch(error => {
+          this.errormessage = "Nedozvoljavajuci datum ili vreme za tog lekara";
+          this.error = true;
           console.log(error);
         });
 
