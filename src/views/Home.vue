@@ -31,7 +31,7 @@
             <div class="col">
               <div class="md-form pb-3">
                 <label>Lekar</label>
-                <label class="form-control">{{pregled.lekar.ime}}</label>
+                <label class="form-control">{{pregled.lekar.ime}} {{pregled.lekar.prezime}}</label>
                 <label>Cena</label>
                 <label class="form-control">{{pregled.cena}}</label>
               </div>
@@ -103,7 +103,6 @@ export default {
             this.$store.state.user.id
         )
         .then(response => {
-          console.log(response.data);
           this.pregledi = response.data;
         })
         .catch(error => {
@@ -148,7 +147,6 @@ export default {
       axios
         .get("pregled/predefinisaniPregledi")
         .then(response => {
-          console.log(response.data);
           this.pregledi = response.data;
         })
         .catch(error => {
