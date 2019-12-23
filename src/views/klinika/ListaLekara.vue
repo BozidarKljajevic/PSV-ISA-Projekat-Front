@@ -1,4 +1,8 @@
 <template>
+<div>
+<b-container v-if="error">
+      <b-alert show variant="danger" class="d-flex justify-content-center">{{errormessage}}</b-alert>
+    </b-container>
   <div class="container d-flex justify-content-center" style="margin-top: 20px">
     
     <div class="card" style="width: 60%">
@@ -41,6 +45,7 @@
     </div>
 
   </div>
+</div>
 </template>
 
 <script>
@@ -48,7 +53,9 @@ import axios from "axios";
 export default {
   data() {
     return {
-      MedicinskoOsoblje: []
+      MedicinskoOsoblje: [],
+       error: false,
+      errormessage: ""
       
     };
   },
@@ -60,6 +67,8 @@ export default {
         this.MedicinskoOsoblje = MedicinskoOsoblje.data;
       })
       .catch(error => {
+        this.errormessage = "Ne sme se obrisati lekar koji ima zakazan pregled";
+          this.error = true;
         console.log(error);
       });
 
