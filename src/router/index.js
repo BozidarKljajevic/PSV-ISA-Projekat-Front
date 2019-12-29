@@ -6,6 +6,7 @@ import PacijentProfil from '../views/pacijent/Profil.vue'
 import AktivacijaPacijenta from '../views/pacijent/AktivacijaPacijenta.vue'
 import Karton from '../views/pacijent/Karton.vue'
 import ListaKlinika from '../views/pacijent/ListaKlinika.vue'
+import Klinika from '../views/pacijent/Klinika.vue'
 import KlinikaProfil from '../views/klinika/Profil.vue'
 import AdministratorKlinikeProfil from '../views/administrator_klinike/Profil.vue'
 import ListaSvihLekara from '../views/klinika/ListaLekara.vue'
@@ -21,6 +22,9 @@ import MedicinskoOsobljeProfil from '../views/medicinsko_osoblje/Profil.vue'
 import ListaPacijenata from '../views/medicinsko_osoblje/ListaPacijenata.vue'
 import SestraProfil from '../views/medicinsko_osoblje/ProfilSestre.vue'
 import Klanedar from '../views/medicinsko_osoblje/Kalendar.vue'
+
+import ZapocniPregled from '../views/medicinsko_osoblje/ZapocniPregled.vue'
+import ZakaziPregled from '../views/medicinsko_osoblje/ZakaziPregled.vue'
 
 import DodajAdministratoraKlinike from '../views/administrator_klinickog_centra/DodajAdministratoraKlinike.vue'
 import DodajKliniku from '../views/administrator_klinickog_centra/DodajKliniku.vue'
@@ -54,6 +58,11 @@ const routes = [
     path: '/kalendar',
     name: 'Kalendar',
     component: Klanedar
+  },
+  {
+    path: '/klinika/:id/:naziv',
+    name: 'Klinika',
+    component: Klinika
   },
   {
     path: '/klinikaProfil',
@@ -147,6 +156,16 @@ const routes = [
     path: '/MedicinskoOsobljeProfil/:id',
     name: 'Dodaj Medicinsko Osoblje',
     component: MedicinskoOsobljeProfil
+  },
+  {
+    path: '/ZapocniPregled/:id',
+    name: 'Zapocni Pregled',
+    component: ZapocniPregled
+  },
+  {
+    path: '/ZakaziPregled/:id',
+    name: 'Zakazi Pregled',
+    component: ZakaziPregled
   },
   {
     path: '/ListaSvihLekara',
