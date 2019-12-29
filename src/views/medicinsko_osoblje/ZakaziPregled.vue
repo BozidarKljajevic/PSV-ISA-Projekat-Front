@@ -56,6 +56,15 @@
                       
                       
                     />
+
+                    <label for="Form-prezime">Izbor</label>
+                    <b-form-select v-model="selectedUser">
+                    <option
+                      v-for="option in optionsUser"
+                      :value="{ id: option.id, text: option.name }"
+                      :key="option.text"
+                    >{{option.name}}</option>
+                  </b-form-select>
                
                   <button
                     type="button"
@@ -93,9 +102,12 @@ export default {
       user: {
         datum: "",
         vreme: "",
-        trajanjePregleda: ""
+        trajanjePregleda: "",
+        izbor: ""
       },
-
+      selectedUser: "",
+      optionsUser: [{id: 1, name: 'pregled'},
+      {id: 2, name: 'operacija'}],
       error: false,
       errormessage: "",
        success: false
@@ -105,6 +117,13 @@ export default {
     methods: {
 
     zakazi() {
+
+      console.log(this.selectedUser);
+      if(this.selectedUser.text === "pregled") {
+        this.user.izbor = true;
+      } else {
+        this.user.izbor = false;
+      }
     this.error = false;
      if (this.user.datum === "" || this.user.vreme === "" ){
          this.error=true;
@@ -140,7 +159,8 @@ export default {
           this.success = true;
           this.user.datum = "";
           this.user.vreme = "";
-          this.user.trajanjePregleda = ""
+          this.user.trajanjePregleda = "";
+          this.selectedUser = "";
         })
         .catch(error => {
           this.errormessage = "Nedozvoljavajuci datum ili vreme za tog lekara";
