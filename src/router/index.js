@@ -36,6 +36,8 @@ import Sifarnik from '../views/administrator_klinickog_centra/Sifarnik.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 
+import ZahteviZaOperaciju from '../views/administrator_klinike/ZahteviZaOperaciju.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -201,6 +203,11 @@ const routes = [
     path: '/listaPacijenata',
     name: 'Lista Pacijenta',
     component: ListaPacijenata
+  },
+  {
+    path: '/zahteviZaOperacijU',
+    name: 'Zahtevi Za OperacijU',
+    component: ZahteviZaOperaciju
   },
 
 ]
