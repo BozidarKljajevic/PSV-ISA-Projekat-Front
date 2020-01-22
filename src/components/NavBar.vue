@@ -24,6 +24,7 @@
         <router-link to="/DodajSalu" tag="b-dropdown-item">Dodaj Salu</router-link>
         <router-link to="/DodajTipPregleda" tag="b-dropdown-item">Dodaj Tip Pregleda</router-link>
         <router-link to="/DodajPredPregled" tag="b-dropdown-item">Dodaj Predefinisane termine</router-link>
+        <router-link to="/ZahteviZaPreglede" tag="b-dropdown-item">Zahtevi za preglede</router-link>
         <b-dropdown-item @click="odjavaFun">Odjava</b-dropdown-item>
       </b-nav-item-dropdown>
       <b-nav-item-dropdown

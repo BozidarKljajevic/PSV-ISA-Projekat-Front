@@ -15,6 +15,7 @@ import ListaSala from '../views/klinika/ListaSala.vue'
 import ListaTipovaPregleda from '../views/klinika/ListaTipovaPregleda.vue'
 import DodajLekara from '../views/administrator_klinike/Dodaj_lekara.vue'
 import DodajSestru from '../views/administrator_klinike/DodajSestru.vue'
+import ZahteviZaPreglede from '../views/administrator_klinike/ZahteviZaPreglede.vue'
 import DodajSalu from '../views/administrator_klinike/DodajSalu.vue'
 import DodajTipPregleda from '../views/administrator_klinike/DodajTipPregleda.vue'
 import DodajPredPregled from '../views/administrator_klinike/DodajPredPregled.vue'
@@ -125,6 +126,11 @@ const routes = [
     path: '/DodajPredPregled',
     name: 'Dodaj Predefinisan pregled',
     component: DodajPredPregled
+  },
+  {
+    path: '/ZahteviZaPreglede',
+    name: 'Zahtevi za preglede',
+    component: ZahteviZaPreglede
   },
   {
     path: '/DodajSestru',
