@@ -24,6 +24,7 @@
         <router-link to="/DodajSalu" tag="b-dropdown-item">Dodaj Salu</router-link>
         <router-link to="/DodajTipPregleda" tag="b-dropdown-item">Dodaj Tip Pregleda</router-link>
         <router-link to="/DodajPredPregled" tag="b-dropdown-item">Dodaj Predefinisane termine</router-link>
+        <router-link to="/ZahteviZaOperaciju" tag="b-dropdown-item">Zahtevi za operaciju</router-link>
         <b-dropdown-item @click="odjavaFun">Odjava</b-dropdown-item>
       </b-nav-item-dropdown>
       <b-nav-item-dropdown
@@ -36,6 +37,7 @@
         <router-link to="/ListaSestara" tag="b-dropdown-item">Lista Sestara</router-link>
         <router-link to="/ListaSala" tag="b-dropdown-item">Lista Sala</router-link>
         <router-link to="/ListaTipovaPregleda" tag="b-dropdown-item">Lista Tipova pregleda</router-link>
+        
         <b-dropdown-item>Slobodni termini</b-dropdown-item>
         <b-dropdown-item>Cenovnik</b-dropdown-item>
       </b-nav-item-dropdown>
@@ -67,6 +69,8 @@
         <router-link to="/MedicinskoOsobljeProfil" tag="b-dropdown-item">Profil</router-link>
         <div class="dropdown-divider"></div>
         <router-link to="/listaPacijenata" tag="b-dropdown-item">Lista Pacijenata</router-link>
+        <div class="dropdown-divider"></div>
+        <router-link to="/kalendar" tag="b-dropdown-item">Kalendar</router-link>
         <div class="dropdown-divider"></div>
          <b-dropdown-item @click="odjavaFun">Odjava</b-dropdown-item>
       </b-nav-item-dropdown>

@@ -21,6 +21,7 @@ import DodajPredPregled from '../views/administrator_klinike/DodajPredPregled.vu
 import MedicinskoOsobljeProfil from '../views/medicinsko_osoblje/Profil.vue'
 import ListaPacijenata from '../views/medicinsko_osoblje/ListaPacijenata.vue'
 import SestraProfil from '../views/medicinsko_osoblje/ProfilSestre.vue'
+import Klanedar from '../views/medicinsko_osoblje/Kalendar.vue'
 
 import ZapocniPregled from '../views/medicinsko_osoblje/ZapocniPregled.vue'
 import ZakaziPregled from '../views/medicinsko_osoblje/ZakaziPregled.vue'
@@ -34,6 +35,8 @@ import Sifarnik from '../views/administrator_klinickog_centra/Sifarnik.vue'
 
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+
+import ZahteviZaOperaciju from '../views/administrator_klinike/ZahteviZaOperaciju.vue'
 
 Vue.use(VueRouter)
 
@@ -52,6 +55,11 @@ const routes = [
     path: '/karton',
     name: 'Karton',
     component: Karton
+  },
+  {
+    path: '/kalendar',
+    name: 'Kalendar',
+    component: Klanedar
   },
   {
     path: '/klinika/:id/:naziv',
@@ -195,6 +203,11 @@ const routes = [
     path: '/listaPacijenata',
     name: 'Lista Pacijenta',
     component: ListaPacijenata
+  },
+  {
+    path: '/zahteviZaOperacijU',
+    name: 'Zahtevi Za OperacijU',
+    component: ZahteviZaOperaciju
   },
 
 ]
