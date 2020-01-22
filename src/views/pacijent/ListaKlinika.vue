@@ -11,10 +11,29 @@
       <b-container class="mt-4">
         <h4>Sortiraj po</h4>
         <b-select v-model="sortirajPo">
-          <option value>Vremenu Nastanka</option>
+          <!--<option value>Vremenu Nastanka</option>-->
           <option value="naziv">Naziv</option>
           <option value="ocena">Ocena</option>
         </b-select>
+      </b-container>
+
+      <b-container class="mt-4 mb-2">
+        <div class="row">
+          <div class="col">
+            <h5>Drzava</h5>
+            <b-select v-model="selektovanaDrzava">
+              <option value="">-</option>
+              <option v-for="drzava in drzave" :key="drzava" :value="drzava">{{drzava}}</option>
+            </b-select>
+          </div>
+          <div class="col">
+            <h5>Grad</h5>
+            <b-select v-model="selektovaniGrad">
+              <option value="">-</option>
+              <option v-for="grad in gradovi" :key="grad" :value="grad">{{grad}}</option>
+            </b-select>
+          </div>
+        </div>
       </b-container>
 
       <b-card
@@ -23,7 +42,7 @@
         header-text-variant="danger"
         align="center"
         class="mt-4"
-        v-for="klinika in sortiraneKlinike"
+        v-for="klinika in konacneKlinike"
         :header="klinika.naziv"
         :key="klinika.id"
         @click="otvoriKliniku(klinika)"
@@ -54,7 +73,11 @@ export default {
   data() {
     return {
       klinike: [],
-      sortirajPo: ""
+      sortirajPo: "naziv",
+      drzave: [],
+      gradovi: [],
+      selektovanaDrzava: "",
+      selektovaniGrad: ""
     };
   },
   methods: {
@@ -68,16 +91,48 @@ export default {
       return 0;
     },
     otvoriKliniku(klinika) {
-      this.$router.push("/klinika/"+klinika.id+"/"+klinika.naziv);
+      this.$router.push("/klinika/" + klinika.id + "/" + klinika.naziv);
     }
   },
   computed: {
-    sortiraneKlinike() {
-      if (this.sortirajPo != "") {
-        return this.klinike.sort(this.compare);
-      } else {
-        return this.klinike;
+    konacneKlinike() {
+      var klinike = [];
+
+      if (this.selektovanaDrzava === "" && this.selektovaniGrad === "") {
+        klinike = this.klinike.sort(this.compare);
+      }else{
+        this.klinike.sort(this.compare).forEach(klinika => {
+        if (this.selektovanaDrzava === klinika.drzava) {
+          if (this.selektovaniGrad === "" ||  this.selektovaniGrad === klinika.grad) {
+            klinike.push(klinika);
+          }
+        }else if (this.selektovanaDrzava === "") {
+          if (this.selektovaniGrad === klinika.grad) {
+            klinike.push(klinika);
+          }
+        }
+      });
       }
+
+      return klinike;
+    }
+  },
+  watch: {
+    selektovanaDrzava: function pribaviGradove(novaDrzava) {
+      this.selektovaniGrad = "";
+
+      if (!novaDrzava) {
+        novaDrzava = "none"
+      }
+
+      axios
+        .get("/klinika/gradoviKlinika/" + novaDrzava)
+        .then(gradovi => {
+          this.gradovi = gradovi.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   mounted() {
@@ -89,12 +144,30 @@ export default {
       .catch(error => {
         console.log(error);
       });
+
+    axios
+      .get("/klinika/drzaveKlinika")
+      .then(drzave => {
+        this.drzave = drzave.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    axios
+      .get("/klinika/gradoviKlinika/" + "none")
+      .then(gradovi => {
+        this.gradovi = gradovi.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 };
 </script>
 
 <style scoped>
 .card:hover {
-  border-width: thick
+  border-width: thick;
 }
 </style>
