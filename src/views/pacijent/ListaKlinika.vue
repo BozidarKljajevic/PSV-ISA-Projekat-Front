@@ -9,12 +9,12 @@
       </div>
 
       <b-container v-if="errorFlag">
-          <b-alert
-            show=""
-            variant="danger"
-            class="d-flex justify-content-center mt-2"
-          >Kod pretrage morate uneti datum pregleda kao i tip pregleda</b-alert>
-        </b-container>
+        <b-alert
+          show
+          variant="danger"
+          class="d-flex justify-content-center mt-2"
+        >Kod pretrage morate uneti datum pregleda kao i tip pregleda</b-alert>
+      </b-container>
 
       <b-container class="mt-4">
         <h4>Sortiraj po</h4>
@@ -39,20 +39,31 @@
 
       <b-container class="mt-4" v-if="pretraziBtnClickerd">
         <div class="row">
-          <div class="col">
-            <h4>Datum</h4>
+          <div class="col-4">
+            <h5>Datum*</h5>
             <b-form-group>
               <b-form-input type="date" v-model="pretraga.datumPregleda"></b-form-input>
             </b-form-group>
           </div>
-          <div class="col">
-            <h4>Tip pregleda</h4>
+          <div class="col-4">
+            <h5>Tip pregleda*</h5>
             <b-select v-model="pretraga.tipPregleda">
               <option
                 v-for="tipPregleda in tipoviPregleda"
                 :key="tipPregleda.id"
                 :value="tipPregleda.id"
               >{{tipPregleda.naziv}}</option>
+            </b-select>
+          </div>
+          <div class="col-4">
+            <h4>Ocena</h4>
+            <b-select v-model="pretraga.ocenaKlinike">
+              <option value>-</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
             </b-select>
           </div>
         </div>
@@ -133,8 +144,9 @@ export default {
       pretraga: {
         datumPregleda: "",
         tipPregleda: "",
+        ocenaKlinike: ""
       },
-      errorFlag: false,
+      errorFlag: false
     };
   },
   methods: {
@@ -146,7 +158,7 @@ export default {
         if (a[this.sortirajPo] > b[this.sortirajPo]) {
           return 1;
         }
-      }else{
+      } else {
         if (a[this.sortirajPo] < b[this.sortirajPo]) {
           return 1;
         }
@@ -157,12 +169,16 @@ export default {
       return 0;
     },
     otvoriKliniku(klinika) {
-      this.$router.push("/klinika/" + klinika.id + "/" + klinika.naziv);
+      if (this.pretraga.datumPregleda == "" && this.pretraga.tipPregleda == "") {
+        this.$router.push("/klinika/" + klinika.id + "/" + klinika.naziv);
+      }else{
+        this.$router.push("/klinika/" + klinika.id + "/" + klinika.naziv + "/" + this.pretraga.datumPregleda + "/"+ this.pretraga.tipPregleda);
+      }
     },
     prikaziPretragu() {
       if (!this.pretraziBtnClickerd) {
         axios
-          .get("/tipPregleda/sviTipovi")
+          .get("/tipPregleda/sviTipoviDistinct")
           .then(tipoviPregleda => {
             this.tipoviPregleda = tipoviPregleda.data;
             this.pretraziBtnClickerd = !this.pretraziBtnClickerd;
@@ -180,19 +196,37 @@ export default {
     pretrazi() {
       this.errorFlag = false;
 
-      if (this.pretraga.datumPregleda === "" && this.pretraga.tipPregleda === "") {
+      if (
+        this.pretraga.datumPregleda === "" ||
+        this.pretraga.tipPregleda === ""
+      ) {
         this.errorFlag = true;
+        return;
       }
 
       axios
-          .post("/klinika/pretraziKlinike/"+this.pretraga.datumPregleda+"/"+this.pretraga.tipPregleda)
-          .then(klinike => {
+        .post(
+          "/klinika/pretraziKlinike/" +
+            this.pretraga.datumPregleda +
+            "/" +
+            this.pretraga.tipPregleda
+        )
+        .then(klinike => {
+          if (this.pretraga.ocenaKlinike != "") {
+            this.klinike = [];
+            klinike.data.forEach(klinika => {
+              if (parseInt(klinika.ocena, 10) == this.pretraga.ocenaKlinike) {
+                this.klinike.push(klinika);
+              }
+            });
+          } else {
             this.klinike = klinike.data;
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      
+            return;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   computed: {

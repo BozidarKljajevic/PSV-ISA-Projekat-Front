@@ -10,6 +10,25 @@
         </div>
 
         <b-container class="mt-4">
+          <div class="row">
+            <div class="col">
+              <h5>Datum</h5>
+              <b-form-group>
+                <b-form-input type="date" v-model="pretraga.datum"></b-form-input>
+              </b-form-group>
+            </div>
+            <div class="col">
+              <h5>Tip Pregleda</h5>
+              <b-select v-model="pretraga.tipPregleda">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+              </b-select>
+            </div>
+          </div>
+        </b-container>
+
+        <b-container class="mt-4">
           <h4>Lekari</h4>
         </b-container>
 
@@ -120,7 +139,11 @@ export default {
         idPacijenta: "",
         cena: ""
       },
-      success: false
+      success: false,
+      pretraga: {
+        datum: "",
+        tipPregleda: ""
+      }
     };
   },
   methods: {
@@ -162,6 +185,15 @@ export default {
   mounted() {
     this.klinika.id = this.$route.params.id;
     this.klinika.naziv = this.$route.params.naziv;
+
+    if (
+      this.$route.params.datum == undefined &&
+      this.$route.params.tipPregleda == undefined
+    ) {
+    } else {
+      this.pretraga.datum = this.$route.params.datum;
+      this.pretraga.tipPregleda = this.$route.params.tipPregleda;
+    }
 
     axios
       .get("/klinika/postojeciLekariKlinike/" + this.klinika.id)
