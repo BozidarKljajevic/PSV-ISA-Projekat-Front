@@ -79,7 +79,6 @@ export default {
     izmeniClick() {
       this.izmeni = true;
     },
-
     odustaniClick() {
       this.error = false;
       this.izmeni = false;
@@ -92,7 +91,6 @@ export default {
           console.log(error);
         });
     },
-
     IzbrisiClick(id) {
       axios
         .post("/salaKLinike/izbrisiSaluKlinike/" + id)
@@ -106,7 +104,6 @@ export default {
           
         });
     },
-
     sacuvajPodatke(sala) {
       this.error = false;
       if (sala.naziv === "" || sala.broj === "") {
@@ -114,7 +111,6 @@ export default {
         this.errormessage = "Molimo Vas popunite sva polja";
         return;
       }
-
       axios
         .post("/salaKLinike/izmeniPodatkeSaleKlinike", sala)
         .then(SaleKlinikee => {
