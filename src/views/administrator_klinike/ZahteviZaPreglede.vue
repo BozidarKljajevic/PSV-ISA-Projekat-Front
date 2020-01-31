@@ -351,15 +351,7 @@ export default {
         .catch(error => {
           console.log(error);
         });
-      /*axios
-        .get("/lekar/moguciLekarizaPregled/" + this.idPregleda)
-        .then(response => {
-          console.log(response.data);
-          this.lekari = response.data;
-        })
-        .catch(error => {
-          console.log(error);
-        }); */
+      
     },
     izmeniClick() {
       this.izmeni = true;

@@ -122,14 +122,18 @@
       <div class="col">
         <b-container class="mt-4">
     <div class="col-6 mb-4" v-for="zahtev in zahtevi" :key="zahtev.id">
-      <b-card bg-variant="danger" text-variant="white" header="Pregled" class="text-center">
+      <b-card bg-variant="danger" text-variant="white" header="Operacija" class="text-center">
         <div class="row">
           <div class="col">
             <div class="md-form">
               <label>Tip Pregleda</label>
               <label class="form-control">{{zahtev.tipPregleda.naziv}}</label>
               <label>Datum</label>
-              <label class="form-control">{{zahtev.datum}}</label>
+              <input
+                      class="form-control text-center"
+                      :disabled="!izmeni"
+                      v-model="zahtev.datum"
+                    />
             </div>
           </div>
           <div class="col">
@@ -137,7 +141,11 @@
               <label>Klinika</label>
               <label class="form-control">{{zahtev.lekar.klinika.naziv}}</label>
               <label>Vreme</label>
-              <label class="form-control">{{zahtev.vreme}}</label>
+              <input
+                      class="form-control text-center"
+                      :disabled="!izmeni"
+                      v-model="zahtev.vreme"
+                    />
             </div>
           </div>
           <div class="col">
@@ -160,14 +168,35 @@
                       :key="sale.id"
                     >{{sale.naziv}}</option>
                   </b-form-select>
-          <button type="button"
-                    class="btn btn-success btn-block  mt-2 z-depth-2" @click="aktivirajPregled(zahtev.id)" > aktiviraj</button>
+          
         </div>
-        <button
-          type="button"
-          class="btn btn-success btn-block mt-2 z-depth-2"
-          @click="rezervisiSalu(zahtev)"
-        >Zakazi pregled</button>
+        <template v-if="!izmeni">
+                <button
+                  type="button"
+                  class="btn btn-success btn-block mt-2 z-depth-2"
+                  @click="aktivirajPregled(zahtev.id)"
+                >pretrazi salu za izabran zahtev</button>
+                <div v-if="kliknuto">
+                  <button
+                    type="button"
+                    class="btn btn-info btn-block z-depth-2"
+                    @click="izmeniClick"
+                  >Izmeni</button>
+                  <button
+                    type="button"
+                    class="btn btn-success btn-block mt-2 z-depth-2"
+                    @click="rezervisiSalu(zahtev)"
+                  >Zakazi pregled</button>
+                </div>
+              </template>
+        <template v-else>
+                <button
+                  type="button"
+                  class="btn btn-success mt-4 btn-block z-depth-2"
+                  @click="sacuvajPodatke(zahtev)"
+                >Sačuvaj i pretrazi</button>
+                <button type="button" class="btn btn-info btn-block z-depth-2">Odustani</button>
+              </template>
       </b-card>
     </div>
   </b-container>
@@ -200,10 +229,13 @@ export default {
       naz: "",
       br: "",
       vr: "",
-      idPregleda: "",
+      idOperacije: "",
       idSale: "",
       LekariKlinike: [],
       SelektovaniLekari: [],
+      kliknuto: false,
+      izmeni: false,
+      
 
       pretraziBtnClickerd: false,
       pretraziKalendarBtnClickerd: false
@@ -237,13 +269,58 @@ export default {
       } else {
         return this.SaleKlinike;
       }
+    },
+
+    zahteviComputed() {
+      // this.idPregleda = idP;
+
+      var zahtevv = [];
+      if (this.kliknuto === true) {
+        this.zahtevi.forEach(z => {
+          if (z.id === this.idPregleda) {
+            zahtevv.push(z);
+          }
+        });
+        return zahtevv;
+      } else {
+        return this.zahtevi;
+      }
     }
   },
   methods: {
     aktivirajPregled(idP) {
-      this.idPregleda = idP;
+      this.idOperacije = idP;
+
+      this.kliknuto = true;
+      this.zahtevi.forEach(z => {
+        if (z.id === this.idOperacije) {
+          var splitText = [];
+          splitText = z.datum.split("/");
+          this.dat = splitText[2] + "-" + splitText[1] + "-" + splitText[0];
+          // this.dat = z.datum;
+          this.vr = z.vreme;
+        }
+      });
+
+      axios
+        .get(
+          "/salaKLinike/SaleKlinikeOperacije/" +
+            this.$store.state.user.id +
+            "/" +
+            this.idOperacije
+        )
+        .then(SaleKlinike => {
+          this.SaleKlinike = SaleKlinike.data;
+          this.selektovanaSala = "";
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
 
+    izmeniClick() {
+      this.izmeni = true;
+    },
     prikaziPretragu() {
       this.pretraziBtnClickerd = !this.pretraziBtnClickerd;
     },
@@ -268,14 +345,42 @@ export default {
         });
     },
 
+    sacuvajPodatke(zahtev) {
+      this.idOperacije = zahtev.id;
+
+      axios
+        .post("/zahtevi/izmeniZahtev", zahtev)
+        .then(zahtevi => {
+          this.izmeni = false;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+      axios
+        .get(
+          "/salaKLinike/SaleKlinikeOperacije/" +
+            this.$store.state.user.id +
+            "/" +
+            this.idOperacije
+        )
+        .then(SaleKlinike => {
+          console.log(SaleKlinike.data);
+          this.SaleKlinike = SaleKlinike.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
     pretrazi() {
-      if (this.dat === "-" || this.vr === "-" || this.idPregleda === "-") {
+      if (this.dat === "-" || this.vr === "-" || this.idOperacije === "-") {
         this.error = true;
         this.errormessage = "Niste aktivirali pregled ili uneli datum i vreme";
         return;
       }
 
-      if (this.dat === "" || this.vr === "" || this.idPregleda === "") {
+      if (this.dat === "" || this.vr === "" || this.idOperacije === "") {
         this.error = true;
         this.errormessage = "Niste aktivirali pregled ili uneli datum i vreme";
         return;
@@ -299,7 +404,7 @@ export default {
             "/" +
             this.vr +
             "/" +
-            this.idPregleda
+            this.idOperacije
         )
         .then(SaleKlinike => {
           this.SaleKlinike = SaleKlinike.data;
@@ -313,9 +418,18 @@ export default {
     }, */
 
     rezervisiSalu(zahtev) {
+      if (this.selektovanaSala === "") {
+        this.error = true;
+        this.errormessage = "Niste izabrali mogucu salu";
+        return;
+      }
+
       axios
         .post("/zahtevi/rezervisiSalu/" + this.selektovanaSala, zahtev)
-        .then(response => {})
+        .then(response => {
+          this.kliknuto = false;
+          this.zahtevi = response.data;
+        })
         .catch(error => {
           console.log(error);
         });
@@ -341,8 +455,8 @@ export default {
     if (this.vr === "") {
       this.vr = "-";
     }
-    if (this.idPregleda === "") {
-      this.idPregleda = "-";
+    if (this.idOperacije === "") {
+      this.idOperacije = "-";
     }
 
     axios
@@ -354,7 +468,7 @@ export default {
           "/" +
           this.vr +
           "/" +
-          this.idPregleda
+          this.idOperacije
       )
       .then(SaleKlinike => {
         this.SaleKlinike = SaleKlinike.data;
