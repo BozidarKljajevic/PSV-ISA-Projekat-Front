@@ -44,11 +44,7 @@
         </b-container>
 
         <b-container v-if="error">
-          <b-alert
-            show=""
-            variant="danger"
-            class="d-flex justify-content-center mt-2"
-          >{{errorMessage}}</b-alert>
+          <b-alert show variant="danger" class="d-flex justify-content-center mt-2">{{errorMessage}}</b-alert>
         </b-container>
 
         <b-card
@@ -262,7 +258,8 @@ export default {
 
       if (this.izabraniVremePregleda == "") {
         this.error = true;
-        this.errorMessage = "Morate izabrati vreme za koje zelite da podnesete zahtv";
+        this.errorMessage =
+          "Morate izabrati vreme za koje zelite da podnesete zahtv";
         return;
       }
 
@@ -270,7 +267,8 @@ export default {
 
       if (this.pretraga.datum == "") {
         this.error = true;
-        this.errorMessage = "Morate izabrati datum za koji zelite da prikazete slobodne termine";
+        this.errorMessage =
+          "Morate izabrati datum za koji zelite da prikazete slobodne termine";
         return;
       }
 
@@ -281,9 +279,11 @@ export default {
         .post("/pregled/podnesiZahtev", this.zahtev)
         .then(response => {
           this.success = true;
-          this.izabraniVremePregleda = "";   
+          this.izabraniVremePregleda = "";
           this.izabraniLekar = "";
-          
+
+          this.pretraga.datum = "";
+          this.pretraga.tipPregleda = "";
         })
         .catch(error => {
           console.log(error);
@@ -309,24 +309,25 @@ export default {
     },
     slobodniTerminiLekara(lekar) {
       this.error = false;
-      
+
       if (this.pretraga.datum == "") {
         this.error = true;
-        this.errorMessage = "Morate izabrati datum za koji zelite da prikazete slobodne termine";
+        this.errorMessage =
+          "Morate izabrati datum za koji zelite da prikazete slobodne termine";
         return;
       }
 
-      this.izabraniVremePregleda = ""; 
+      this.izabraniVremePregleda = "";
       this.izabraniLekar = lekar.id;
 
       axios
-      .get("/lekar/slobodniTermini/" + lekar.id + "/" + this.pretraga.datum)
-      .then(slobodniTermini => {
-        this.slobodniTermini = slobodniTermini.data;
-      })
-      .catch(error => {
-        console.log(error);
-      });
+        .get("/lekar/slobodniTermini/" + lekar.id + "/" + this.pretraga.datum)
+        .then(slobodniTermini => {
+          this.slobodniTermini = slobodniTermini.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   mounted() {

@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 
 import PacijentProfil from '../views/pacijent/Profil.vue'
 import AktivacijaPacijenta from '../views/pacijent/AktivacijaPacijenta.vue'
+import PotvrdaZahteva from '../views/pacijent/PotvrdaZahteva.vue'
 import Karton from '../views/pacijent/Karton.vue'
 import ListaKlinika from '../views/pacijent/ListaKlinika.vue'
 import Klinika from '../views/pacijent/Klinika.vue'
@@ -194,6 +195,11 @@ const routes = [
     path: '/aktivacijaPacijenta/:code',
     name: 'Aktivacija pacijenta',
     component: AktivacijaPacijenta
+  },
+  {
+    path: '/potvrdaZahteva/:code',
+    name: 'Potvrdjivanje ili odbijanje zahteva za pregled',
+    component: PotvrdaZahteva
   },
   {
     path: '/listaKlinika',
