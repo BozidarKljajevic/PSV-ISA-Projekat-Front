@@ -20,9 +20,12 @@
             <div class="col">
               <h5>Tip Pregleda</h5>
               <b-select v-model="pretraga.tipPregleda">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
+                <option value>-</option>
+                <option
+                  v-for="tipPregleda in tipoviPregleda"
+                  :value="tipPregleda.id"
+                  :key="tipPregleda.id"
+                >{{tipPregleda.naziv}}</option>
               </b-select>
             </div>
           </div>
@@ -40,13 +43,21 @@
           >Uspesno ste poslali zahtev za pregled</b-alert>
         </b-container>
 
+        <b-container v-if="error">
+          <b-alert
+            show=""
+            variant="danger"
+            class="d-flex justify-content-center mt-2"
+          >{{errorMessage}}</b-alert>
+        </b-container>
+
         <b-card
           border-variant="danger"
           header-border-variant="danger"
           header-text-variant="danger"
           align="center"
           class="mt-4"
-          v-for="lekar in lekari"
+          v-for="lekar in konacniLekari"
           :header="lekar.ime + ' ' + lekar.prezime"
           :key="lekar.id"
         >
@@ -70,8 +81,25 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col" v-if="izabraniLekar === lekar.id">
+              <h6>Slobodni termini</h6>
+              <b-select v-model="izabraniVremePregleda">
+                <option v-for="termin in slobodniTermini" :key="termin">{{termin}}</option>
+              </b-select>
+            </div>
+          </div>
           <template v-slot:footer>
-            <b-button variant="success" @click="podnesiZahtev(lekar)">Podnesi Zahtev Za Pregled</b-button>
+            <b-button
+              v-if="izabraniLekar !== lekar.id"
+              variant="outline-secondary"
+              @click="slobodniTerminiLekara(lekar)"
+            >Prikazi slobodne termine</b-button>
+            <b-button
+              v-else
+              variant="success"
+              @click="podnesiZahtev(lekar)"
+            >Podnesi Zahtev Za Pregled</b-button>
           </template>
         </b-card>
 
@@ -137,27 +165,125 @@ export default {
       zahtev: {
         lekar: {},
         idPacijenta: "",
+        datum: "",
+        vreme: "",
+        trajanjePregleda: 0.5,
         cena: ""
       },
+      izabraniVremePregleda: "",
       success: false,
       pretraga: {
         datum: "",
         tipPregleda: ""
-      }
+      },
+      tipoviPregleda: [],
+      slobodniTermini: [],
+      izabraniLekar: "",
+      error: false,
+      errorMessage: ""
     };
+  },
+  watch: {
+    "pretraga.datum": function slobodniLekariDatum(newDatum) {
+      this.izabraniLekar = "";
+      this.error = false;
+      var datum = this.pretraga.datum;
+      if (this.pretraga.datum == "") {
+        datum = "NONE";
+      }
+
+      var tipPregleda = this.pretraga.tipPregleda;
+      if (this.pretraga.tipPregleda == "") {
+        tipPregleda = -1;
+      }
+
+      axios
+        .get(
+          "/klinika/slobodniLekari/" +
+            datum +
+            "/" +
+            tipPregleda +
+            "/" +
+            this.klinika.id
+        )
+        .then(lekari => {
+          this.lekari = lekari.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    "pretraga.tipPregleda": function slobodniLekariTipPregleda(newDatum) {
+      this.izabraniLekar = "";
+      var datum = this.pretraga.datum;
+      if (this.pretraga.datum == "") {
+        datum = "NONE";
+      }
+
+      var tipPregleda = this.pretraga.tipPregleda;
+      if (this.pretraga.tipPregleda == "") {
+        tipPregleda = -1;
+      }
+
+      axios
+        .get(
+          "/klinika/slobodniLekari/" +
+            datum +
+            "/" +
+            tipPregleda +
+            "/" +
+            this.klinika.id
+        )
+        .then(lekari => {
+          this.lekari = lekari.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  },
+  computed: {
+    konacniLekari() {
+      var lekari = [];
+
+      lekari = this.lekari;
+
+      return lekari;
+    }
   },
   methods: {
     podnesiZahtev(lekar) {
       this.success = false;
+      this.error = false;
 
       this.zahtev.lekar = lekar;
       this.zahtev.cena = lekar.tipPregleda.cena;
       this.zahtev.idPacijenta = this.$store.state.user.id;
 
+      if (this.izabraniVremePregleda == "") {
+        this.error = true;
+        this.errorMessage = "Morate izabrati vreme za koje zelite da podnesete zahtv";
+        return;
+      }
+
+      this.zahtev.vreme = this.izabraniVremePregleda.split("-")[0];
+
+      if (this.pretraga.datum == "") {
+        this.error = true;
+        this.errorMessage = "Morate izabrati datum za koji zelite da prikazete slobodne termine";
+        return;
+      }
+
+      var datum = this.pretraga.datum.split("-");
+      this.zahtev.datum = datum[2] + "/" + datum[1] + "/" + datum[0];
+
       axios
         .post("/pregled/podnesiZahtev", this.zahtev)
         .then(response => {
           this.success = true;
+          this.izabraniVremePregleda = "";   
+          this.izabraniLekar = "";
+          
         })
         .catch(error => {
           console.log(error);
@@ -180,29 +306,58 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    slobodniTerminiLekara(lekar) {
+      this.error = false;
+      
+      if (this.pretraga.datum == "") {
+        this.error = true;
+        this.errorMessage = "Morate izabrati datum za koji zelite da prikazete slobodne termine";
+        return;
+      }
+
+      this.izabraniVremePregleda = ""; 
+      this.izabraniLekar = lekar.id;
+
+      axios
+      .get("/lekar/slobodniTermini/" + lekar.id + "/" + this.pretraga.datum)
+      .then(slobodniTermini => {
+        this.slobodniTermini = slobodniTermini.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
     }
   },
   mounted() {
     this.klinika.id = this.$route.params.id;
     this.klinika.naziv = this.$route.params.naziv;
 
-    if (
-      this.$route.params.datum == undefined &&
-      this.$route.params.tipPregleda == undefined
-    ) {
-    } else {
-      this.pretraga.datum = this.$route.params.datum;
-      this.pretraga.tipPregleda = this.$route.params.tipPregleda;
-    }
-
     axios
-      .get("/klinika/postojeciLekariKlinike/" + this.klinika.id)
-      .then(lekari => {
-        this.lekari = lekari.data;
+      .get("/tipPregleda/tipoviPregledaKlinike/" + this.klinika.id)
+      .then(tipoviPregleda => {
+        this.tipoviPregleda = tipoviPregleda.data;
       })
       .catch(error => {
         console.log(error);
       });
+
+    if (
+      this.$route.params.datum == undefined &&
+      this.$route.params.tipPregleda == undefined
+    ) {
+      axios
+        .get("/klinika/postojeciLekariKlinike/" + this.klinika.id)
+        .then(lekari => {
+          this.lekari = lekari.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      this.pretraga.tipPregleda = this.$route.params.tipPregleda;
+      this.pretraga.datum = this.$route.params.datum;
+    }
 
     axios
       .get("pregled/predefinisaniPreglediKlinike/" + this.klinika.id)
