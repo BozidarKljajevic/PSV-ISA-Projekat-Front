@@ -179,17 +179,33 @@
                 </div>
                 <div class="col">
                   <div class="md-form pb-3">
-                    <label>Lekar</label>
+                    <label>pacijent</label>
+                   
                     <input
                       class="form-control text-center"
                       disabled="false"
-                      v-model="zahtev.lekar.ime"
+                      v-model="zahtev.idPacijenta"
                     />
                     <!-- <label class="form-control">{{zahtev.lekar.ime}}</label> -->
                     <label>Cena</label>
                     <label class="form-control">{{zahtev.cena}}</label>
+                    
                   </div>
                 </div>
+              </div>
+               <div>
+                  
+          <label for="Form-klinika">Dodaj lekar</label>
+                  <b-form-select  v-model="zahtev.lekar.id">
+                    <option
+
+                      v-for="lekar in lekari"
+                      :value="lekar.id"
+                      :key="lekar.id"
+                       :disabled="!izmeni"
+                    >{{lekar.ime}}</option>
+                  </b-form-select>
+                  
               </div>
               <div>
                 <label for="Form-klinika">Dodaj salu</label>
@@ -197,19 +213,7 @@
                   <option v-for="sale in SaleKlinike" :value="sale.id" :key="sale.id">{{sale.naziv}}</option>
                 </b-form-select>
               </div>
-              <!--  <div>
-          <label for="Form-klinika">Dodaj lekar</label>
-                  <b-form-select v-model="selektovaniLekar">
-                    <option
-
-                      v-for="lekar in lekari"
-                      :value="lekar.id"
-                      :key="lekar.id"
-                      
-                    >{{lekar.ime}}</option>
-                  </b-form-select>
-                  
-              </div>-->
+               
               <template v-if="!izmeni">
                 <button
                   type="button"
@@ -269,6 +273,7 @@ export default {
       vr: "",
       idPregleda: "",
       idSale: "",
+      
       kliknuto: false,
       izmeni: false,
 
@@ -307,7 +312,7 @@ export default {
     },
     zahteviComputed() {
       // this.idPregleda = idP;
-
+     
       var zahtevv = [];
       if (this.kliknuto === true) {
         this.zahtevi.forEach(z => {
@@ -324,8 +329,9 @@ export default {
 
   methods: {
     aktivirajPregled(idP) {
+      
       this.idPregleda = idP;
-
+      //this.selektovaniLekar = this.idPregleda.lekar;
       this.kliknuto = true;
       this.zahtevi.forEach(z => {
         if (z.id === this.idPregleda) {
@@ -352,12 +358,45 @@ export default {
           console.log(error);
         });
       
+      axios
+        .get("/lekar/moguciLekariZaPregled/" + this.$store.state.user.id +
+            "/"  + this.idPregleda)
+        .then(response => {
+          console.log(response.data);
+          this.lekari = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        }); 
     },
     izmeniClick() {
       this.izmeni = true;
     },
     sacuvajPodatke(zahtev) {
       this.idPregleda = zahtev.id;
+
+
+       if (
+        zahtev.vreme === "" || zahtev.datum === ""
+      ) {
+        this.error = true;
+        this.errormessage = "Molimo Vas popunite sva polja";
+        return;
+      }
+
+     var r = /^[0-9]{2}:[0]{2}$/;
+      if (!r.test(String(zahtev.vreme.trim()))) {
+        this.errormessage = "Radno vreme mora u formatu 00:00";
+        this.error = true;
+        return;
+      }
+
+      var r = /^[0-9]{2}[/][0-9]{2}[/][0-9]{4}$/;
+      if (!r.test(String(zahtev.datum.trim()))) {
+        this.errormessage = "Datum mora u formatu dd/mm/yyyy";
+        this.error = true;
+        return;
+      }
 
       axios
         .post("/zahtevi/izmeniZahtev", zahtev)
@@ -377,10 +416,36 @@ export default {
         )
         .then(SaleKlinike => {
           this.SaleKlinike = SaleKlinike.data;
+           this.error = false;
         })
         .catch(error => {
           console.log(error);
         });
+        var flag = false;
+         
+       axios
+        .get("/lekar/moguciLekariZaPregled/" + this.$store.state.user.id +
+            "/"  + this.idPregleda)
+        .then(response => {
+          console.log(response.data);
+          this.lekari = response.data;
+          this.lekari.forEach(lekar => {
+              if(lekar.id === zahtev.lekar.id) {
+                flag = true;
+                return;
+              }
+
+          });
+         
+          if(flag === false) {
+           
+            zahtev.lekar  = this.lekari[0];
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        }); 
+
     },
 
     prikaziPretragu() {
@@ -458,11 +523,26 @@ export default {
         return;
       }
 
+      var flag = false;
+     this.lekari.forEach(lekar => {
+              if(lekar.id === zahtev.lekar.id) {
+                flag = true;
+                return;
+              }
+
+          });
+         
+          if(flag === false) {
+           
+            zahtev.lekar  = this.lekari[0];
+          }
+
       axios
         .post("/zahtevi/rezervisiSalu/" + this.selektovanaSala, zahtev)
         .then(response => {
           this.kliknuto = false;
           this.zahtevi = response.data;
+          
         })
         .catch(error => {
           console.log(error);
@@ -528,7 +608,7 @@ if(this.dat === "") {
     } */
   },
   mounted() {
-    /*axios
+    axios
         .get("/lekar/postojeciLekariKlinike/" + this.$store.state.user.id)
         .then(response => {
           console.log(response.data);
@@ -536,7 +616,7 @@ if(this.dat === "") {
         })
         .catch(error => {
           console.log(error);
-        }); */
+        }); 
 
     axios
       .get("/zahtevi/zahteviZaPreglede")

@@ -180,7 +180,7 @@ export default {
   },
   mounted() {
     axios
-      .get("/tipPregleda/sviTipovi")
+      .get("/tipPregleda/TipoviKlinike/" + this.$store.state.user.id)
       .then(tipoviPregleda => {
         this.tipoviPregleda = tipoviPregleda.data;
       })

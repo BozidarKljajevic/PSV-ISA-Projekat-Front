@@ -150,8 +150,16 @@
           </div>
           <div class="col">
             <div class="md-form pb-3">
-              <label class="typo__label">Lekar</label>
-                <multiselect v-model="SelektovaniLekari" placeholder="Search" label="ime" track-by="ime" :options="LekariKlinike" :multiple="true"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>
+              <!--<label class="typo__label">Lekar</label>-->
+              <!--<multiselect v-model="SelektovaniLekari[0]" placeholder="Search" label="ime" track-by="ime" :options="LekariKlinike" :multiple="false"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>-->
+               <!---pre class="language-json"><code>{{ SelektovaniLekari  }}</code></pre--->
+
+              <!--<label class="typo__label">Lekar</label>-->
+              <!--<multiselect v-model="SelektovaniLekari[1]" placeholder="Search" label="ime" track-by="ime" :options="LekariKlinike" :multiple="false"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>-->
+               <!---pre class="language-json"><code>{{ SelektovaniLekari  }}</code></pre--->
+
+              <!-- <label class="typo__label">Lekar</label>-->
+              <!--<multiselect v-model="SelektovaniLekari[2]" placeholder="Search" label="ime" track-by="ime" :options="LekariKlinike" :multiple="false"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>-->
                <!---pre class="language-json"><code>{{ SelektovaniLekari  }}</code></pre--->
 
               <label>Cena</label>
@@ -159,6 +167,7 @@
             </div>
           </div>
         </div>
+          
         <div>
           <label for="Form-klinika">Dodaj salu</label>
                 <b-form-select v-model="selektovanaSala">
@@ -170,6 +179,51 @@
                   </b-form-select>
           
         </div>
+
+        <div>
+                  
+          <label for="Form-klinika">Dodaj lekar</label>
+                  <b-form-select  v-model="zahtev.lekar.id">
+                    <option
+
+                      v-for="lekar in LekariKlinike"
+                      :value="lekar.id"
+                      :key="lekar.id"
+                       :disabled="!izmeni"
+                    >{{lekar.ime}}</option>
+                  </b-form-select>
+                  
+              </div>
+
+              <div>
+                  
+          <label for="Form-klinika">Dodaj lekar</label>
+                  <b-form-select  v-model="selektovaniLekar1">
+                    <option
+
+                      v-for="lekar in LekariKlinike"
+                      :value="lekar.id"
+                      :key="lekar.id"
+                       :disabled="!izmeni"
+                    >{{lekar.ime}}</option>
+                  </b-form-select>
+                  
+              </div>
+
+              <div>
+                  
+          <label for="Form-klinika">Dodaj lekar</label>
+                  <b-form-select  v-model="selektovaniLekar2">
+                    <option
+
+                      v-for="lekar in LekariKlinike"
+                      :value="lekar.id"
+                      :key="lekar.id"
+                       :disabled="!izmeni"
+                    >{{lekar.ime}}</option>
+                  </b-form-select>
+                  
+              </div>
         <template v-if="!izmeni">
                 <button
                   type="button"
@@ -232,6 +286,8 @@ export default {
       idOperacije: "",
       idSale: "",
       LekariKlinike: [],
+      selektovaniLekar1: "",
+      selektovaniLekar2: "",
       SelektovaniLekari: [],
       kliknuto: false,
       izmeni: false,
@@ -316,6 +372,17 @@ export default {
         .catch(error => {
           console.log(error);
         });
+
+        axios
+        .get("/lekar/moguciLekariZaPregled/" + this.$store.state.user.id +
+            "/"  + this.idOperacije)
+        .then(response => {
+          console.log(response.data);
+          this.LekariKlinike = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        }); 
     },
 
     izmeniClick() {
@@ -347,6 +414,28 @@ export default {
 
     sacuvajPodatke(zahtev) {
       this.idOperacije = zahtev.id;
+
+      if (
+        zahtev.vreme === "" || zahtev.datum === ""
+      ) {
+        this.error = true;
+        this.errormessage = "Molimo Vas popunite sva polja";
+        return;
+      }
+
+     var r = /^[0-9]{2}:[0]{2}$/;
+      if (!r.test(String(zahtev.vreme.trim()))) {
+        this.errormessage = "Radno vreme mora u formatu 00:00";
+        this.error = true;
+        return;
+      }
+
+      var r = /^[0-9]{2}[/][0-9]{2}[/][0-9]{4}$/;
+      if (!r.test(String(zahtev.datum.trim()))) {
+        this.errormessage = "Datum mora u formatu dd/mm/yyyy";
+        this.error = true;
+        return;
+      }
 
       axios
         .post("/zahtevi/izmeniZahtev", zahtev)
@@ -423,9 +512,14 @@ export default {
         this.errormessage = "Niste izabrali mogucu salu";
         return;
       }
-
+      if (this.selektovaniLekar1 == ""){
+        this.selektovaniLekar1=-1;
+      }
+       if (this.selektovaniLekar2 == ""){
+        this.selektovaniLekar2=-1;
+      }
       axios
-        .post("/zahtevi/rezervisiSalu/" + this.selektovanaSala, zahtev)
+        .post("/zahtevi/rezervisi/" + this.selektovanaSala+ "/" + this.selektovaniLekar1 +"/"+ this.selektovaniLekar2, zahtev)
         .then(response => {
           this.kliknuto = false;
           this.zahtevi = response.data;
