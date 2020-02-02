@@ -26,6 +26,7 @@
         <router-link to="/DodajPredPregled" tag="b-dropdown-item">Dodaj Predefinisane termine</router-link>
         <router-link to="/ZahteviZaPreglede" tag="b-dropdown-item">Zahtevi za preglede</router-link>
         <router-link to="/ZahteviZaOperaciju" tag="b-dropdown-item">Zahtevi za operaciju</router-link>
+        <router-link to="/ZahteviGodisnjiLekar" tag="b-dropdown-item">Zahtevi za godinji od strane lekara</router-link>
         <b-dropdown-item @click="odjavaFun">Odjava</b-dropdown-item>
       </b-nav-item-dropdown>
       <b-nav-item-dropdown
@@ -72,6 +73,8 @@
         <router-link to="/listaPacijenata" tag="b-dropdown-item">Lista Pacijenata</router-link>
         <div class="dropdown-divider"></div>
         <router-link to="/kalendar" tag="b-dropdown-item">Kalendar</router-link>
+        <div class="dropdown-divider"></div>
+        <router-link to="/godisnjiOdmor" tag="b-dropdown-item">Zahtev za odsustvo</router-link>
         <div class="dropdown-divider"></div>
          <b-dropdown-item @click="odjavaFun">Odjava</b-dropdown-item>
       </b-nav-item-dropdown>
