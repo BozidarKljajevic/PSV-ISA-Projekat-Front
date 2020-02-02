@@ -69,7 +69,7 @@ const routes = [
     component: Klinika
   },
   {
-    path: '/klinika/:id/:naziv/:datum/:tipPregleda',
+    path: '/klinika/:id/:naziv/:datum/:tipPregleda/:nazivTipPregleda',
     name: 'Klinika Doijena Pretragom',
     component: Klinika
   },
