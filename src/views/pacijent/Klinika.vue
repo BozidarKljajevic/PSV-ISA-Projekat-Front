@@ -32,6 +32,30 @@
         </b-container>
 
         <b-container class="mt-4">
+          <div class="row">
+            <div class="col">
+              <h6>Ime</h6>
+              <input type="text" class="form-control" v-model="pretraga.imeLekara" />
+            </div>
+            <div class="col">
+              <h6>Prezime</h6>
+              <input type="text" class="form-control" v-model="pretraga.prezimeLekara" />
+            </div>
+            <div class="col">
+              <h6>Ocena</h6>
+              <b-select v-model="pretraga.ocenaLekara">
+                <option value>-</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </b-select>
+            </div>
+          </div>
+        </b-container>
+
+        <b-container class="mt-4">
           <h4>Lekari</h4>
         </b-container>
 
@@ -170,7 +194,10 @@ export default {
       success: false,
       pretraga: {
         datum: "",
-        tipPregleda: ""
+        tipPregleda: "",
+        imeLekara: "",
+        prezimeLekara: "",
+        ocenaLekara: ""
       },
       tipoviPregleda: [],
       slobodniTermini: [],
@@ -242,7 +269,22 @@ export default {
     konacniLekari() {
       var lekari = [];
 
-      lekari = this.lekari;
+      this.lekari.forEach(lekar => {
+        if (
+          lekar.ime
+            .toLowerCase()
+            .includes(this.pretraga.imeLekara.toLowerCase()) &&
+          lekar.prezime
+            .toLowerCase()
+            .includes(this.pretraga.prezimeLekara.toLowerCase()) &&
+          (parseInt(lekar.ocena, 10) == this.pretraga.ocenaLekara ||
+            this.pretraga.ocenaLekara === "")
+        ) {
+          lekari.push(lekar);
+        }
+      });
+
+      //lekari = this.lekari;
 
       return lekari;
     }
@@ -338,6 +380,11 @@ export default {
       .get("/tipPregleda/tipoviPregledaKlinike/" + this.klinika.id)
       .then(tipoviPregleda => {
         this.tipoviPregleda = tipoviPregleda.data;
+        this.tipoviPregleda.forEach(tipPregleda => {
+          if (tipPregleda.id === this.$route.params.tipPregleda || tipPregleda.naziv ===  this.$route.params.nazivTipPregleda) {
+            this.pretraga.tipPregleda = tipPregleda.id;
+          }
+        });
       })
       .catch(error => {
         console.log(error);
