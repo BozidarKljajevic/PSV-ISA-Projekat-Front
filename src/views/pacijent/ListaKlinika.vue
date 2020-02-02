@@ -169,10 +169,31 @@ export default {
       return 0;
     },
     otvoriKliniku(klinika) {
-      if (this.pretraga.datumPregleda == "" && this.pretraga.tipPregleda == "") {
+      if (
+        this.pretraga.datumPregleda == "" &&
+        this.pretraga.tipPregleda == ""
+      ) {
         this.$router.push("/klinika/" + klinika.id + "/" + klinika.naziv);
-      }else{
-        this.$router.push("/klinika/" + klinika.id + "/" + klinika.naziv + "/" + this.pretraga.datumPregleda + "/"+ this.pretraga.tipPregleda);
+      } else {
+        axios
+          .get("/tipPregleda/tipPregleda/" + this.pretraga.tipPregleda)
+          .then(result => {
+            this.$router.push(
+              "/klinika/" +
+                klinika.id +
+                "/" +
+                klinika.naziv +
+                "/" +
+                this.pretraga.datumPregleda +
+                "/" +
+                this.pretraga.tipPregleda +
+                "/" +
+                result.data.naziv
+            );
+          })
+          .catch(error => {
+            console.log(error);
+          });
       }
     },
     prikaziPretragu() {
