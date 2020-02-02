@@ -80,6 +80,7 @@ export default {
           this.$store.state.user = VueJwtDecode.decode(
             localStorage.getItem("jwt")
           );
+          
           this.$router.push("/");
         })
         .catch(error => {
