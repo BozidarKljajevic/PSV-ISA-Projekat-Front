@@ -334,7 +334,7 @@ export default {
       //this.selektovaniLekar = this.idPregleda.lekar;
       this.kliknuto = true;
       this.zahtevi.forEach(z => {
-        if (z.id === this.idPregleda) {
+        if (z.id === this.idOperacije) {
           var splitText = [];
           splitText = z.datum.split("/");
           this.dat = splitText[2] + "-" + splitText[1] + "-" + splitText[0];
