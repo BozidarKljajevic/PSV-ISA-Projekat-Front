@@ -87,8 +87,8 @@ export default {
       axios
         .post("/godisnji/izbrisiOdbijenZahtevZaGodisnjiLekar/" + this.aktivan +
           "/" + this.$store.state.user.id, this.odgovor)
-        .then(pacijenti => {
-          this.pacijenti = pacijenti.data;
+        .then(zahtevi => {
+          this.zahtevi = zahtevi.data;
           this.$refs["my-modal"].hide();
         })
         .catch(error => {
