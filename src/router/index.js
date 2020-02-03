@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 
 import PacijentProfil from '../views/pacijent/Profil.vue'
+import PacijentProfilLekar from '../views/medicinsko_osoblje/ProfilPacijentaLekar.vue'
+import GodisnjiOdmor from '../views/medicinsko_osoblje/GodisnjiOdmor.vue'
 import AktivacijaPacijenta from '../views/pacijent/AktivacijaPacijenta.vue'
 import PotvrdaZahteva from '../views/pacijent/PotvrdaZahteva.vue'
 import Karton from '../views/pacijent/Karton.vue'
@@ -20,6 +22,7 @@ import ZahteviZaPreglede from '../views/administrator_klinike/ZahteviZaPreglede.
 import DodajSalu from '../views/administrator_klinike/DodajSalu.vue'
 import DodajTipPregleda from '../views/administrator_klinike/DodajTipPregleda.vue'
 import DodajPredPregled from '../views/administrator_klinike/DodajPredPregled.vue'
+import ZahteviGodisnjiLekar from '../views/administrator_klinike/ZahteviGodisnjiLekar.vue'
 import MedicinskoOsobljeProfil from '../views/medicinsko_osoblje/Profil.vue'
 import ListaPacijenata from '../views/medicinsko_osoblje/ListaPacijenata.vue'
 import SestraProfil from '../views/medicinsko_osoblje/ProfilSestre.vue'
@@ -52,6 +55,21 @@ const routes = [
     path: '/pacijentProfil',
     name: 'Profil Pacijenta',
     component: PacijentProfil
+  },
+  {
+    path: '/zahteviGodisnjiLekar',
+    name: 'Godisnji Lekar zahtev',
+    component: ZahteviGodisnjiLekar
+  },
+  {
+    path: '/ProfilPacijentaLekar/:id',
+    name: 'Profil Pacijenta',
+    component: PacijentProfilLekar
+  },
+  {
+    path: '/godisnjiOdmor',
+    name: 'Godisnji odmor',
+    component: GodisnjiOdmor
   },
   {
     path: '/karton',
