@@ -131,7 +131,7 @@ export default {
         });
     },
     zakazaniPregledi(){
-      this.$router.push("/karton");
+      this.$router.push("/istorijaPregledaOperacija");
     }
   },
   mounted() {

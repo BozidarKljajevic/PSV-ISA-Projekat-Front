@@ -72,8 +72,63 @@
           header-text-variant="secondary"
           align="center"
           header="Zakazane Operacije"
-          header-html="<h3>Zakazane Operacije</h3>"
-        ></b-card>
+          header-html="<h3>Operacije</h3>"
+        >
+          <b-card align="center">
+            <h6>Sortiraj po</h6>
+            <b-select v-model="sortirajOperacije">
+              <option value="datum">Datumu</option>
+              <option value="tipPregleda">Tipu Operacije</option>
+            </b-select>
+            <b-form-group class="mt-3 mb-0">
+              <b-form-radio-group v-model="vrstaOperacije">
+                <b-form-radio name="some-radios" value="zavrseno">Zavrsene</b-form-radio>
+                <b-form-radio name="some-radios" value="zakazano">Zakazane</b-form-radio>
+              </b-form-radio-group>
+            </b-form-group>
+          </b-card>
+
+          <b-card
+            border-variant="danger"
+            header-border-variant="danger"
+            header-text-variant="danger"
+            footer-border-variant="danger"
+            :footer-text-variant="(operacija.zavrsen)? 'success':'warning'"
+            align="center"
+            class="mt-4"
+            v-for="operacija in operacijeKonacni"
+            :key="operacija.id"
+            :header="operacija.lekari[0].klinika.naziv"
+          >
+            <div class="row">
+              <div class="col">
+                <div class="md-form">
+                  <label>Operacija</label>
+                  <label class="form-control">{{operacija.tipOperacije.naziv}}</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="md-form pb-3">
+                  <label>Sala</label>
+                  <label class="form-control">{{operacija.sala.naziv}}</label>
+                </div>
+              </div>
+            </div>
+            <label>Doktori</label>
+            <div class="row" v-for="lekar in operacija.lekari" :key="lekar.id">
+              <div class="col">
+                <div class="md-form pb-3">
+                  <label class="form-control">{{lekar.ime}}</label>
+                </div>
+              </div>
+            </div>
+            <label class="form-control">{{operacija.datum}} - {{operacija.vreme}}</label>
+            <template v-slot:footer>
+              <span v-if="operacija.zavrsen">Zavrsen</span>
+              <span v-else>Zakazan</span>
+            </template>
+          </b-card>
+        </b-card>
       </div>
     </div>
     <div class="row mt-4 mb-3">
@@ -152,8 +207,10 @@ export default {
       operacije: [],
       zahtevi: [],
       sortirajPregledi: "datum",
+      sortirajOperacije: "datum",
       sortirajZahtevi: "datum",
       vrstaPregleda: "zavrseno",
+      vrstaOperacije: "zavrseno",
       vrstaZahteva: "pregled"
     };
   },
@@ -167,6 +224,34 @@ export default {
           return 1;
         }
       } else if (this.sortirajPregledi === "datum") {
+        var datumA = a.datum.split("/");
+        var datumB = b.datum.split("/");
+
+        datumA = datumA[1] + "/" + datumA[0] + "/" + datumA[2];
+        datumB = datumB[1] + "/" + datumB[0] + "/" + datumB[2];
+
+        datumA = new Date(datumA);
+        datumB = new Date(datumB);
+
+        if (datumA < datumB) {
+          return -1;
+        }
+        if (datumA > datumB) {
+          return 1;
+        }
+      }
+
+      return 0;
+    },
+    compareOperacije(a, b) {
+      if (this.sortirajOperacije === "tipPregleda") {
+        if (a.tipOperacije.naziv < b.tipOperacije.naziv) {
+          return -1;
+        }
+        if (a.tipOperacije.naziv > b.tipOperacije.naziv) {
+          return 1;
+        }
+      } else if (this.sortirajOperacije === "datum") {
         var datumA = a.datum.split("/");
         var datumB = b.datum.split("/");
 
@@ -234,7 +319,25 @@ export default {
 
       return preglediTemp;
     },
-    zahteviKonacni(){
+    operacijeKonacni() {
+      var operacijeTemp = [];
+      var tipPregledaTemp;
+
+      if (this.vrstaOperacije === "zavrseno") {
+        tipPregledaTemp = true;
+      } else {
+        tipPregledaTemp = false;
+      }
+
+      this.operacije.sort(this.compareOperacije).forEach(operacija => {
+        if (operacija.zavrsen === tipPregledaTemp) {
+          operacijeTemp.push(operacija);
+        }
+      });
+
+      return operacijeTemp;
+    },
+    zahteviKonacni() {
       var zahteviTemp = [];
       var tipPregledaTemp;
 
@@ -267,6 +370,18 @@ export default {
       .get("zahtevi/zahteviPacijenta/" + this.$store.state.user.id)
       .then(response => {
         this.zahtevi = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    axios
+      .get("operacija/operacijePacijenta/" + this.$store.state.user.id)
+      .then(response => {
+        this.operacije = response.data;
+        console.log("Operacije");
+        console.log(this.operacije);
+        console.log(this.operacije[0].lekari[0]);
       })
       .catch(error => {
         console.log(error);
