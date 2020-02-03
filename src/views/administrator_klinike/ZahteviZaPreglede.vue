@@ -386,7 +386,8 @@ export default {
       }
 
      var r = /^[0-9]{2}:[0]{2}$/;
-      if (!r.test(String(zahtev.vreme.trim()))) {
+     var d = /^[0-9]{2}:30$/;
+      if (!r.test(String(zahtev.vreme.trim())) && !d.test(String(zahtev.vreme.trim()))) {
         this.errormessage = "Radno vreme mora u formatu 00:00";
         this.error = true;
         return;
