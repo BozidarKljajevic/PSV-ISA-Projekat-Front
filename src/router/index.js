@@ -6,6 +6,7 @@ import PacijentProfil from '../views/pacijent/Profil.vue'
 import AktivacijaPacijenta from '../views/pacijent/AktivacijaPacijenta.vue'
 import PotvrdaZahteva from '../views/pacijent/PotvrdaZahteva.vue'
 import Karton from '../views/pacijent/Karton.vue'
+import IstorijaPregledaOperacija from '../views/pacijent/IstorijaPregledaOperacija.vue'
 import ListaKlinika from '../views/pacijent/ListaKlinika.vue'
 import Klinika from '../views/pacijent/Klinika.vue'
 import KlinikaProfil from '../views/klinika/Profil.vue'
@@ -57,6 +58,11 @@ const routes = [
     path: '/karton',
     name: 'Karton',
     component: Karton
+  },
+  {
+    path: '/istorijaPregledaOperacija',
+    name: 'Istorija pregleda i operacija pacijenta',
+    component: IstorijaPregledaOperacija
   },
   {
     path: '/kalendar',
