@@ -335,7 +335,7 @@ export default {
       //this.selektovaniLekar = this.idPregleda.lekar;
       this.kliknuto = true;
       this.zahtevi.forEach(z => {
-        if (z.id === this.idPregleda) {
+        if (z.id === this.idOperacije) {
           var splitText = [];
           splitText = z.datum.split("/");
           this.dat = splitText[2] + "-" + splitText[1] + "-" + splitText[0];
@@ -358,6 +358,7 @@ export default {
         .catch(error => {
           console.log(error);
         });
+      
       axios
         .get("/lekar/moguciLekariZaPregled/" + this.$store.state.user.id +
             "/"  + this.idPregleda)
