@@ -260,6 +260,7 @@ export default {
       izmeni: false,
       error: "",
       errormessage: "",
+      trenutni: "",
       SaleKlinike: [],
       zahtevi: [],
       events: [],
@@ -329,12 +330,12 @@ export default {
 
   methods: {
     aktivirajPregled(idP) {
-      
+      this.trenutni = idP.lekar;
       this.idPregleda = idP;
       //this.selektovaniLekar = this.idPregleda.lekar;
       this.kliknuto = true;
       this.zahtevi.forEach(z => {
-        if (z.id === this.idPregleda) {
+        if (z.id === this.idOperacije) {
           var splitText = [];
           splitText = z.datum.split("/");
           this.dat = splitText[2] + "-" + splitText[1] + "-" + splitText[0];
@@ -357,6 +358,7 @@ export default {
         .catch(error => {
           console.log(error);
         });
+      
       axios
         .get("/lekar/moguciLekariZaPregled/" + this.$store.state.user.id +
             "/"  + this.idPregleda)
@@ -437,8 +439,19 @@ export default {
           });
          
           if(flag === false) {
-           
+           // alert(this.lekari.length)
+            
+           if(this.lekari.length == 0)
+                {
+                 
+                   this.errormessage = "nemate lekara";
+                   this.error = true;
+                   return
+
+                }
+                else {
             zahtev.lekar  = this.lekari[0];
+                }
           }
         })
         .catch(error => {
@@ -521,6 +534,16 @@ export default {
         this.errormessage = "Niste izabrali mogucu salu";
         return;
       }
+
+      if(this.lekari.length == 0)
+                {
+                 
+                   this.errormessage = "nemate lekara";
+                   this.error = true;
+                   return
+
+                }
+
 
       var flag = false;
      this.lekari.forEach(lekar => {
@@ -618,7 +641,7 @@ if(this.dat === "") {
         }); 
 
     axios
-      .get("/zahtevi/zahteviZaPreglede")
+      .get("/zahtevi/zahteviZaPreglede/" + this.$store.state.user.id)
       .then(response => {
         console.log(response.data);
         this.zahtevi = response.data;
