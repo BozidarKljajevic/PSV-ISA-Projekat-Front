@@ -28,6 +28,7 @@
         <router-link to="/ZahteviZaPreglede" tag="b-dropdown-item">Zahtevi za preglede</router-link>
         <router-link to="/ZahteviZaOperaciju" tag="b-dropdown-item">Zahtevi za operaciju</router-link>
         <router-link to="/ZahteviGodisnjiLekar" tag="b-dropdown-item">Zahtevi za godinji od strane lekara</router-link>
+        <router-link to="/PoslovanjeKlinike" tag="b-dropdown-item">Poslovanje Klinike</router-link>
         <b-dropdown-item @click="odjavaFun">Odjava</b-dropdown-item>
       </b-nav-item-dropdown>
       <b-nav-item-dropdown

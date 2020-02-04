@@ -98,7 +98,7 @@ export default {
         })
         .catch(error => {
           console.log(error);
-          this.errormessage = "Oznaka ili broj vec postoji";
+          this.errormessage = "Imate zakazan pregled u tom periodu pogledajte kalendar pre nego sto zatrazite godisnji";
           this.error = true;
         });
     }

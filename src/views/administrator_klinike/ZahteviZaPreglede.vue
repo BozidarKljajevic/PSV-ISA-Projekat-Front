@@ -12,6 +12,18 @@
                 <h3 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Lista Sala</h3>
               </div>
             </div>
+            <b-container>
+         
+
+          <button
+                  type="button"
+                  class="btn btn-outline-primary mt-4 btn-block z-depth-2"
+                 @click="btnSlobodnaSala"
+                >Ukoliko nema sala otvori za prvi sledeci slobodan termin za neku sala i izabranog lekara</button>
+          
+         <h6 class="mt-4" v-if="prikaziSlobodno">Prvi sledeci slobodni termin za koji postoji sala: {{slobodna}}</h6>
+                      
+        </b-container>
             <b-container class="mt-4" v-if="pretraziKalendarBtnClickerd">
               <div class="row">
                 <button
@@ -97,48 +109,16 @@
                         id="Form-ime"
                         class="form-control"
                         v-model="sala.broj"
-                        :disabled="!izmeni"
+                        
                       />
-
+                       
                       <button
                         type="button"
                         class="btn btn-outline-secondary mt-4 btn-block z-depth-2"
                         @click="prikaziKalendar(sala.id)"
                       >Prikazi kalendar</button>
 
-                      <!--  <div class="text-center mb-4">
-                    <button
-                      type="button"
-                      class="btn btn-danger btn-block z-depth-2"
-                      @click="IzbrisiClick(sala.id)"
-                    >Izbrisi</button>
-                  </div>
-                  <div class="text-center mb-4 mt-4">
-                    <template v-if="!izmeni">
-                      <button
-                        type="button"
-                        class="btn btn-danger btn-block z-depth-2"
-                        @click="izmeniClick"
-                      >Izmeni</button>
-                    </template>
-                    <template v-else>
-                      <button
-                        type="button"
-                        class="btn btn-success btn-block z-depth-2"
-                        @click="sacuvajPodatke(sala)"
-                      >Sačuvaj</button>
-                      <button
-                        type="button"
-                        class="btn btn-danger btn-block z-depth-2"
-                        @click="odustaniClick"
-                      >Odustani</button>
-                    </template>
-                    <button
-                        type="button"
-                        class="btn btn-success btn-block z-depth-2"
-                        @click="sacuvajPodatke(sala)"
-                      >Dodaj u pregled</button>
-                      </div>-->
+                     
                     </div>
                   </div>
                 </div>
@@ -268,6 +248,8 @@ export default {
       selektovanaSala: "",
       selektovanaSalaa: "",
       selektovaniLekar: "",
+      prikaziSlobodno: false,
+      slobodna: "",
       dat: "",
       naz: "",
       br: "",
@@ -329,13 +311,18 @@ export default {
   },
 
   methods: {
+    btnSlobodnaSala() {
+      if(this.SaleKlinike == 0)
+        this.prikaziSlobodno = !this.prikaziSlobodno; 
+    },
     aktivirajPregled(idP) {
       this.trenutni = idP.lekar;
+      
       this.idPregleda = idP;
       //this.selektovaniLekar = this.idPregleda.lekar;
       this.kliknuto = true;
       this.zahtevi.forEach(z => {
-        if (z.id === this.idOperacije) {
+        if (z.id === this.idPregleda) {
           var splitText = [];
           splitText = z.datum.split("/");
           this.dat = splitText[2] + "-" + splitText[1] + "-" + splitText[0];
@@ -360,6 +347,17 @@ export default {
         });
       
       axios
+        .get("/salaKLinike/slobodniTermin/" + 
+             this.idPregleda)
+        .then(response => {
+         
+          this.slobodna = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        }); 
+
+      axios
         .get("/lekar/moguciLekariZaPregled/" + this.$store.state.user.id +
             "/"  + this.idPregleda)
         .then(response => {
@@ -369,6 +367,8 @@ export default {
         .catch(error => {
           console.log(error);
         }); 
+
+
     },
     izmeniClick() {
       this.izmeni = true;
@@ -385,17 +385,19 @@ export default {
         return;
       }
 
-     var r = /^[0-9]{2}:[0]{2}$/;
-     var d = /^[0-9]{2}:30$/;
-      if (!r.test(String(zahtev.vreme.trim())) && !d.test(String(zahtev.vreme.trim()))) {
-        this.errormessage = "Radno vreme mora u formatu 00:00";
-        this.error = true;
-        return;
-      }
+   
 
       var r = /^[0-9]{2}[/][0-9]{2}[/][0-9]{4}$/;
       if (!r.test(String(zahtev.datum.trim()))) {
         this.errormessage = "Datum mora u formatu dd/mm/yyyy";
+        this.error = true;
+        return;
+      }
+
+      var r = /^[0-9]{2}:[0]{2}$/;
+     var d = /^[0-9]{2}:30$/;
+      if (!r.test(String(zahtev.vreme.trim())) && !d.test(String(zahtev.vreme.trim()))) {
+        this.errormessage = "Radno vreme mora u formatu 00:00";
         this.error = true;
         return;
       }
@@ -561,7 +563,7 @@ export default {
           }
 
       axios
-        .post("/zahtevi/rezervisiSalu/" + this.selektovanaSala, zahtev)
+        .post("/zahtevi/rezervisiSalu/" + this.selektovanaSala + "/" +  this.$store.state.user.id , zahtev)
         .then(response => {
           this.kliknuto = false;
           this.zahtevi = response.data;
@@ -572,63 +574,7 @@ export default {
         });
     }
 
-    /*  odustaniClick() {
-
-if(this.dat === "") {
-      this.dat = "-";
-    }
-  if(this.naz === "") {
-    this.naz = "-";
-  }
-
-  if(this.br === "") {
-    this.br = "-";
-  }
-
-      this.error = false;
-      this.izmeni = false;
-      axios
-        .get("/salaKLinike/SaleKlinike/" + this.$store.state.user.id +"/"+ this.dat +"/"+ this.naz +"/"+ this.br)
-        .then(SaleKlinike => {
-          this.SaleKlinike = SaleKlinike.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
-
-    IzbrisiClick(id) {
-      axios
-        .post("/salaKLinike/izbrisiSaluKlinike/" + id)
-        .then(salaK => {
-          this.SaleKlinike = salaK.data;
-        })
-        .catch(error => {
-          console.log(error);
-          this.error = true;
-          this.errormessage = "Ne mozete salu koja ne pribada toj klinici";
-          
-        });
-    },
-
-    sacuvajPodatke(sala) {
-      this.error = false;
-      if (sala.naziv === "" || sala.broj === "") {
-        this.error = true;
-        this.errormessage = "Molimo Vas popunite sva polja";
-        return;
-      }
-
-      axios
-        .post("/salaKLinike/izmeniPodatkeSaleKlinike", sala)
-        .then(SaleKlinikee => {
-          this.user = SaleKlinikee.data;
-          this.izmeni = false;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    } */
+   
   },
   mounted() {
     axios

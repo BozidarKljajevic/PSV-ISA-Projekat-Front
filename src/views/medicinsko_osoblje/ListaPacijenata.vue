@@ -19,16 +19,7 @@
         >Kod pretrage morate uneti ime prezime ili jmbg</b-alert>
       </b-container>
 
-       <b-container class="mt-4">
-        <h4>Sortiraj po</h4>
-        <b-select v-model="sortirajPo">
-          <option value="">Vremenu Nastanka</option>
-          <option value="ime">Imenu</option>
-        </b-select>
-      </b-container>
-
-
-     <b-container class="mt-4">
+ <b-container class="mt-4">
         <div class="row">
           <div class="col">
             <button
@@ -114,39 +105,26 @@
         </div>
       </b-container>
 
-      <div class="form-group" v-for="pacijent in konacniPacijenti" :key="pacijent.id">
-        <div class="card-body mx-4 mt-4">
-          <div class="row">
-            <div class="col">
-              <div class="md-form">
-                <label for="Form-ime">Ime</label>
-                <label id="Form-ime" class="form-control">{{pacijent.ime}}</label>
-                <label for="Form-ime">Mail</label>
-                <label id="Form-ime" class="form-control">{{pacijent.mail}}</label>
 
-                
-              </div>
-            </div>
-            <div class="col">
-              <div class="md-form pb-3">
-                <label for="Form-ime">Prezime</label>
-                <label id="Form-ime" class="form-control">{{pacijent.prezime}}</label>
-                <label for="Form-ime">id</label>
-                <label id="Form-ime" class="form-control">{{pacijent.id}}</label>
-                
-              </div>
-            </div>
-          </div>
-          <div class="row">
-           <button
-                  type="button"
-                  class="btn btn-success btn-block mt-2 z-depth-2"
-                  @click="aktivirajPacijenta(pacijent.id)"
-                >Otvori profil</button>
-           
-          </div> 
-        </div>
-      </div>
+<b-container>
+         <div>
+    <b-table class="mt-2 mb-2" striped hover :items="konacniPacijenti" @row-selected="aktivirajPacijenta" select-mode="single" :fields="fields"   selectable caption-top >
+          <template v-slot:table-caption><h3>lista pacijenata </h3>
+          </template>
+          <template v-slot:cell>
+        <b-button size="sm"  class="mr-2">
+          Profil pacijenta
+        </b-button>
+      </template>
+    </b-table>
+  </div>
+</b-container>
+  
+
+
+    
+
+      
     </div>
     
   </div>
@@ -158,7 +136,21 @@ export default {
   data() {
     return {
       pacijenti: [],
-      sortirajPo: "ime",
+      fields: [
+        {key: 'id',
+            sortable: true},
+             {key: 'ime',
+            sortable: true},
+             {key: 'prezime',
+            sortable: true},
+             {key: 'grad',
+            sortable: true},
+            
+        ],
+         lekari: [
+            
+         ],
+      sortirajPo:"ime",
       drzave: [],
       gradovi: [],
       idPac: "",
@@ -178,11 +170,11 @@ export default {
   },
    methods: {
        compare(a, b) {
-      if (a[this.sortirajPo] < b[this.sortirajPo]) {
-        return -1;
-      }
-      if (a[this.sortirajPo] > b[this.sortirajPo]) {
+      if (a[this.sortirajPo] < b[sortirajPo]) {
         return 1;
+      }
+      if (a[this.sortirajPo] > b[sortirajPo]) {
+        return -1;
       }
       return 0;
     }
@@ -194,9 +186,10 @@ export default {
       } else {
         return this.pacijenti;
       }
-    },
+    }, 
 
 konacniPacijenti() {
+      console.log(this.pacijenti.sort(this.compare))
       var klinike = [];
       var pacijenti = [];
       var filtered = [];
@@ -292,8 +285,9 @@ methods: {
       this.pretraziBtnClickerd2 = !this.pretraziBtnClickerd2;
     },
     aktivirajPacijenta(idPac) {
-     
-        this.$router.push("/ProfilPacijentaLekar/" + idPac);
+      console.log("ovo su podaci")
+     console.log(idPac)
+        this.$router.push("/ProfilPacijentaLekar/" + idPac[0].id);
       
     },
     pretrazi() {

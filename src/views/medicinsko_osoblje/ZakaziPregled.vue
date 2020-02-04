@@ -29,15 +29,15 @@
 
                     <label for="Form-ime">datum</label>
                     <input
-                      type="text"
+                      type="date"
                       id="Form-ime"
                       class="form-control"
                     v-model="user.datum"
-                     
+                     @change="getVreme()"
                     />
 
                  
-                  <label for="Form-prezime">vreme</label>
+                  <!--<label for="Form-prezime">vreme</label>
                     <input
                       type="text"
                       id="Form-prezime"
@@ -45,7 +45,11 @@
                        v-model="user.vreme"
                       
                       
-                    />
+                    /> -->
+                    <label for="Form-prezime">vreme</label>
+                    <b-select v-model="user.vreme">
+                <option v-for="termin in slobodniTermini" :key="termin">{{termin}}</option>
+              </b-select>
 
                      <label for="Form-prezime">Trajanje</label>
                     <input
@@ -53,6 +57,7 @@
                       id="Form-prezime"
                       class="form-control"
                        v-model="user.trajanjePregleda"
+                        @change="getVreme()"
                       
                       
                     />
@@ -109,12 +114,35 @@ export default {
       optionsUser: [{id: 1, name: 'pregled'},
       {id: 2, name: 'operacija'}],
       error: false,
+       slobodniTermini: [],
       errormessage: "",
        success: false
     };
   },
 
     methods: {
+
+      getVreme() {
+        if(this.user.trajanjePregleda == "") {
+          this.error = true;
+          this.errormessage = "unesite i trajanje da bi mogli da dobijete moguca vremena za pregled"
+         return;
+        } else {
+           this.error = false;
+        }
+         axios
+        .get("/lekar/dostupniTermini/" + this.user.trajanjePregleda + "/" + this.user.datum + "/" + this.$store.state.user.id )
+        .then(leka => {
+          this.slobodniTermini = leka.data;
+        })
+        .catch(error => {
+          this.error = true;
+          this.errormessage = "unesite i trajanje da bi mogli da dobijete moguca vremena za pregled"
+          console.log(error);
+        });
+
+      },
+
 
     zakazi() {
 
@@ -139,7 +167,7 @@ export default {
       }
 
 
-        var r = /^[0-9]{2}:[0-9]{2}$/;
+     /*   var r = /^[0-9]{2}:[0-9]{2}$/;
       if (!r.test(String(this.user.vreme.trim()))) {
         this.errormessage = "vreme mora u formatu 00:00";
         this.error = true;
@@ -151,7 +179,7 @@ export default {
         this.errormessage = "Datum mora u formatu dd/mm/yyyy";
         this.error = true;
         return;
-      }
+      } */
  this.success = false;
     axios
         .post("/pregled/podnesiZahtevLekar/" + this.$route.params.id, this.user)
