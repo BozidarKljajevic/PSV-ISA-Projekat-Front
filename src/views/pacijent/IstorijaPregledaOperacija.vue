@@ -23,7 +23,6 @@
               </b-form-radio-group>
             </b-form-group>
           </b-card>
-
           <b-card
             border-variant="danger"
             header-border-variant="danger"
@@ -35,6 +34,8 @@
             v-for="pregled in preglediKonacni"
             :key="pregled.id"
             :header="pregled.lekar.klinika.naziv"
+            @click="oceni(pregled)"
+            :class="{oceni:pregled.zavrsen}"
           >
             <div class="row">
               <div class="col">
@@ -51,8 +52,8 @@
               </div>
               <div class="col">
                 <div class="md-form pb-3">
-                  <label>Doktor</label>
-                  <label class="form-control">{{pregled.lekar.ime}}</label>
+                  <label>Lekar</label>
+                  <label class="form-control">{{pregled.lekar.ime}} {{pregled.lekar.prezime}}</label>
                 </div>
               </div>
               <label class="form-control">{{pregled.datum}} - {{pregled.vreme}}</label>
@@ -114,11 +115,11 @@
                 </div>
               </div>
             </div>
-            <label>Doktori</label>
+            <label>Lekari</label>
             <div class="row" v-for="lekar in operacija.lekari" :key="lekar.id">
               <div class="col">
                 <div class="md-form pb-3">
-                  <label class="form-control">{{lekar.ime}}</label>
+                  <label class="form-control">{{lekar.ime}} {{lekar.prezime}}</label>
                 </div>
               </div>
             </div>
@@ -145,7 +146,7 @@
             <h6>Sortiraj po</h6>
             <b-select v-model="sortirajZahtevi">
               <option value="datum">Datumu</option>
-              <option value="tipPregleda">Tipu Pregleda</option>
+              <option value="tipPregleda">Tipu</option>
             </b-select>
             <b-form-group class="mt-3 mb-0">
               <b-form-radio-group v-model="vrstaZahteva">
@@ -181,8 +182,8 @@
               </div>
               <div class="col">
                 <div class="md-form pb-3">
-                  <label>Doktor</label>
-                  <label class="form-control">{{zahtev.lekar.ime}}</label>
+                  <label>Lekar</label>
+                  <label class="form-control">{{zahtev.lekar.ime}} {{zahtev.lekar.prezime}}</label>
                 </div>
               </div>
             </div>
@@ -194,6 +195,41 @@
         </b-card>
       </div>
     </div>
+    <b-modal id="oceni-modal" centered hide-footer title="Ocena klinike i lekara">
+      <b-card border-variant="warning" header-bg-variant="transparent" align="center">
+        <b-card-text>
+          <div class="row mt-2">
+            <div class="col">
+              <label>{{ocenaData.lekar.klinika.naziv}}</label>
+              <b-select v-model="ocenaKlinika">
+                <option value="0">Niste Ocenili</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </b-select>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col">
+              <label>{{ocenaData.lekar.ime}} {{ocenaData.lekar.prezime}}</label>
+              <b-select v-model="ocenaLekar">
+                <option value="0">Niste Ocenili</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </b-select>
+            </div>
+          </div>
+        </b-card-text>
+        <template v-slot:footer>
+          <b-button variant="success" @click="oceniKraj">Oceni</b-button>
+        </template>
+      </b-card>
+    </b-modal>
   </b-container>
 </template>
 
@@ -211,7 +247,20 @@ export default {
       sortirajZahtevi: "datum",
       vrstaPregleda: "zavrseno",
       vrstaOperacije: "zavrseno",
-      vrstaZahteva: "pregled"
+      vrstaZahteva: "pregled",
+      ocenaData: {
+        lekar: {
+          id: "",
+          ime: "",
+          prezime: "",
+          klinika: {
+            id: "",
+            naziv: ""
+          }
+        }
+      },
+      ocenaLekar: 0,
+      ocenaKlinika: 0
     };
   },
   methods: {
@@ -298,6 +347,62 @@ export default {
       }
 
       return 0;
+    },
+    oceni(data) {
+      if (data.zavrsen) {
+        axios
+          .get(
+            "ocena/ocena/" +
+              this.$store.state.user.id +
+              "/" +
+              data.lekar.id +
+              "/" +
+              data.lekar.klinika.id
+          )
+          .then(ocena => {
+            this.ocenaData = data;
+            this.ocenaLekar = ocena.data.ocenaLekar;
+            this.ocenaKlinika = ocena.data.ocenaKlinike;
+            this.$bvModal.show("oceni-modal");
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    },
+    oceniKraj() {
+      axios
+        .post(
+          "ocena/oceni/" +
+            this.$store.state.user.id +
+            "/" +
+            this.ocenaData.lekar.id +
+            "/" +
+            this.ocenaLekar +
+            "/" +
+            this.ocenaData.lekar.klinika.id +
+            "/" +
+            this.ocenaKlinika
+        )
+        .then(() => {
+          this.ocenaData = {
+            lekar: {
+              id: "",
+              ime: "",
+              prezime: "",
+              klinika: {
+                id: "",
+                naziv: ""
+              }
+            }
+          };
+          this.$bvModal.hide("oceni-modal");
+          this.ocenaLekar = 0;
+          this.ocenaKlinika = 0;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   computed: {
@@ -379,9 +484,6 @@ export default {
       .get("operacija/operacijePacijenta/" + this.$store.state.user.id)
       .then(response => {
         this.operacije = response.data;
-        console.log("Operacije");
-        console.log(this.operacije);
-        console.log(this.operacije[0].lekari[0]);
       })
       .catch(error => {
         console.log(error);
@@ -391,4 +493,7 @@ export default {
 </script>
 
 <style>
+.oceni:hover {
+  border-width: thick;
+}
 </style>
