@@ -100,7 +100,7 @@ export default {
         .catch(error => {
           console.log(error);
           this.error = true;
-          this.errormessage = "Ne mozete salu koja ne pribada toj klinici";
+          this.errormessage = "Ne mozete obrisati salu koja je rezervisan za neki pregled ili operaciju";
           
         });
     },

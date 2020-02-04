@@ -19,7 +19,7 @@
                   type="button"
                   class="btn btn-outline-primary mt-4 btn-block z-depth-2"
                  @click="btnSlobodnaSala"
-                >Otvori prvi slobodni termin</button>
+                >Ukoliko nema sala otvori za prvi sledeci slobodan termin za neku sala i izabranog lekara</button>
           
          <h6 class="mt-4" v-if="prikaziSlobodno">Prvi sledeci slobodni termin za koji postoji sala: {{slobodna}}</h6>
                       
@@ -118,39 +118,7 @@
                         @click="prikaziKalendar(sala.id)"
                       >Prikazi kalendar</button>
 
-                      <!--  <div class="text-center mb-4">
-                    <button
-                      type="button"
-                      class="btn btn-danger btn-block z-depth-2"
-                      @click="IzbrisiClick(sala.id)"
-                    >Izbrisi</button>
-                  </div>
-                  <div class="text-center mb-4 mt-4">
-                    <template v-if="!izmeni">
-                      <button
-                        type="button"
-                        class="btn btn-danger btn-block z-depth-2"
-                        @click="izmeniClick"
-                      >Izmeni</button>
-                    </template>
-                    <template v-else>
-                      <button
-                        type="button"
-                        class="btn btn-success btn-block z-depth-2"
-                        @click="sacuvajPodatke(sala)"
-                      >Sačuvaj</button>
-                      <button
-                        type="button"
-                        class="btn btn-danger btn-block z-depth-2"
-                        @click="odustaniClick"
-                      >Odustani</button>
-                    </template>
-                    <button
-                        type="button"
-                        class="btn btn-success btn-block z-depth-2"
-                        @click="sacuvajPodatke(sala)"
-                      >Dodaj u pregled</button>
-                      </div>-->
+                     
                     </div>
                   </div>
                 </div>
@@ -344,6 +312,7 @@ export default {
 
   methods: {
     btnSlobodnaSala() {
+      if(this.SaleKlinike == 0)
         this.prikaziSlobodno = !this.prikaziSlobodno; 
     },
     aktivirajPregled(idP) {
