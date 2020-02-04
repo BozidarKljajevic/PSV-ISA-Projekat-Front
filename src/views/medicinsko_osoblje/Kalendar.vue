@@ -5,6 +5,7 @@
     :time-to="23 * 60"
     :disable-views="['years']"
     :events="events"
+    :on-event-click="pocni">
   ></vue-cal>
 </template>
 
@@ -16,6 +17,7 @@ import axios from "axios";
 export default {
   components: { VueCal },
   data: () => ({
+    selectedEvent: {},
     events: []
   }),
 
@@ -31,7 +33,15 @@ export default {
           console.log(error);
         });
     }
-  }
+  },
+  methods: {
+    pocni(event, e) {
+      this.selectedEvent = event;
+      
+      e.stopPropagation();
+      this.$router.push("ZapocniPregled/"+event.idPregleda);
+    }
+  },
 };
 </script>
 

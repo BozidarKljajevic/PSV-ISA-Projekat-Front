@@ -11,6 +11,7 @@
         <router-link to="/pacijentProfil" tag="b-dropdown-item">Profil</router-link>
         <router-link to="/listaKlinika" tag="b-dropdown-item">Klinike</router-link>
         <router-link to="/karton" tag="b-dropdown-item">Moj Karton</router-link>
+        <router-link to="/istorijaPregledaOperacija" tag="b-dropdown-item">Pregledi i Operacije</router-link>
         <b-dropdown-item @click="odjavaFun">Odjava</b-dropdown-item>
       </b-nav-item-dropdown>
       <b-nav-item-dropdown
