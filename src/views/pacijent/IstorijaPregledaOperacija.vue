@@ -23,6 +23,15 @@
               </b-form-radio-group>
             </b-form-group>
           </b-card>
+
+          <b-container v-if="error">
+            <b-alert
+              show
+              variant="danger"
+              class="d-flex justify-content-center mt-2"
+            >{{errorMessage}}</b-alert>
+          </b-container>
+
           <b-card
             border-variant="danger"
             header-border-variant="danger"
@@ -37,6 +46,19 @@
             @click="oceni(pregled)"
             :class="{oceni:pregled.zavrsen}"
           >
+            <template v-slot:header>
+              {{pregled.lekar.klinika.naziv}}
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+                @click="otkaziPregled(pregled)"
+                v-if="!pregled.zavrsen"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </template>
             <div class="row">
               <div class="col">
                 <div class="md-form">
@@ -72,7 +94,7 @@
           header-border-variant="secondary"
           header-text-variant="secondary"
           align="center"
-          header="Zakazane Operacije"
+          header="Operacije"
           header-html="<h3>Operacije</h3>"
         >
           <b-card align="center">
@@ -260,7 +282,9 @@ export default {
         }
       },
       ocenaLekar: 0,
-      ocenaKlinika: 0
+      ocenaKlinika: 0,
+      error: false,
+      errorMessage: ""
     };
   },
   methods: {
@@ -403,12 +427,35 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    otkaziPregled(pregled) {
+      this.error = false;
+      this.errorMessage = "";
+
+      axios
+        .post(
+          "pregled/otkaziPregledPacijent/" +
+            pregled.id +
+            "/" +
+            this.$store.state.user.id
+        )
+        .then(response => {
+          this.pregledi = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+          this.error = true;
+          this.errorMessage = error.response.data;
+        });
     }
   },
   computed: {
     preglediKonacni() {
       var preglediTemp = [];
       var tipPregledaTemp;
+
+      this.error = false;
+      this.errorMessage = "";
 
       if (this.vrstaPregleda === "zavrseno") {
         tipPregledaTemp = true;
