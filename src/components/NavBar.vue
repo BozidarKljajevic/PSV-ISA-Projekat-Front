@@ -89,6 +89,13 @@
         v-if="this.$store.state.user.role.authority == 'MEDICINSKASESTRA'"
       >
         <router-link to="/SestraProfil" tag="b-dropdown-item">Profil Sestre</router-link>
+        <div class="dropdown-divider"></div>
+        <router-link to="/recepti" tag="b-dropdown-item">Recepti</router-link>
+        <div class="dropdown-divider"></div>
+        <router-link to="/kalendarSestre" tag="b-dropdown-item">Kalendar</router-link>
+        <div class="dropdown-divider"></div>
+        <router-link to="/godisnjiOdmorSestre" tag="b-dropdown-item">Godisnji</router-link>
+        
          <b-dropdown-item @click="odjavaFun">Odjava</b-dropdown-item>
       </b-nav-item-dropdown>
 

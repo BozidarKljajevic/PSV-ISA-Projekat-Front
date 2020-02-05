@@ -70,11 +70,8 @@
                       <!--<pre class="language-json"><code>{{ value  }}</code></pre>-->
                     </div>
 
-                    <button
-                      type="button"
-                      class="btn btn-danger btn-block mt-2 z-depth-2"
-                    >Prosledi recept</button>
 
+                    
                     <router-link
                       :to="'/ZakaziPregled/'+this.$route.params.id"
                       tag="button"
@@ -158,7 +155,12 @@ export default {
 
       axios
         .post("/izvestajpregleda/zavrsi/" + this.$route.params.id, this.zahtev)
-        .then(response => {})
+        .then(response => {
+          this.user={};
+          this.zahtev.pacijent={};
+          this.zahtev.bolest={};
+          this.zahtev.lekovi=[];
+        })
         .catch(error => {
           console.log(error);
         });
