@@ -74,7 +74,7 @@ const routes = [
     component: GodisnjiOdmor
   },
   {
-    path: '/karton',
+    path: '/karton/:id',
     name: 'Karton',
     component: Karton
   },
