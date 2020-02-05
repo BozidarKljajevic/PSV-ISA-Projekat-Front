@@ -28,6 +28,9 @@ import MedicinskoOsobljeProfil from '../views/medicinsko_osoblje/Profil.vue'
 import ListaPacijenata from '../views/medicinsko_osoblje/ListaPacijenata.vue'
 import SestraProfil from '../views/medicinsko_osoblje/ProfilSestre.vue'
 import Klanedar from '../views/medicinsko_osoblje/Kalendar.vue'
+import Recepti from '../views/medicinsko_osoblje/Recepti.vue'
+import KalendarSestre from '../views/medicinsko_osoblje/KalendarSestre.vue'
+import GodisnjiOdmorSestre from '../views/medicinsko_osoblje/GodisnjiOdmorSestre.vue'
 
 import ZapocniPregled from '../views/medicinsko_osoblje/ZapocniPregled.vue'
 import ZakaziPregled from '../views/medicinsko_osoblje/ZakaziPregled.vue'
@@ -244,6 +247,21 @@ const routes = [
     path: '/listaPacijenata',
     name: 'Lista Pacijenta',
     component: ListaPacijenata
+  },
+  {
+    path: '/recepti',
+    name: 'Recepti',
+    component: Recepti
+  },
+  {
+    path: '/kalendarSestre',
+    name: 'Kalendar Sestre',
+    component: KalendarSestre
+  },
+  {
+    path: '/godisnjiOdmorSestre',
+    name: 'Godisnji OdmorSestre',
+    component: GodisnjiOdmorSestre
   },
   {
     path: '/zahteviZaOperacijU',
