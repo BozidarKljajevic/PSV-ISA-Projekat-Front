@@ -102,7 +102,9 @@
         <router-link to="/kalendarSestre" tag="b-dropdown-item">Kalendar</router-link>
         <div class="dropdown-divider"></div>
         <router-link to="/godisnjiOdmorSestre" tag="b-dropdown-item">Godisnji</router-link>
-        
+        <div class="dropdown-divider"></div>
+        <router-link to="/listaPacijenataKodSestre" tag="b-dropdown-item">Lista pacijenata</router-link>
+
          <b-dropdown-item @click="odjavaFun">Odjava</b-dropdown-item>
       </b-nav-item-dropdown>
 

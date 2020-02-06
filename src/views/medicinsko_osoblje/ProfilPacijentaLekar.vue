@@ -132,7 +132,7 @@
             </div>
           </div>
           <template v-slot:footer>
-            <router-link :to="'/ZapocniPregled/'+pregled.id" tag="button" class="btn btn-success btn-block z-depth-2">Zapocni Pregled</router-link>
+            <router-link :to="'/ZapocniPregled/'+pregled.id+'/'+ user.id" tag="button" class="btn btn-success btn-block z-depth-2">Zapocni Pregled</router-link>
           </template>
         </b-card>
       </div>

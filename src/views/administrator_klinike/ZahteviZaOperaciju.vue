@@ -553,7 +553,7 @@ export default {
   },
   mounted() {
     axios
-      .get("/zahtevi/zahteviZaOperacije")
+      .get("/zahtevi/zahteviZaOperacije/" + this.$store.state.user.id)
       .then(response => {
         console.log(response.data);
         this.zahtevi = response.data;

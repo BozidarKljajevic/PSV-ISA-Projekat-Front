@@ -38,6 +38,7 @@ import Klanedar from '../views/medicinsko_osoblje/Kalendar.vue'
 import Recepti from '../views/medicinsko_osoblje/Recepti.vue'
 import KalendarSestre from '../views/medicinsko_osoblje/KalendarSestre.vue'
 import GodisnjiOdmorSestre from '../views/medicinsko_osoblje/GodisnjiOdmorSestre.vue'
+import ListaPacijenataKodSestre from '../views/medicinsko_osoblje/ListaPacijenataKodSestre.vue'
 
 import ZapocniPregled from '../views/medicinsko_osoblje/ZapocniPregled.vue'
 import ZakaziPregled from '../views/medicinsko_osoblje/ZakaziPregled.vue'
@@ -324,7 +325,7 @@ const routes = [
     }
   },
   {
-    path: '/ZapocniPregled/:id',
+    path: '/ZapocniPregled/:id/:pacijent',
     name: 'Zapocni Pregled',
     component: ZapocniPregled,
     meta: {
@@ -426,6 +427,11 @@ const routes = [
     meta: {
       requiresAuth: false
     }
+  },
+  {
+    path: '/listaPacijenataKodSestre',
+    name: 'Lista Pacijenta Kod Sestre',
+    component: ListaPacijenataKodSestre
   },
   {
     path: '/recepti',
