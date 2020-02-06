@@ -31,7 +31,9 @@ import ZahteviGodisnjiSestra from '../views/administrator_klinike/ZahteviGodisnj
 import MedicinskoOsobljeProfil from '../views/medicinsko_osoblje/Profil.vue'
 import ListaPacijenata from '../views/medicinsko_osoblje/ListaPacijenata.vue'
 import ListaZahteva from '../views/medicinsko_osoblje/ListaZahteva.vue'
+import ListaOperacija from '../views/medicinsko_osoblje/ListaOperacija.vue'
 import SestraProfil from '../views/medicinsko_osoblje/ProfilSestre.vue'
+import KartonPacijenta from '../views/medicinsko_osoblje/KartonPacijenta.vue'
 import Klanedar from '../views/medicinsko_osoblje/Kalendar.vue'
 import Recepti from '../views/medicinsko_osoblje/Recepti.vue'
 import KalendarSestre from '../views/medicinsko_osoblje/KalendarSestre.vue'
@@ -54,251 +56,437 @@ import ZahteviZaOperaciju from '../views/administrator_klinike/ZahteviZaOperacij
 
 Vue.use(VueRouter)
 
+
+
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home
+    component: Home,
+    meta: {
+      requiresAuth: true
+    } 
   },
   {
     path: '/pacijentProfil',
     name: 'Profil Pacijenta',
-    component: PacijentProfil
+    component: PacijentProfil,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/zahteviGodisnjiLekar',
     name: 'Godisnji Lekar zahtev',
-    component: ZahteviGodisnjiLekar
+    component: ZahteviGodisnjiLekar,
+    meta: {
+      requiresAuth: false
+    }
+    
   },
   {
     path: '/zahteviGodisnjiSestra',
     name: 'Godisnji Sestra zahtev',
-    component: ZahteviGodisnjiSestra
+    component: ZahteviGodisnjiSestra,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/ProfilPacijentaLekar/:id',
     name: 'Profil Pacijenta',
-    component: PacijentProfilLekar
+    component: PacijentProfilLekar,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/godisnjiOdmor',
     name: 'Godisnji odmor',
-    component: GodisnjiOdmor
+    component: GodisnjiOdmor,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/karton/:id',
     name: 'Karton',
-    component: Karton
+    component: Karton,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/istorijaPregledaOperacija',
     name: 'Istorija pregleda i operacija pacijenta',
-    component: IstorijaPregledaOperacija
+    component: IstorijaPregledaOperacija,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/kalendar',
     name: 'Kalendar',
-    component: Klanedar
+    component: Klanedar,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/klinika/:id/:naziv',
     name: 'Klinika',
-    component: Klinika
+    component: Klinika,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/klinika/:id/:naziv/:datum/:tipPregleda/:nazivTipPregleda',
     name: 'Klinika Doijena Pretragom',
-    component: Klinika
+    component: Klinika,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/klinikaProfil',
     name: 'Profil Klinike',
-    component: KlinikaProfil
+    component: KlinikaProfil,
+    meta: {
+      requiresAuth: false
+    }
   },
   
   {
     path: '/administratorKlinikeProfil',
     name: 'Profil Administratora Klinike',
-    component: AdministratorKlinikeProfil
+    component: AdministratorKlinikeProfil,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/dodajAdministratoraKlinike',
     name: 'Dodaj AdministratoraKlinike',
-    component: DodajAdministratoraKlinike
+    component: DodajAdministratoraKlinike,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/DodajSalu',
     name: 'Dodaj Salu',
-    component: DodajSalu
+    component: DodajSalu,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/DodajTipPregleda',
     name: 'Dodaj Tip',
-    component: DodajTipPregleda
+    component: DodajTipPregleda,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/dodajKliniku',
     name: 'Dodaj Kliniku',
-    component: DodajKliniku
+    component: DodajKliniku,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/login',
     name: 'Prijava',
-    component: Login
+    component: Login,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/register',
     name: 'Registracija',
-    component: Register
+    component: Register,
+    meta: {
+      requiresAuth: true
+    }
   }, {
     path: '/zahtevi',
     name: 'Zahtevi',
-    component: Zahtevi
+    component: Zahtevi,
+    meta: {
+      requiresAuth: false
+    }
   }, {
     path: '/bolesti',
     name: 'Bolesti',
-    component: Bolesti
+    component: Bolesti,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/lek',
     name: 'Lek',
-    component: Lek
+    component: Lek,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/sifarnik',
     name: 'Sifarnik',
-    component: Sifarnik
+    component: Sifarnik,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/DodajLekara',
     name: 'Dodaj Lekara',
-    component: DodajLekara
+    component: DodajLekara,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/DodajPredPregled',
     name: 'Dodaj Predefinisan pregled',
-    component: DodajPredPregled
+    component: DodajPredPregled,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/PoslovanjeKlinike',
     name: 'Poslovanje Klinike',
-    component: POslovanjeKlinike
+    component: POslovanjeKlinike,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/ZahteviZaPreglede',
     name: 'Zahtevi za preglede',
-    component: ZahteviZaPreglede
+    component: ZahteviZaPreglede,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/DodajSestru',
     name: 'Dodaj Sestru',
-    component: DodajSestru
+    component: DodajSestru,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/SestraProfil',
     name: 'Dodaj Sestru',
-    component: SestraProfil
+    component: SestraProfil,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/KartonPacijenta/:id',
+    name: 'Karton Pacijenta',
+    component: KartonPacijenta,
+    meta: {
+      requiresAuth: false
+    } 
   },
   {
     path: '/SestraProfil/:id',
     name: 'Dodaj Sestru',
-    component: SestraProfil
+    component: SestraProfil,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/MedicinskoOsobljeProfil',
     name: 'Dodaj Medicinsko Osoblje',
-    component: MedicinskoOsobljeProfil
+    component: MedicinskoOsobljeProfil,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/MedicinskoOsobljeProfil/:id',
     name: 'Dodaj Medicinsko Osoblje',
-    component: MedicinskoOsobljeProfil
+    component: MedicinskoOsobljeProfil,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/ZapocniPregled/:id',
     name: 'Zapocni Pregled',
-    component: ZapocniPregled
+    component: ZapocniPregled,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/ZakaziPregled/:id',
     name: 'Zakazi Pregled',
-    component: ZakaziPregled
+    component: ZakaziPregled,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/ListaSvihLekara',
     name: 'Lista Lekara',
-    component: ListaSvihLekara
+    component: ListaSvihLekara,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/ListaZahteva',
     name: 'Lista Zahteva',
-    component: ListaZahteva
+    component: ListaZahteva,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/ListaOperacija',
+    name: 'Lista operacija',
+    component: ListaOperacija,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/ListaSestara',
     name: 'Lista Sestrara',
-    component: ListaSestara
+    component: ListaSestara,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/aktivacijaPacijenta/:code',
     name: 'Aktivacija pacijenta',
-    component: AktivacijaPacijenta
+    component: AktivacijaPacijenta,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/potvrdaZahteva/:code',
     name: 'Potvrdjivanje ili odbijanje zahteva za pregled',
-    component: PotvrdaZahteva
+    component: PotvrdaZahteva,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/listaKlinika',
     name: 'Lista Klinika pacijenta',
-    component: ListaKlinika
+    component: ListaKlinika,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/ListaSala',
     name: 'Lista Sala',
-    component: ListaSala
+    component: ListaSala,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/ListaTipovaPregleda',
     name: 'Lista Tipova Pregleda',
-    component: ListaTipovaPregleda
+    component: ListaTipovaPregleda,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/ListaSlobodnihTermina',
     name: 'Lista Slobodnih Termina',
-    component: ListaSlobodnihTermina
+    component: ListaSlobodnihTermina,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/listaPacijenata',
     name: 'Lista Pacijenta',
-    component: ListaPacijenata
+    component: ListaPacijenata,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/recepti',
     name: 'Recepti',
-    component: Recepti
+    component: Recepti,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/kalendarSestre',
     name: 'Kalendar Sestre',
-    component: KalendarSestre
+    component: KalendarSestre,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/godisnjiOdmorSestre',
     name: 'Godisnji OdmorSestre',
-    component: GodisnjiOdmorSestre
+    component: GodisnjiOdmorSestre,
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/zahteviZaOperacijU',
     name: 'Zahtevi Za OperacijU',
-    component: ZahteviZaOperaciju
+    component: ZahteviZaOperaciju,
+    meta: {
+      requiresAuth: false
+    }
   },
 
 ]
 
+
+
+
 const router = new VueRouter({
+  
   routes
 })
+
+
+router.beforeEach((to, from, next) => {
+
+  if (to.meta.requiresAuth) {
+    next();
+    return;
+  }
+  
+  if(localStorage.getItem('jwt'))
+  {
+    next();
+    return;
+  }
+   
+  next("/")
+  
+})
+
 
 export default router

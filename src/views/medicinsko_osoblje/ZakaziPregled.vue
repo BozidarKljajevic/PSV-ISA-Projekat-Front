@@ -83,11 +83,17 @@
 
                 </div>
                 </div>
-
+             
                 
 
               </div>
-
+             <!-- <div class="row">
+                <div class="col">
+                <router-link :to="'/ZapocniPregled/'+this.$route.params.id.getIdPacijenta"
+                      tag="button"
+                      class="btn btn-success mt-2 btn-block z-depth-2" >vrati se nazad da zavrsis pregled</router-link>
+                </div>
+              </div> -->
               
             
          </div>
@@ -191,6 +197,7 @@ export default {
           this.user.vreme = "";
           this.user.trajanjePregleda = "";
           this.selectedUser = "";
+           
         })
         .catch(error => {
           this.errormessage = "Nedozvoljavajuci datum ili vreme za tog lekara";

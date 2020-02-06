@@ -83,7 +83,9 @@
         <div class="dropdown-divider"></div>
         <router-link to="/godisnjiOdmor" tag="b-dropdown-item">Zahtev za odsustvo</router-link>
           <div class="dropdown-divider"></div>
-        <router-link to="/ListaZahteva" tag="b-dropdown-item">Lista zahteva</router-link>
+        <router-link to="/ListaZahteva" tag="b-dropdown-item">Lista pregleda</router-link>
+        <div class="dropdown-divider"></div>
+         <router-link to="/ListaOperacija" tag="b-dropdown-item">Lista operacija</router-link>
         <div class="dropdown-divider"></div>
          <b-dropdown-item @click="odjavaFun">Odjava</b-dropdown-item>
       </b-nav-item-dropdown>

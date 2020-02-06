@@ -21,10 +21,10 @@
                     id="Form-ime"
                     class="form-control"
                     v-model="sala.naziv"
-                    :disabled="!izmeni"
+                    :disabled="!(izmeni && selektovanaSala == sala.id)"
                   />
                   <label for="Form-ime">Broj</label>
-                  <input id="Form-ime" class="form-control" v-model="sala.broj" :disabled="!izmeni" />
+                  <input id="Form-ime" class="form-control" v-model="sala.broj" :disabled="!(izmeni && selektovanaSala == sala.id)" />
 
                   <div class="text-center mb-4">
                     <button
@@ -34,7 +34,14 @@
                     >Izbrisi</button>
                   </div>
                   <div class="text-center mb-4 mt-4">
-                    <template v-if="!izmeni">
+                     <template v-if="izmeni && selektovanaSala == sala.id">
+            <button type="button" class="btn btn-success btn-block z-depth-2" @click ="sacuvajPodatke(sala)" >Sačuvaj</button>
+            <button type="button" class="btn btn-danger btn-block z-depth-2" @click="odustaniClick" >Odustani</button>
+            </template>
+            <template v-else>
+            <button type="button" class="btn btn-danger btn-block z-depth-2" @click="izmeniClick(sala.id)" >Izmeni</button>
+            </template>
+                <!--    <template v-if="!izmeni">
                       <button
                         type="button"
                         class="btn btn-danger btn-block z-depth-2"
@@ -52,7 +59,7 @@
                         class="btn btn-danger btn-block z-depth-2"
                         @click="odustaniClick"
                       >Odustani</button>
-                    </template>
+                    </template> -->
                   </div>
                 </div>
               </div>
@@ -72,12 +79,14 @@ export default {
       izmeni: false,
       error: "",
       errormessage: "",
+       selektovanaSala: "",
       SaleKlinike: []
     };
   },
   methods: {
-    izmeniClick() {
-      this.izmeni = true;
+    izmeniClick(id) {
+      this.selektovanaSala = id;
+      this.izmeni = true
     },
     odustaniClick() {
       this.error = false;

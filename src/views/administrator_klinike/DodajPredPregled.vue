@@ -21,7 +21,7 @@
             <div class="col">
               <div class="md-form">
                 <label for="Form-ime">Datum</label>
-                <input type="text" id="Form-ime" class="form-control" v-model="user.datum" />
+                <input type="date" id="Form-ime" class="form-control" v-model="user.datum" />
                 <label for="Form-ime">trajanje</label>
                 <input type="text" id="Form-ime" class="form-control" v-model="user.trajanjePregleda" />
                 <label for="Form-klinika">Sale</label>
@@ -155,12 +155,12 @@ export default {
         return;
       }
 
-      var r = /^[0-9]{2}[/][0-9]{2}[/][0-9]{4}$/;
+    /*  var r = /^[0-9]{2}[/][0-9]{2}[/][0-9]{4}$/;
       if (!r.test(String(this.user.datum.trim()))) {
         this.errormessage = "Datum mora u formatu dd/mm/yyyy";
         this.error = true;
         return;
-      }
+      } */
       
 
      this.tipovi.forEach(tipPregleda => {
@@ -200,7 +200,7 @@ export default {
         })
         .catch(error => {
           
-          this.errormessage = "Termin ne odgovara, promenite lekara ili vreme";
+          this.errormessage = "Termin ne odgovara, morate promeniti datum,salu, vreme ili lekara";
           this.error = true;
           console.log(error);
         });

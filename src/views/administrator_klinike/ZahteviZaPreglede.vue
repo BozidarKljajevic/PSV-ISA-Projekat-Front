@@ -47,7 +47,7 @@
                     type="button"
                     class="btn btn-outline-secondary btn-block z-depth-2"
                     @click="prikaziPretragu"
-                  >{{pretraziBtnClickerd? "Ukloni":"Prikazi"}} formu za pretragu</button>
+                  >{{pretraziBtnClickerd? "Ukloni":"Prikazi"}} polja za koje je pretrazena sala</button>
                 </div>
               </div>
             </b-container>

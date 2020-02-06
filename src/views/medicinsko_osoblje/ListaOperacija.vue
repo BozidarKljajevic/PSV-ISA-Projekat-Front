@@ -9,7 +9,7 @@
       
       <div class="header pt-3 grey lighten-2">
         <div class="row d-flex justify-content-start">
-          <h3 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Lista Pregleda</h3>
+          <h3 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Lista operacija</h3>
         </div>
       </div>
       
@@ -68,21 +68,21 @@ export default {
    methods: {
     otkaziPregled(id) {
     axios
-      .post("/lekar/otkaziPregledLekar/"  + id + "/" + this.$store.state.user.id)
+      .post("/lekar/otkaziOperacijuLekar/"  + id + "/" + this.$store.state.user.id)
       .then(MedicinskoOsoblje => {
         this.MedicinskoOsoblje = MedicinskoOsoblje.data;
       })
       .catch(error => {
             
           this.error = true;
-          this.errormessage = "Pregled je za manje od 24h ne mozete ga otkazati";
+          this.errormessage = "Operacija je za manje od 24h ne mozete je otkazati";
         console.log(error);
       });
     }
    },
   mounted() {
     axios
-      .get("/lekar/zahteviLekar/" + this.$store.state.user.id)
+      .get("/lekar/operacijeLekar/" + this.$store.state.user.id)
       .then(MedicinskoOsoblje => {
         this.MedicinskoOsoblje = MedicinskoOsoblje.data;
       })
