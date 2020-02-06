@@ -13,9 +13,37 @@
         </div>
       </div>
       
-   
+   <b-container class="mt-4">
+        <div class="row">
+          <div class="col">
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-block z-depth-2"
+              @click="prikaziPretragu"
+            >{{pretraziBtnClickerd? "Ukloni":"Prikazi"}} formu za filtriranje</button>
+          </div>
+        </div>
+      </b-container>
 
-    <div class="form-group" v-for="lekar in MedicinskoOsoblje" :key="lekar.id">
+  <b-container class="mt-4" v-if="pretraziBtnClickerd">
+        <div class="row">
+          <div class="col-6">
+            <h5>Naziv</h5>
+            <b-form-group>
+              <b-form-input type="text" v-model="pretraga.ime"></b-form-input>
+            </b-form-group>
+          </div>
+          <div class="col-6">
+            <h5>Oznaka</h5>
+            <b-form-group>
+              <b-form-input type="text" v-model="pretraga.prezime"></b-form-input>
+            </b-form-group>
+          </div>
+          
+        </div>
+      </b-container>
+
+    <div class="form-group" v-for="lekar in konacniLekari" :key="lekar.id">
         <div class="card-body mx-4 mt-4">
           <div class="row">
             <div class="col">
@@ -23,7 +51,7 @@
                 <label for="Form-ime">Ime</label>
                 <label id="Form-ime" class="form-control">{{lekar.ime}}</label>
                 <label for="Form-ime">Mail</label>
-                <label id="Form-ime" class="form-control">{{lekar.mail}}</label>
+                <label id="Form-ime" class="form-control">{{lekar.prezime}}</label>
 
                 <div class="text-center mb-4">
                   <button
@@ -55,11 +83,43 @@ export default {
     return {
       MedicinskoOsoblje: [],
        error: false,
-      errormessage: ""
+      errormessage: "",
+      pretraziBtnClickerd: false,
+ pretraga: {
+        ime: "",
+        prezime: ""
+       
+      },
       
     };
   },
+   computed: {
+    konacniLekari() {
+      var konacni = []
+     if (this.pretraga.ime === "" && this.pretraga.prezime === "") {
+         konacni= this.MedicinskoOsoblje;
+        return konacni;
+      } else {
+        this.MedicinskoOsoblje.forEach(element => {
+            if(element.ime.includes(this.pretraga.ime) && this.pretraga.prezime === "" ) {
+                konacni.push(element);
+            }
+            else  if(element.prezime.includes(this.pretraga.prezime) && this.pretraga.ime === "" ) {
+                konacni.push(element);
+            }
+             else  if(element.prezime.includes(this.pretraga.prezime) &&  element.ime.includes(this.pretraga.ime) ) {
+                konacni.push(element);
+            }
+        });
+        return konacni;
+      }
+
+    }
+ },
    methods: {
+     prikaziPretragu() {
+      this.pretraziBtnClickerd = !this.pretraziBtnClickerd;
+    },
     IzbrisiClick(id) {
       axios
       .post("/lekar/izbrisiLekara/"+ id)

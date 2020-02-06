@@ -119,6 +119,8 @@ export default {
         })
         .catch(error => {
           console.log(error);
+           this.error = true;
+        this.errormessage = "ne mozete izmeniti salu koja se koristi negde";
         });
     }
   },

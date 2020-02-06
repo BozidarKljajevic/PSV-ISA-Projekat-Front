@@ -16,7 +16,9 @@ import AdministratorKlinikeProfil from '../views/administrator_klinike/Profil.vu
 import ListaSvihLekara from '../views/klinika/ListaLekara.vue'
 import ListaSestara from '../views/klinika/ListaSestara.vue'
 import ListaSala from '../views/klinika/ListaSala.vue'
+
 import ListaTipovaPregleda from '../views/klinika/ListaTipovaPregleda.vue'
+import ListaSlobodnihTermina from '../views/klinika/ListaSlobodnihTermina.vue'
 import DodajLekara from '../views/administrator_klinike/Dodaj_lekara.vue'
 import DodajSestru from '../views/administrator_klinike/DodajSestru.vue'
 import POslovanjeKlinike from '../views/administrator_klinike/PoslovanjeKlinike.vue'
@@ -25,8 +27,10 @@ import DodajSalu from '../views/administrator_klinike/DodajSalu.vue'
 import DodajTipPregleda from '../views/administrator_klinike/DodajTipPregleda.vue'
 import DodajPredPregled from '../views/administrator_klinike/DodajPredPregled.vue'
 import ZahteviGodisnjiLekar from '../views/administrator_klinike/ZahteviGodisnjiLekar.vue'
+import ZahteviGodisnjiSestra from '../views/administrator_klinike/ZahteviGodisnjiSestra.vue'
 import MedicinskoOsobljeProfil from '../views/medicinsko_osoblje/Profil.vue'
 import ListaPacijenata from '../views/medicinsko_osoblje/ListaPacijenata.vue'
+import ListaZahteva from '../views/medicinsko_osoblje/ListaZahteva.vue'
 import SestraProfil from '../views/medicinsko_osoblje/ProfilSestre.vue'
 import Klanedar from '../views/medicinsko_osoblje/Kalendar.vue'
 import Recepti from '../views/medicinsko_osoblje/Recepti.vue'
@@ -65,6 +69,11 @@ const routes = [
     path: '/zahteviGodisnjiLekar',
     name: 'Godisnji Lekar zahtev',
     component: ZahteviGodisnjiLekar
+  },
+  {
+    path: '/zahteviGodisnjiSestra',
+    name: 'Godisnji Sestra zahtev',
+    component: ZahteviGodisnjiSestra
   },
   {
     path: '/ProfilPacijentaLekar/:id',
@@ -106,6 +115,7 @@ const routes = [
     name: 'Profil Klinike',
     component: KlinikaProfil
   },
+  
   {
     path: '/administratorKlinikeProfil',
     name: 'Profil Administratora Klinike',
@@ -220,6 +230,11 @@ const routes = [
     component: ListaSvihLekara
   },
   {
+    path: '/ListaZahteva',
+    name: 'Lista Zahteva',
+    component: ListaZahteva
+  },
+  {
     path: '/ListaSestara',
     name: 'Lista Sestrara',
     component: ListaSestara
@@ -248,6 +263,11 @@ const routes = [
     path: '/ListaTipovaPregleda',
     name: 'Lista Tipova Pregleda',
     component: ListaTipovaPregleda
+  },
+  {
+    path: '/ListaSlobodnihTermina',
+    name: 'Lista Slobodnih Termina',
+    component: ListaSlobodnihTermina
   },
   {
     path: '/listaPacijenata',

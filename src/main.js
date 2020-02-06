@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import axios from "axios";
 import BootstrapVue from 'bootstrap-vue'
+import * as VueGoogleMaps from 'vue2-google-maps'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -15,10 +16,15 @@ axios.interceptors.request.use(config => {
   return config;
 })
 
-Vue.config.productionTip = false
+
 
 Vue.use(BootstrapVue);
-
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyB3SIZKbA5vHANPMu1wZCc-U8PhWjRiDkY",
+    libraries: "places" // necessary for places input
+  }
+});
 new Vue({
   router,
   store,

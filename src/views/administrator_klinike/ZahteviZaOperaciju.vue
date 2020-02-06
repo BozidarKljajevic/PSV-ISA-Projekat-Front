@@ -12,6 +12,20 @@
                 <h3 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Lista Sala</h3>
               </div>
             </div>
+
+  <b-container>
+         
+
+          <button
+                  type="button"
+                  class="btn btn-outline-primary mt-4 btn-block z-depth-2"
+                 @click="btnSlobodnaSala"
+                >Ukoliko nema sala otvori za prvi sledeci slobodan termin za neku sala i izabranog lekara</button>
+          
+         <h6 class="mt-4" v-if="prikaziSlobodno">Prvi sledeci slobodni termin za koji postoji sala: {{slobodna}}</h6>
+                      
+        </b-container>
+
             <b-container class="mt-4" v-if="pretraziKalendarBtnClickerd">
               <div class="row">
                 <button
@@ -269,6 +283,7 @@ export default {
       idSale: "",
       LekariKlinike: [],
       selektovaniLekar1: "",
+       prikaziSlobodno: false,
       selektovaniLekar2: "",
       SelektovaniLekari: [],
       kliknuto: false,
@@ -325,6 +340,10 @@ export default {
     }
   },
   methods: {
+     btnSlobodnaSala() {
+      if(this.SaleKlinike == 0)
+        this.prikaziSlobodno = !this.prikaziSlobodno; 
+    },
     aktivirajPregled(idP) {
       this.idOperacije = idP;
 
@@ -353,6 +372,18 @@ export default {
         .catch(error => {
           console.log(error);
         });
+
+
+       axios
+        .get("/salaKLinike/slobodniTermin/" + 
+             this.idPregleda)
+        .then(response => {
+         
+          this.slobodna = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        }); 
 
       axios
         .get(

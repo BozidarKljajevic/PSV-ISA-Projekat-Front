@@ -1,10 +1,11 @@
 <template>
-<div>
+<div class="row">
+   
   <b-container v-if="error">
       <b-alert show variant="danger" class="d-flex justify-content-center">{{message}}</b-alert>
     </b-container>
-<div> 
- 
+<div class="col-6 m-6"> 
+  
   <div class="container d-flex justify-content-center" style="margin-top: 20px">
 
     
@@ -62,6 +63,7 @@
               <label for="Form-email4">Ocena</label>
               <input type="text" id="Form-email4" class="form-control" v-model="klinika.ocena" disabled >
               
+   
 
             </div>
             </div>
@@ -90,22 +92,89 @@
 
   </div>
   </div>
+
+
+
+<div class="col m-4" >
+
+<div>
+
+
+
+
+  <div>
+    <div>
+      <h5 class="mt-4">Izaberi lokaciju od ponudjenih za adresu klinike i stisni dugme</h5>
+      
+        
+      <label  >
+       
+        <gmap-autocomplete v-model="klinika.adresa"
+          @place_changed="setPlace">
+        </gmap-autocomplete>
+        
+        
+        <button  @click="addMarker">Nadji kliniku na mapi</button>
+       
+      </label>
+    
+      <br/>
+
+    </div>
+    <br>
+    <gmap-map 
+      :center="center"
+      :zoom="12"
+      style="width:80%;  height: 400px;"
+    >
+      <gmap-marker
+        :key="index"
+        v-for="(m, index) in markers"
+        :position="m.position"
+        @click="center=m.position"
+      ></gmap-marker>
+    </gmap-map>
+  </div>
+
+
+
+    
+  
 </div>
+</div> 
+</div>
+
+
+
+
+
+
 </template>
 
 <script>
 import axios from 'axios'
+
+
 export default {
+name: "GoogleMap",
   data() {
+      
     return {
+      
       izmeni:false,
       klinika: {},
       error: false,
-      message: ""
+      message: "",
+       center: { lat: 45.508, lng: -73.587 },
+      markers: [],
+      places: [],
+      currentPlace: null
       
     }
   },
+  
   methods: {
+    
     izmeniClick() {
       this.izmeni = true
     },
@@ -146,10 +215,38 @@ export default {
       .catch(error => {
           console.log(error)
       });
+    },
+     // receives a place object via the autocomplete component
+    setPlace(place) {
+      this.currentPlace = place;
+    },
+    addMarker() {
+      if (this.currentPlace) {
+          
+        const marker = {
+          lat: this.currentPlace.geometry.location.lat(),
+          lng: this.currentPlace.geometry.location.lng()
+        };
+        this.markers.push({ position: marker });
+        this.places.push(this.currentPlace);
+        this.center = marker;
+        this.currentPlace = null;
+      }
+    },
+    geolocate: function() {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.center = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+      });
     }
   },
   
   mounted() {
+    
+ this.geolocate();
+
     axios
       .get("/klinika/postojecaKlinika/" + + this.$store.state.user.id)
       .then(klinike =>{
