@@ -123,13 +123,14 @@ export default {
     methods: {
 
       getVreme() {
+       
         if(this.user.trajanjePregleda == "") {
-          this.error = true;
-          this.errormessage = "unesite i trajanje da bi mogli da dobijete moguca vremena za pregled"
-         return;
-        } else {
-           this.error = false;
-        }
+         
+         
+          this.user.trajanjePregleda = "NONE"
+         
+         
+        } 
          axios
         .get("/lekar/dostupniTermini/" + this.user.trajanjePregleda + "/" + this.user.datum + "/" + this.$store.state.user.id )
         .then(leka => {
@@ -137,7 +138,8 @@ export default {
         })
         .catch(error => {
           this.error = true;
-          this.errormessage = "unesite i trajanje da bi mogli da dobijete moguca vremena za pregled"
+          this.user.trajanjePregleda = "";
+          this.errormessage = error.response.data;
           console.log(error);
         });
 

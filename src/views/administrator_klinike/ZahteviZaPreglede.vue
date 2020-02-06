@@ -109,7 +109,7 @@
                         id="Form-ime"
                         class="form-control"
                         v-model="sala.broj"
-                        
+                        :disabled="!izmeni"
                       />
                        
                       <button

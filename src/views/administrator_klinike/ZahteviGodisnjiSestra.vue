@@ -17,7 +17,7 @@
               <div class="md-form">
                 <label for="Form-ime">Datum od</label>
                 <label id="Form-ime" class="form-control">{{zahtev.datumOd}}</label>
-                <label id="Form-ime" class="form-control">{{zahtev.lekar.ime}}</label>
+                <label id="Form-ime" class="form-control">{{zahtev.sestra.ime}}</label>
                 
                <div class="text-center mb-4">
                   <button
@@ -33,7 +33,7 @@
               <div class="md-form pb-3">
                <label for="Form-ime">Datum do</label>
                 <label id="Form-ime" class="form-control">{{zahtev.datumDo}}</label>
-                <label id="Form-ime" class="form-control">{{zahtev.lekar.prezime}}</label>
+                 <label id="Form-ime" class="form-control">{{zahtev.sestra.prezime}}</label>
                 
                  <div class="text-center mb-4">
                   <button
@@ -76,7 +76,7 @@ export default {
   methods: {
     potvrda(id) {
       axios
-        .post("/godisnji/aktivirajGodisnjiLekar/" + id +
+        .post("/godisnji/aktivirajGodisnjiSestra/" + id +
           "/" + this.$store.state.user.id )
         .then(zahtevi => {
           this.zahtevi = zahtevi.data;
@@ -87,7 +87,7 @@ export default {
     },
     posaljiClick() {
       axios
-        .post("/godisnji/izbrisiOdbijenZahtevZaGodisnjiLekar/" + this.aktivan +
+        .post("/godisnji/izbrisiOdbijenZahtevZaGodisnjiSestra/" + this.aktivan +
           "/" + this.$store.state.user.id, this.odgovor)
         .then(zahtevi => {
           this.zahtevi = zahtevi.data;
@@ -100,7 +100,7 @@ export default {
   },
   mounted() {
     axios
-      .get("/godisnji/sviGodisnjiZahteviLekar/" + this.$store.state.user.id)
+      .get("/godisnji/sviGodisnjiZahteviSestra/" + this.$store.state.user.id)
       .then(zahtevi => {
         this.zahtevi = zahtevi.data;
       })

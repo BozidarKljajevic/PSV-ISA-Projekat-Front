@@ -140,7 +140,7 @@
                 </div>
               </div>
 
-              <div class="text-center mb-4 mt-4">
+              <div class="text-center mb-4 mt-4" v-if="this.$store.state.user.role.authority == 'MEDICINSKASESTRA'">
                 <template v-if="!izmeni">
                   <button
                     type="button"

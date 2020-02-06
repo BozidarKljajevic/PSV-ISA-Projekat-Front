@@ -32,8 +32,7 @@
                       :key="sa.id"
                     >{{sa.naziv}}</option>
                   </b-form-select>
-                  <label for="Form-grad">Cena</label>
-                <input type="text" id="Form-grad" class="form-control"  v-model="user.cena" />
+                  
               </div>
             </div>
             <div class="col">
@@ -126,19 +125,28 @@ export default {
           this.user.klinika = klinika;
         }
       }); */
-      if (this.user.datum === "" || this.user.vreme === "" || this.user.trajanjePregleda === "" || this.user.selektovanaSala === "" || this.user.selektovaniLekar === "" || this.user.cena === ""){
+      if (this.user.datum === "" || this.user.vreme === "" || this.user.trajanjePregleda === "" || this.user.selektovanaSala === "" || this.user.selektovaniLekar === "" ){
          this.error=true;
          this.errormessage="Molimo Vas popunite sva polja";
          return;
        }
     
+
+
+     var r = /^[0-9]{2}:[0]{2}$/;
+     var d = /^[0-9]{2}:30$/;
+      if (!r.test(String(this.user.vreme.trim())) && !d.test(String(this.user.vreme.trim()))) {
+        this.errormessage = "Radno vreme mora u formatu 00:00";
+        this.error = true;
+        return;
+      }
       
-      var r = /^[0-9]{2}:[0-9]{2}$/;
+    /*  var r = /^[0-9]{2}:[0-9]{2}$/;
       if (!r.test(String(this.user.vreme.trim()))) {
         this.errormessage = "vreme mora u formatu 00:00";
         this.error = true;
         return;
-      }
+      } */
 
        var r = /^[0-9]+[.][0,5]$/;
       if (!r.test(String(this.user.trajanjePregleda.trim()))) {
@@ -192,7 +200,7 @@ export default {
         })
         .catch(error => {
           
-          this.errormessage = "Vec postoji termin u tom periodu i za tu salu i lekara";
+          this.errormessage = "Termin ne odgovara, promenite lekara ili vreme";
           this.error = true;
           console.log(error);
         });
