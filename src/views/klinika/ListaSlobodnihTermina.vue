@@ -18,7 +18,7 @@
     <div class="form-group" v-for="termin in slobodniTermini" :key="termin.id">
         <div class="card-body mx-4 mt-4">
           <div class="row">
-            <div class="col">
+           
               <div class="md-form">
                 <label for="Form-ime">Naziv</label>
                 <input id="Form-ime"  class="form-control" v-model="termin.lekar" disabled>
@@ -31,7 +31,7 @@
                
              
               </div>
-            </div>
+           
            
             </div>
           </div>

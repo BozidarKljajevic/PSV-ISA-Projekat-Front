@@ -45,7 +45,7 @@
     </div>
 
 
-    <div class="row mb-4" v-if="this.$store.state.user.role.authority == 'LEKAR'">
+   <!-- <div class="row mb-4" v-if="this.$store.state.user.role.authority == 'LEKAR'">
       <div class="col-6 mb-4" v-for="pregled in pregledi" :key="pregled.id">
         <b-card bg-variant="danger" text-variant="white" header="Pregled" class="text-center">
           <div class="row">
@@ -79,7 +79,7 @@
           </template>
         </b-card>
       </div>
-    </div>
+    </div> -->
 
     
 

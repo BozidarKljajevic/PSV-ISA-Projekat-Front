@@ -285,8 +285,7 @@ methods: {
       this.pretraziBtnClickerd2 = !this.pretraziBtnClickerd2;
     },
     aktivirajPacijenta(idPac) {
-      console.log("ovo su podaci")
-     console.log(idPac)
+      
         this.$router.push("/ProfilPacijentaLekar/" + idPac[0].id);
       
     },

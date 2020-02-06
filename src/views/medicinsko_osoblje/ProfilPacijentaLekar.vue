@@ -94,7 +94,11 @@
                 </div>
               </div>
             </div>
-
+            <div v-if="postojiKarton == true" class="row">
+               
+            <router-link :to="'/KartonPacijenta/'+user.id" tag="button" class="btn btn-success btn-block z-depth-2">Karton pacijenta</router-link>
+          
+            </div>
            
           </div>
         </div>
@@ -143,6 +147,7 @@ export default {
   data() {
     return {
       izmeni: false,
+      postojiKarton: false,
       user: {},
       error: false,
       errorMessage: "",
@@ -153,6 +158,7 @@ export default {
    
   },
   mounted() {
+  
     axios
       .get("/pacijent/preuzmi/" + this.$route.params.id)
       .then(pacijent => {
@@ -167,6 +173,16 @@ export default {
         .then(response => {
           console.log(response.data);
           this.pregledi = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+        axios
+        .get("pregled/PostojiKarton/" + this.$store.state.user.id + "/" + this.$route.params.id)
+        .then(response => {
+          console.log(response.data);
+          this.postojiKarton = response.data;
         })
         .catch(error => {
           console.log(error);
