@@ -37,9 +37,9 @@ export default {
   methods: {
     pocni(event, e) {
       this.selectedEvent = event;
-      
+      console.log(event);
       e.stopPropagation();
-      this.$router.push("ZapocniPregled/"+event.idPregleda);
+      this.$router.push("ZapocniPregled/"+event.idPregleda+'/'+event.idPacijenta);
     }
   },
 };

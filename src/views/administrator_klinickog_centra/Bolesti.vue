@@ -66,6 +66,16 @@ export default {
    methods: {
     dodajBolest() {
       this.error = false;
+
+      if (
+        this.bolest.naziv === "" ||
+        this.bolest.sifra === ""
+      ) {
+        this.errormessage = "Molimo vas popunite sva polja";
+        this.error = true;
+        return;
+      }
+
       var re = /^[0-9]+$/;
       if (!re.test(String(this.bolest.sifra.trim()))) {
         this.errormessage = "Šifra treba da bude sastavljena od borjeva";
@@ -83,7 +93,8 @@ export default {
           this.error = false;
         })
         .catch(error => {
-            alert("Bolest sa tom šifrom već postoji")
+            this.errormessage = "Bolest sa tom šifrom već postoji";
+          this.error = true;
           console.log(error);
         });
     },

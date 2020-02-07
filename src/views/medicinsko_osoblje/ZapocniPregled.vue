@@ -1,6 +1,9 @@
 <template>
   <div>
     <div>
+      <b-container v-if="error">
+      <b-alert show variant="danger" class="d-flex justify-content-center">{{errormessage}}</b-alert>
+    </b-container>
       <b-row>
         <b-col>
       <div class="container d-flex justify-content-center" style="margin-top: 20px">
@@ -290,6 +293,8 @@ export default {
       izvestaji: [],
       lekovi1:[],
       overenoOdStrane: {},
+      error: false,
+      errormessage: ""
     };
   },
 
@@ -406,6 +411,14 @@ export default {
     },
 
     zavrsiPregled() {
+      this.error = false;
+      if (
+        this.zahtev.bolest.naziv === undefined
+      ) {
+        this.errormessage = "Molimo Vas unesite dijagnostiku bolesti";
+        this.error = true;
+        return;
+      }
 
       console.log(this.zahtev);
       console.log('Ulogovan je '+this.$store.state.user.id);
@@ -417,6 +430,7 @@ export default {
           this.zahtev.bolest={};
           this.zahtev.lekovi=[];
           this.izvestaji=response.data;
+          this.error = false;
         })
         .catch(error => {
           console.log(error);

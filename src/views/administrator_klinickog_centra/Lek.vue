@@ -65,6 +65,16 @@ export default {
   methods: {
     dodajLek() {
       this.error = false;
+
+       if (
+        this.lek.naziv === "" ||
+        this.lek.sifra === ""
+      ) {
+        this.errormessage = "Molimo vas popunite sva polja";
+        this.error = true;
+        return;
+      }
+
       var re = /^[0-9]+$/;
       if (!re.test(String(this.lek.sifra.trim()))) {
         this.errormessage = "Šifra treba da bude sastavljena od borjeva";
@@ -79,7 +89,8 @@ export default {
           this.error = false;
         })
         .catch(error => {
-          alert("Lek sa tom šifrom već postoji");
+          this.errormessage = "Lek sa tom šifrom već postoji";
+          this.error = true;
           console.log(error);
         });
     }
