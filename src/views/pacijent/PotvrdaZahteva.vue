@@ -154,7 +154,7 @@ export default {
       });
 
     if (!this.uslov) {
-      this.errorMessage = "Morate se ulogovati kako bi validirali zahtev";
+      this.errorMessage = "Doslo je do greske! Vidite da li ste ulogovani ili da li ste vec azurirali ovaj zahtev";
     }
   }
 };

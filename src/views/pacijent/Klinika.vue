@@ -156,6 +156,14 @@
               <div class="md-form pb-3">
                 <label>Lekar</label>
                 <label class="form-control">{{pregled.lekar.ime}} {{pregled.lekar.prezime}}</label>
+                <label>Sala</label>
+                <label class="form-control">{{pregled.sala.naziv}}</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="md-form pb-3">
                 <label>Cena</label>
                 <label class="form-control">{{pregled.cena}}</label>
               </div>
@@ -381,7 +389,10 @@ export default {
       .then(tipoviPregleda => {
         this.tipoviPregleda = tipoviPregleda.data;
         this.tipoviPregleda.forEach(tipPregleda => {
-          if (tipPregleda.id === this.$route.params.tipPregleda || tipPregleda.naziv ===  this.$route.params.nazivTipPregleda) {
+          if (
+            tipPregleda.id === this.$route.params.tipPregleda ||
+            tipPregleda.naziv === this.$route.params.nazivTipPregleda
+          ) {
             this.pretraga.tipPregleda = tipPregleda.id;
           }
         });
