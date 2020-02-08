@@ -3,8 +3,10 @@
     <b-container v-if="error">
       <b-alert show variant="danger" class="d-flex justify-content-center">{{errorMessage}}</b-alert>
     </b-container>
-    <b-container class="d-flex justify-content-center" style="margin-top: 20px">
-      <b-card style="width: 60%">
+    <b-container class="d-flex justify-content-center" style="margin-top: 20px"> 
+      <div class= "row">
+        <div class= "col" style="margin-right: 40%">
+      <b-card style="width: 250%">
         <!--Header-->
         <div class="header pt-3 lighten-2">
           <div class="row d-flex justify-content-start">
@@ -13,7 +15,7 @@
         </div>
 
         <div class="form-group">
-          <div class="card-body mx-4 mt-4">
+          <div class="card-body mt-4">
             <div class="row">
               <div class="col">
                 <div class="md-form">
@@ -99,11 +101,22 @@
             <router-link :to="'/KartonPacijenta/'+user.id" tag="button" class="btn btn-success btn-block z-depth-2">Karton pacijenta</router-link>
           
             </div>
+
+            <div v-if="this.$store.state.user.role.authority == 'MEDICINSKASESTRA'" class="row">
+               
+            <router-link :to="'/KartonPacijenta/'+user.id" tag="button" class="btn btn-success btn-block z-depth-2">Karton pacijenta</router-link>
+          
+            </div>
            
           </div>
         </div>
       </b-card>
-       <div class="col-6 mb-4" v-for="pregled in pregledi" :key="pregled.id">
+        </div>
+        
+        <div class="col">
+        <b-container style="width: 200%" class="mt-4">
+       <div class=" col-10 mb-4 "  v-for="pregled in pregledi" :key="pregled.id">
+        
         <b-card bg-variant="danger" text-variant="white" header="Pregled" class="text-center">
           <div class="row">
             <div class="col">
@@ -135,8 +148,12 @@
             <router-link :to="'/ZapocniPregled/'+pregled.id+'/'+ user.id" tag="button" class="btn btn-success btn-block z-depth-2">Zapocni Pregled</router-link>
           </template>
         </b-card>
+     
       </div>
-    </b-container>
+        </b-container>
+        </div>
+      </div>
+    </b-container> 
   </div>
 </template>
 

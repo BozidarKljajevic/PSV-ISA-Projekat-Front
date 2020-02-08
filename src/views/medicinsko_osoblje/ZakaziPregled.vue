@@ -46,12 +46,8 @@
                       
                       
                     /> -->
-                    <label for="Form-prezime">vreme</label>
-                    <b-select v-model="user.vreme">
-                <option v-for="termin in slobodniTermini" :key="termin">{{termin}}</option>
-              </b-select>
 
-                     <label for="Form-prezime">Trajanje</label>
+                    <label for="Form-prezime">Trajanje</label>
                     <input
                       type="text"
                       id="Form-prezime"
@@ -61,6 +57,13 @@
                       
                       
                     />
+
+                    <label for="Form-prezime">vreme</label>
+                    <b-select v-model="user.vreme">
+                <option v-for="termin in slobodniTermini" :key="termin">{{termin}}</option>
+              </b-select>
+
+                     
 
                     <label for="Form-prezime">Izbor</label>
                     <b-form-select v-model="selectedUser">

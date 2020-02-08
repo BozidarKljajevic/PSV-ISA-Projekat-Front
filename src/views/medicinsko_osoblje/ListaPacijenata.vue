@@ -154,6 +154,7 @@ export default {
       drzave: [],
       gradovi: [],
       idPac: "",
+      dozvola: false,
       selektovaniGrad: "",
       pretraziBtnClickerd: false,
        pretraziBtnClickerd2: false,
@@ -286,7 +287,11 @@ methods: {
     },
     aktivirajPacijenta(idPac) {
       
+    
+        
         this.$router.push("/ProfilPacijentaLekar/" + idPac[0].id);
+        
+        
       
     },
     pretrazi() {

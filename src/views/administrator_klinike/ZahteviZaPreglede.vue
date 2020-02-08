@@ -219,7 +219,7 @@
                   class="btn btn-success mt-4 btn-block z-depth-2"
                   @click="sacuvajPodatke(zahtev)"
                 >Sačuvaj i pretrazi</button>
-                <button type="button" class="btn btn-info btn-block z-depth-2">Odustani</button>
+                
               </template>
             </b-card>
           </div>
