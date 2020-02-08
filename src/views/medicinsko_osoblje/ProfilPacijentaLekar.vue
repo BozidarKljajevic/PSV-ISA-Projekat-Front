@@ -99,6 +99,12 @@
             <router-link :to="'/KartonPacijenta/'+user.id" tag="button" class="btn btn-success btn-block z-depth-2">Karton pacijenta</router-link>
           
             </div>
+
+            <div v-if="this.$store.state.user.role.authority == 'MEDICINSKASESTRA'" class="row">
+               
+            <router-link :to="'/KartonPacijenta/'+user.id" tag="button" class="btn btn-success btn-block z-depth-2">Karton pacijenta</router-link>
+          
+            </div>
            
           </div>
         </div>

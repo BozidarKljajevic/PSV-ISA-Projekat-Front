@@ -21,14 +21,14 @@
                 <label for="Form-ime">Mail</label>
                 <label id="Form-ime" class="form-control">{{lekar.mail}}</label>
 
-                <div class="text-center mb-4">
+               <!-- <div class="text-center mb-4">
                   <button
                     type="button"
                     class="btn btn-danger btn-block z-depth-2"
                     @click="IzbrisiClick(lekar.id)"
                     
                   >Izbrisi</button>
-                </div>
+                </div> -->
                 <div class="text-center mb-4">
                   <router-link :to="'/SestraProfil/'+lekar.id" tag="button" class="btn btn-success btn-block z-depth-2">Profil</router-link>
                 </div>

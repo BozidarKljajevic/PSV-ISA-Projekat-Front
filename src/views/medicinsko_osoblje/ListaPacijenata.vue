@@ -136,6 +136,7 @@ export default {
   data() {
     return {
       pacijenti: [],
+      dozvoli: false,
       fields: [
         {key: 'id',
             sortable: true},
