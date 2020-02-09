@@ -191,7 +191,7 @@
                 <label for="Form-klinika">Dodaj lekar</label>
                 <b-form-select v-model="zahtev.lekar.id">
                   <option
-                    v-for="lekar in LekariKlinike"
+                    v-for="lekar in lekari1"
                     :value="lekar.id"
                     :key="lekar.id"
                     :disabled="!izmeni"
@@ -203,7 +203,7 @@
                 <label for="Form-klinika">Dodaj lekar</label>
                 <b-form-select v-model="selektovaniLekar1">
                   <option
-                    v-for="lekar in LekariKlinike"
+                    v-for="lekar in lekari2"
                     :value="lekar.id"
                     :key="lekar.id"
                     :disabled="!izmeni"
@@ -215,7 +215,7 @@
                 <label for="Form-klinika">Dodaj lekar</label>
                 <b-form-select v-model="selektovaniLekar2">
                   <option
-                    v-for="lekar in LekariKlinike"
+                    v-for="lekar in lekari3"
                     :value="lekar.id"
                     :key="lekar.id"
                     :disabled="!izmeni"
@@ -238,7 +238,7 @@
                     type="button"
                     class="btn btn-success btn-block mt-2 z-depth-2"
                     @click="rezervisiSalu(zahtev)"
-                  >Zakazi pregled</button>
+                  >Zakazi operaciju</button>
                 </div>
               </template>
               <template v-else>
@@ -290,10 +290,37 @@ export default {
       izmeni: false,
 
       pretraziBtnClickerd: false,
-      pretraziKalendarBtnClickerd: false
+      pretraziKalendarBtnClickerd: false,
     };
   },
   computed: {
+    lekari1(){
+      var lekari = []
+      this.LekariKlinike.forEach(lekar => {
+        if (lekar.id != this.selektovaniLekar1 && lekar.id != this.selektovaniLekar2) {
+          lekari.push(lekar);
+        }
+      });
+      return lekari;
+    },
+    lekari2(){
+      var lekari = []
+      this.LekariKlinike.forEach(lekar => {
+        if (lekar.id != this.selektovaniLekar2) {
+          lekari.push(lekar);
+        }
+      });
+      return lekari;
+    },
+    lekari3(){
+      var lekari = []
+      this.LekariKlinike.forEach(lekar => {
+        if (lekar.id != this.selektovaniLekar1) {
+          lekari.push(lekar);
+        }
+      });
+      return lekari;
+    },
     pretraziPoSalamaiBroju() {
       var sale = [];
 
@@ -376,7 +403,7 @@ export default {
 
        axios
         .get("/salaKLinike/slobodniTermin/" + 
-             this.idPregleda)
+             this.idOperacije)
         .then(response => {
          
           this.slobodna = response.data;
@@ -438,7 +465,8 @@ export default {
       }
 
       var r = /^[0-9]{2}:[0]{2}$/;
-      if (!r.test(String(zahtev.vreme.trim()))) {
+     var d = /^[0-9]{2}:30$/;
+      if (!r.test(String(zahtev.vreme.trim())) && !d.test(String(zahtev.vreme.trim()))) {
         this.errormessage = "Radno vreme mora u formatu 00:00";
         this.error = true;
         return;
@@ -474,6 +502,45 @@ export default {
         .catch(error => {
           console.log(error);
         });
+
+        var flag = false;
+
+      axios
+        .get(
+          "/lekar/moguciLekariZaOperaciju/" +
+            this.$store.state.user.id +
+            "/" +
+            this.idOperacije
+        )
+        .then(response => {
+          console.log(response.data);
+          this.LekariKlinike = response.data;
+          this.LekariKlinike.forEach(lekar => {
+              if(lekar.id === zahtev.lekar.id) {
+                flag = true;
+                return;
+              }
+            });
+            if(flag === false) {
+           // alert(this.lekari.length)
+            
+           if(this.LekariKlinike.length == 0)
+                {
+                 
+                   this.errormessage = "nemate lekara";
+                   this.error = true;
+                   return
+
+                }
+                else {
+            zahtev.lekar  = this.LekariKlinike[0];
+                }
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
     },
 
     pretrazi() {
@@ -526,6 +593,29 @@ export default {
         this.errormessage = "Niste izabrali mogucu salu";
         return;
       }
+
+      if(this.LekariKlinike.length == 0)
+                {
+                 
+                   this.errormessage = "nemate lekara";
+                   this.error = true;
+                   return
+
+                }
+      var flag = false;
+     this.LekariKlinike.forEach(lekar => {
+              if(lekar.id === zahtev.lekar.id) {
+                flag = true;
+                return;
+              }
+
+          });
+         
+          if(flag === false) {
+           
+            zahtev.lekar  = this.LekariKlinike[0];
+          }
+
       if (this.selektovaniLekar1 == "") {
         this.selektovaniLekar1 = -1;
       }

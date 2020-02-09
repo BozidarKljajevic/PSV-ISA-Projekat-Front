@@ -32,7 +32,7 @@
                     class="btn btn-danger btn-block z-depth-2"
                       @click="otkaziPregled(pregled.id)"
                     
-                  >otkazi pregled</button>
+                  >otkazi operaciju</button>
                 </div>
                
               </div>

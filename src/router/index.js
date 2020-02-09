@@ -44,6 +44,7 @@ import ZapocniPregled from '../views/medicinsko_osoblje/ZapocniPregled.vue'
 import ZakaziPregled from '../views/medicinsko_osoblje/ZakaziPregled.vue'
 
 import DodajAdministratoraKlinike from '../views/administrator_klinickog_centra/DodajAdministratoraKlinike.vue'
+import DodajAdministratoraCentra from '../views/administrator_klinickog_centra/DodajAdministratoraCentra.vue'
 import DodajKliniku from '../views/administrator_klinickog_centra/DodajKliniku.vue'
 import Zahtevi from '../views/administrator_klinickog_centra/Zahtevi.vue'
 import Bolesti from '../views/administrator_klinickog_centra/Bolesti.vue'
@@ -170,6 +171,14 @@ const routes = [
     path: '/dodajAdministratoraKlinike',
     name: 'Dodaj AdministratoraKlinike',
     component: DodajAdministratoraKlinike,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/dodajAdministratoraCentra',
+    name: 'Dodaj AdministratoraCentra',
+    component: DodajAdministratoraCentra,
     meta: {
       requiresAuth: false
     }
