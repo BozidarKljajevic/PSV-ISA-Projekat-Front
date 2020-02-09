@@ -34,7 +34,7 @@
 
                     <button
                       type="button"
-                      class="btn btn-danger btn-block mt-5 z-depth-2"
+                      class="btn btn-danger btn-block mt-2 z-depth-2"
                       @click="zavrsiPregled"
                     >Zavrsi pregled</button>
                   </div>

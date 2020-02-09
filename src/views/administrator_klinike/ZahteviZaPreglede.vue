@@ -261,7 +261,7 @@ export default {
       izmeni: false,
 
       pretraziBtnClickerd: false,
-      pretraziKalendarBtnClickerd: false
+      pretraziKalendarBtnClickerd: false,
     };
   },
   computed: {

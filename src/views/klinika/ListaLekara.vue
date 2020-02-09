@@ -124,6 +124,10 @@ export default {
       axios
       .post("/lekar/izbrisiLekara/"+ id)
       .then(MedicinskoOsoblje => {
+        if (this.MedicinskoOsoblje.length == MedicinskoOsoblje.data.length) {
+          this.errormessage = "Ne sme se obrisati lekar koji ima zakazan pregled";
+          this.error = true;
+        }
         this.MedicinskoOsoblje = MedicinskoOsoblje.data;
       })
       .catch(error => {
