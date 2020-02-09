@@ -1,19 +1,14 @@
 # psv-isa-projekat-front
 
-## Project setup
+## Potrebno za pokretanje front dela aplikacije
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+Front aplikacije se pokrece na portu 8081, tako da je potrebno obezbediti da port bude slobodan. 
+Da bi ukljucili nephodne pakete morate pokrenuti komadnu nmp install.
 ```
 
-### Compiles and minifies for production
+## Pokretanje aplikacije komandom
 ```
-npm run build
+npm run serve -- --port 8081
 ```
 
-### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
