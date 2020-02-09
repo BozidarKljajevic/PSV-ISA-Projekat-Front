@@ -21,9 +21,9 @@ export default {
   }),
 
   mounted() {
-    if (this.$store.state.user.role.authority == "LEKAR") {
+    if (this.$store.state.user.role.authority == "MEDICINSKASESTRA") {
       axios
-        .get("/lekar/obavezeLekara/" + this.$store.state.user.id)
+        .get("/lekar/obavezeLekaraKodSestre/" + this.$store.state.user.id)
         .then(events => {
           this.events = events.data;
           console.log(events.data)

@@ -55,6 +55,8 @@
         right
         v-if="this.$store.state.user.role.authority == 'ADMINCENTRA'"
       >
+        <router-link to="/dodajAdministratoraCentra" tag="b-dropdown-item">Dodaj Administratora Centra</router-link>
+        <div class="dropdown-divider"></div>
         <router-link to="/dodajKliniku" tag="b-dropdown-item">Dodaj Kliniku</router-link>
         <div class="dropdown-divider"></div>
         <router-link

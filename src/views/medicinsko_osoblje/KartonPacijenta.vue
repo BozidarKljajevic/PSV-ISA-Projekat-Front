@@ -62,7 +62,30 @@
               <div class="row">
                 <div class="col">
                   <label>Bolest</label>
-                  <label class="form-control">{{izvestaj.bolest.naziv}}</label>
+                    <b-form-select v-model="izvestaj.bolest" :disabled="!izmeni1">
+                      <option v-for="bol in bolesti" :value="bol" :key="bol.sifra">{{bol.naziv}}</option>
+                    </b-form-select>
+                  <template v-if="izvestaj.lekar.id == $store.state.user.id">
+                  <template v-if="!izmeni1">
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-block z-depth-2"
+                    @click="izmeniIzvestaj()"
+                  >Izmeni Izvestaj</button>
+                </template>
+                <template v-else>
+                  <button
+                    type="button"
+                    class="btn btn-success btn-block z-depth-2"
+                    @click="sacuvajIzvestaj(izvestaj)"
+                  >Sačuvaj</button>
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-block z-depth-2"
+                    @click="odustaniIzvestaj(izvestaj.id)"
+                  >Odustani</button>
+                </template>
+                </template>
                 </div>
               </div>
               <div class="row mt-2">
@@ -100,9 +123,38 @@ export default {
       izvestaji: [],
       lekovi:[],
       overenoOdStrane: {},
+      izmeni1: false,
+      bolesti: [],
     };
   },
   methods: {
+    izmeniIzvestaj() {
+        this.izmeni1 = true;
+    },
+    odustaniIzvestaj(odustaniIzvestajID){
+      this.izmeni1 = false;
+      axios
+          .get("/izvestajpregleda/odustaniIzmeneIzvestaja/" + odustaniIzvestajID)
+          .then(response => {
+            this.izvestaji= response.data;;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+    },
+    
+    sacuvajIzvestaj(izvestaj){
+      axios
+          .post("/izvestajpregleda/sacuvajIzmeneIzvestaja", izvestaj)
+          .then(response => {
+            this.izvestaji= response.data;
+            this.izmeni1 = false;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+    },
+
     vidiRecept(recept){
       this.$bvModal.show("recept");
       this.lekovi = recept.lekovi;
@@ -110,6 +162,14 @@ export default {
     }
   },
   mounted() {
+    axios
+      .get("/bolesti/postojeceBolesti")
+      .then(bolesti => {
+        this.bolesti = bolesti.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
     axios
       .get("karton/kartonPacijenta/" + this.$route.params.id)
       .then(karton => {

@@ -4,6 +4,9 @@
       <b-container v-if="error">
         <b-alert show variant="danger" class="d-flex justify-content-center">{{message}}</b-alert>
       </b-container>
+      <b-container v-if="success">
+      <b-alert show variant="success" class="d-flex justify-content-center">{{successMessage}}</b-alert>
+    </b-container>
 
       <div class="container d-flex justify-content-center" style="margin-top: 20px">
         <div class="card" style="width: 60%">
@@ -160,6 +163,51 @@
                     @click="odustaniClick"
                   >Odustani</button>
                 </template>
+                <template v-if="!izmeniSifru">
+                <b-button
+                  class="btn-block"
+                  variant="outline-warning"
+                  @click="izmeniSifru = true"
+                >Izmeni Sifru</b-button>
+              </template>
+              <template v-else>
+                <div class="row mt-4">
+                  <div class="col-3 mt-2">
+                    <h6>Stara sifra</h6>
+                  </div>
+                  <div class="col-9">
+                    <input type="password" class="form-control" v-model="sifra.stara" />
+                  </div>
+                </div>
+                <div class="row mt-2">
+                  <div class="col-3 mt-2">
+                    <h6>Nova sifra</h6>
+                  </div>
+                  <div class="col-9">
+                    <input type="password" class="form-control" v-model="sifra.nova" />
+                  </div>
+                </div>
+                <div class="row mt-2">
+                  <div class="col-3 mt-2">
+                    <h6>Potvrdi sifru</h6>
+                  </div>
+                  <div class="col-9">
+                    <input type="password" class="form-control" v-model="sifra.potvrda" />
+                  </div>
+                </div>
+                <div class="text-center mb-4 mt-4">
+                  <b-button
+                    class="btn-block"
+                    variant="outline-success"
+                    @click="sacuvajSifra"
+                  >Sacuvaj</b-button>
+                  <b-button
+                    class="btn-block"
+                    variant="outline-danger"
+                    @click="odustaniSifra"
+                  >Odustani</b-button>
+                </div>
+              </template>
               </div>
             </div>
           </div>
@@ -180,10 +228,73 @@ export default {
       },
       error: false,
       message: "",
-      id: ""
+      id: "",
+      izmeniSifru: false,
+      success: false,
+      successMessage: "",
+      sifra: {
+        stara: "",
+        nova: "",
+        potvrda: ""
+      }
     };
   },
   methods: {
+    odustaniSifra() {
+      this.error = false;
+      this.message = "";
+      this.success = false;
+      this.successMessage = "";
+      this.izmeniSifru = false;
+      this.sifra = {
+        stara: "",
+        nova: "",
+        potvrda: ""
+      };
+    },
+    sacuvajSifra() {
+      this.error = false;
+      this.message = "";
+      this.success = false;
+      this.successMessage = "";
+
+      if (
+        this.sifra.stara == "" ||
+        this.sifra.nova == "" ||
+        this.sifra.potvrda == ""
+      ) {
+        this.message = "Kod izmene sifre sva polja su obavezna";
+        this.error = true;
+        return;
+      }
+
+      if (this.sifra.nova !== this.sifra.potvrda) {
+        this.message = "Nova sifra se ne podudara sa potvrdnom sifrom";
+        this.error = true;
+        return;
+      }
+
+      axios
+        .post(
+          "/medicinskaSestra/promeniSifruSestra/" + this.$store.state.user.id,
+          this.sifra
+        )
+        .then(() => {
+          this.izmeniSifru = false;
+          this.sifra = {
+            stara: "",
+            nova: "",
+            potvrda: ""
+          };
+          this.success = true;
+          this.successMessage = "Uspesno ste promenili lozinku";
+        })
+        .catch(error => {
+          this.message = "Stara sifra nije validna";
+          this.error = true;
+          console.log(error);
+        });
+    },
     izmeniClick() {
       this.izmeni = true;
     },

@@ -78,7 +78,7 @@
                     type="button"
                     class="btn btn-danger btn-block  mt-2 z-depth-2"
                     @click="zakazi"
-                  >Zakazi pregled</button>
+                  >Zakazi</button>
                 
                   
                   

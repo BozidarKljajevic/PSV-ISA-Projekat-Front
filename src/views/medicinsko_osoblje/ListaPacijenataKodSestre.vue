@@ -108,7 +108,7 @@
 
 <b-container>
          <div>
-    <b-table class="mt-2 mb-2" striped hover :items="konacniPacijenti" select-mode="single" :fields="fields"   selectable caption-top >
+    <b-table class="mt-2 mb-2" striped hover :items="konacniPacijenti" @row-selected="aktivirajPacijenta" select-mode="single" :fields="fields"   selectable caption-top >
           <template v-slot:table-caption><h3>lista pacijenata </h3>
           </template>
           <template v-slot:cell>
@@ -283,6 +283,11 @@ methods: {
     },
     prikaziPretragu2() {
       this.pretraziBtnClickerd2 = !this.pretraziBtnClickerd2;
+    },
+    aktivirajPacijenta(idPac) {
+      
+        this.$router.push("/ProfilPacijentaLekar/" + idPac[0].id);
+      
     },
     pretrazi() {
       axios
